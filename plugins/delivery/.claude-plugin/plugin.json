@@ -1,6 +1,6 @@
 {
   "name": "delivery",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Drive a ticket to a draft change request with a sub-agent team, and hand a job over to a fresh session",
   "author": {
     "name": "Chris Throup"

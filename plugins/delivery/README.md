@@ -103,6 +103,124 @@ These are defaults; state your own rule and the skill follows it.
 
 ## Examples
 
+Excerpts from real runs on [throup/triangles](https://github.com/throup/triangles), a small Java
+web app, run with the author's personal guidelines, which shape some of what you see. Each excerpt
+is quoted as written; `…` marks a gap, and an excerpt may stop before its message ends.
+
+### A ticket through the team
+
+The author started [#75](https://github.com/throup/triangles/issues/75), moving the build to JDK 25,
+with `/ticket-team 75` (`/delivery:ticket-team` when installed from this plugin). Before writing
+anything, and after the author corrected the lead's claim that no JDK was installed, it asked what
+the repo did not say:
+
+> The tracker is GitHub issues on throup/triangles (the ticket itself says so). Issues have no
+> in-progress state. What should mark #75 as taken?
+>
+> …
+>
+> The repo states no gates. Should the team use the ticket's AC 1 command?
+
+The author chose to assign the issue and add no label, and to gate on `./mvnw -B clean verify`, the
+ticket's first acceptance criterion with `clean` added.
+
+The BLIND reviewer, given the diff and the code but no ticket or reports, ran what the REVIEWER had
+only reasoned about. From its report:
+
+> 1. **Non-blocking: `mvn site` is broken by this change, and the reporting section was not
+>    updated.** `./mvnw -B -DskipTests clean verify site` exits 1. …
+>    - The same command with `-Dmaven.compiler.release=8` gives `BUILD SUCCESS`, so the
+>      `release=25` bump is the cause.
+>    …
+>    - No workflow or document runs `site`, which is why I rate it non-blocking. …
+
+The run ended at a draft pull request, [#77](https://github.com/throup/triangles/pull/77), with the
+decisions it would not make:
+
+> **Decisions for you:**
+> 1. **Fix the `site` regression here or as a follow-up?** This change is what breaks it, although
+>    no workflow or document runs `site`. …
+> 2. **Which follow-up issues should I file?** None are filed yet. Each of these was observed in
+>    this run: …
+
+The author left `site` as a follow-up and chose three of the proposed issues.
+
+### A review on GitHub, and a handover
+
+A second ticket, [#76](https://github.com/throup/triangles/issues/76), went through the same way to
+[#81](https://github.com/throup/triangles/pull/81). The author reviewed it on GitHub; one comment,
+on the test row for sides `0, 1, 1`:
+
+> Why is this not right-angled?
+>
+> - the angle between the two sides length 1 must be 0 degrees
+> - the other two angles are _difficult_ to measure, but should be equal to each other
+> - the total sum of internal angles must be 180 degrees\
+> => the sum of the other two angles must be 180-0=180 degrees\
+> => each of those angles must be 180/2=90 degrees\
+> => there are two right angles, so this is a right-angled triangle.
+>
+> If I am right, we need to fix this.\
+> If I have missed something subtle, then so will other readers, so we need to document why.
+
+Asked whether the re-review should run in the same session, the lead recommended a fresh one:
+
+> I'd run the re-review in a fresh session.
+>
+> … The zero-side guard and the reasoning "a degenerate triangle has no area, so no right angle"
+> came from this team. … This session knows every earlier argument for the guard, so it would tend
+> to brief the round as defending that decision rather than re-opening it. A fresh session only has
+> the threads and the code to go on, which is what a reviewer's question deserves.
+
+The lead offered to write a handover, and the author asked for one. The handover the lead wrote
+names the judgements that are not fresh:
+
+> Every sentence the PR description and README use to justify the zero-side guard came out of that
+> run. None of them was independently re-derived. Treat each as a claim to re-derive, not as
+> settled.
+
+### Receiving the handover: the re-review round
+
+In a new session, the author said:
+
+> Read HANDOVER-pr81-rereview.local.md and run /ticket-team in re-review mode on PR #81.
+
+The lead checked the file against GitHub before starting the team:
+
+> Handover's state matches live: head `9b43f28`, two unresolved threads, two empty review bodies,
+> CI green, #76 assigned to `@throup`.
+
+Once the DEVELOPER was working, the lead asked the author:
+
+> The two review threads on PR #81 are posted as @throup. Did you write them yourself? (It decides
+> how the replies credit them.)
+>
+> …
+>
+> Should I file a follow-up issue for WebApplicationDriver.confirmResult calling assertEquals with
+> its arguments swapped (predates #76)?
+
+The author answered that they wrote both, and not to file the issue yet.
+
+The team re-derived the guard: the code's answer stood, and the reason first given for it did not.
+The reply posted to the comment above:
+
+> The code keeps `false`, but you're right that the reason wasn't written down. It is now.
+>
+> The step that doesn't hold is "the other two angles should be equal to each other". That assumes
+> the side lengths fix the angles, and with a zero side they don't: the two corners at its ends are
+> the same point. …
+>
+> In b14e2b8: …
+> - the old "no area" test comment is replaced, since it gave the wrong reason (1, 2, 3 has no area
+>   but angles of 0°, 0° and 180°);
+
+At the end of the round, the lead reported to the author:
+
+> PR #81's review round is finished: both of your review threads are answered and resolved, the
+> fixes are pushed as `b14e2b8`, and CI passes at that commit. The PR is still a draft; leaving
+> draft and merging are yours.
+
 ## Version
 
 Semver in [`plugin.json`](.claude-plugin/plugin.json); each release has an entry in the
