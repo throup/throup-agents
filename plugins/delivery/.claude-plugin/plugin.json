@@ -1,0 +1,15 @@
+{
+  "name": "delivery",
+  "version": "0.1.0",
+  "description": "Drive a ticket to a draft change request with a sub-agent team, and hand a job over to a fresh session",
+  "author": {
+    "name": "Chris Throup"
+  },
+  "homepage": "https://github.com/throup/throup-agents",
+  "repository": "https://github.com/throup/throup-agents",
+  "license": "MIT",
+  "skills": [
+    "./skills/ticket-team",
+    "./skills/handover"
+  ]
+}

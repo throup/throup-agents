@@ -1,0 +1,22 @@
+{
+  "name": "throup-agents",
+  "owner": {
+    "name": "Chris Throup"
+  },
+  "metadata": {
+    "description": "Personal Claude Code plugins for delivering software with agents",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "delivery",
+      "description": "Drive a ticket to a draft change request with a sub-agent team, and hand a job over to a fresh session",
+      "source": "./plugins/delivery",
+      "strict": true,
+      "skills": [
+        "./skills/ticket-team",
+        "./skills/handover"
+      ]
+    }
+  ]
+}
