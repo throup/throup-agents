@@ -2,7 +2,8 @@
 MEDIATOR takes Where and Boundaries only: see mediator.md)
 
 ## Where
-Worktree: <WORKTREE> (branch <BRANCH>, from <BASE_REF>). <`.env` is already in place. — OMIT
+Worktree: <WORKTREE> (<EITHER, the DEVELOPER: branch <BRANCH>, from <BASE_REF> OR, a reviewer:
+detached at <COMMIT>, cut for you alone; nothing else changes it>). <`.env` is already in place. — OMIT
 where the gates need no local environment file>
 <EITHER: Dependencies are not at their relative-path locations from a worktree. Set
 <DEP_ENV_VAR>=<DEP_PATH> for every gate and use <DEP_BIN_DIR> for its binaries. If any check skips
@@ -39,16 +40,18 @@ reports only its last command's status, so a non-final assertion is fail-fast
 (`|| { echo … >&2; return 1; }`, or `if cmd; then return 1; fi` for a negation). Mutate in a tree
 with no untracked copy of the file under review (an editor backup is a second copy the checks will
 scan) and clear bytecode caches between runs (a stale `.pyc` survives a source edit). Finish
-mutate → run → restore → verify within one turn; never end a turn with a mutation on disk. Over
-uncommitted work, restore by re-editing the mutated lines — never `git checkout -- <file>`,
-`git stash` or a copy taken earlier, which revert every uncommitted edit in the file — and verify by
-re-hashing the round's diff.
+mutate → run → restore → verify within one turn; never end a turn with a mutation on disk. In the
+DEVELOPER's worktree, restore by re-editing the mutated lines — never `git checkout -- <file>`,
+`git stash` or a copy taken earlier, which revert every uncommitted edit in the file. A reviewer's
+worktree holds no uncommitted work, so `git checkout -- <file>` restores it. Verify with
+`git status --short` that the tree matches its commit again.
 
-State the tree you worked on or reviewed: the commit, or for uncommitted work `shasum <DIFF_PATH>`,
-the diff the lead generated for this round. Do not overwrite that file.
+State the commit you worked on or reviewed. Do not overwrite <DIFF_PATH>, the diff the lead wrote
+for it.
 
 ## Boundaries
-No commit, push, change request, or tracker write — the lead does those; a stacked DEVELOPER's pre-push rebase
-is the one exception. The DEVELOPER edits the worktree; every
-other role edits nothing but copies it makes in its own scratch space. Work autonomously; the lead
-cannot answer mid-task. If blocked, state the assumption you made and continue.
+No push, change request or tracker write — the lead does those, and writes the commits that are
+pushed. The DEVELOPER commits chunks on its branch and, stacked, rebases before the push; no other
+role commits. The DEVELOPER edits its worktree; a reviewer edits only its own worktree and copies in
+its scratch space. Messages that reach you mid-task are findings or decisions relayed verbatim; the
+lead answers no questions. If blocked, state the assumption you made and continue.
