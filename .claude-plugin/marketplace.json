@@ -17,6 +17,15 @@
         "./skills/ticket-team",
         "./skills/handover"
       ]
+    },
+    {
+      "name": "tickets",
+      "description": "Write a ticket that a product owner can prioritise from its visible text and an implementer can start from its collapsed block",
+      "source": "./plugins/tickets",
+      "strict": true,
+      "skills": [
+        "./skills/write-ticket"
+      ]
     }
   ]
 }

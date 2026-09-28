@@ -8,16 +8,18 @@ software with agents.
 ```
 claude plugin marketplace add throup/throup-agents
 claude plugin install delivery@throup-agents
+claude plugin install tickets@throup-agents
 ```
 
 Inside a session, the same commands work as `/plugin marketplace add throup/throup-agents` and
-`/plugin install delivery@throup-agents`.
+`/plugin install delivery@throup-agents`. Each plugin installs on its own; take the ones you want.
 
 To update:
 
 ```
 claude plugin marketplace update throup-agents
 claude plugin update delivery@throup-agents
+claude plugin update tickets@throup-agents
 ```
 
 ## Plugins
@@ -25,6 +27,7 @@ claude plugin update delivery@throup-agents
 | Plugin | What it does | Docs |
 |---|---|---|
 | [`delivery`](plugins/delivery/README.md) | Drive a ticket to a draft change request with a sub-agent team, and hand a job over to a fresh session | [README](plugins/delivery/README.md) |
+| [`tickets`](plugins/tickets/README.md) | Write a ticket that a product owner can prioritise from its visible text and an implementer can start from its collapsed block | [README](plugins/tickets/README.md) |
 
 ## Examples
 

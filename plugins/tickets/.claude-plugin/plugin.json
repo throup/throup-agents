@@ -1,0 +1,14 @@
+{
+  "name": "tickets",
+  "version": "0.1.0",
+  "description": "Write a ticket that a product owner can prioritise from its visible text and an implementer can start from its collapsed block",
+  "author": {
+    "name": "Chris Throup"
+  },
+  "homepage": "https://github.com/throup/throup-agents",
+  "repository": "https://github.com/throup/throup-agents",
+  "license": "MIT",
+  "skills": [
+    "./skills/write-ticket"
+  ]
+}
