@@ -50,6 +50,7 @@ These are defaults; state your own rule and the skill follows it.
 - The heading text of the acceptance criteria and of the collapsed block.
 - The attribution line at the end of the ticket.
 - How the collapsed block is rendered on a tracker whose Markdown has no `<details>`.
+- Where suggested improvements to the skill go: by default, one line to you at the end of a run.
 
 ### The skill's mechanism: changing it changes what the skill is
 

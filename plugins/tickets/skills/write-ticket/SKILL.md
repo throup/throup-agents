@@ -1,6 +1,6 @@
 ---
 name: write-ticket
-description: Write or rewrite a ticket in the project's tracker (YouTrack, Jira, GitHub Issues or another) so a product owner can read the title, the first two paragraphs and the acceptance criteria, and an implementer finds everything else in one collapsed block. Use when filing a ticket, reshaping one, merging duplicates, or folding an amendment back into a description.
+description: Write or rewrite a ticket in the project's tracker (YouTrack, Jira, GitHub Issues or another) so a product owner can read the title, the first two paragraphs and the acceptance criteria, and an implementer finds everything else in one collapsed block. Use when filing a ticket, reshaping one, merging duplicates, or folding an amendment back into a description. Not for a one-line note to yourself.
 disable-model-invocation: false
 allowed-tools: Bash, Read, Write, Edit, Grep, Glob
 ---
@@ -34,9 +34,9 @@ schema or its documentation rather than assuming them.
   tickets with one clause each. Provenance names the mechanism and measurement, not a change
   request, key, branch or person. A locator that no longer resolves is named here as gone, not
   dropped. Include what this ticket's implementer needs and no paragraph written for
-  completeness. The block ends by naming the repository the change lands in, as a link and the
-  files concerned, so tooling that starts from the ticket can find the code without reading the
-  prose.
+  completeness. The block ends by naming the repository the change lands in, as a link to it on the code host
+  and the files concerned, or in the form the guidelines name, so tooling that starts from the
+  ticket can find the code without reading the prose.
 - **In the field, not the prose**: priority, and anything else the tracker holds as a field
   (assignee, component, labels). Where the tracker has no field for it, the guidelines say
   which label or line stands in.
@@ -70,7 +70,8 @@ schema or its documentation rather than assuming them.
 - Merging duplicates: the survivor takes both AC sets and a "Merged from" paragraph in its
   block; the closed one is linked to the survivor as its duplicate (the tracker's duplicate link
   type, or a "Duplicate of" line where it has none), moved to the tracker's not-doing state as
-  read from its schema, and given a one-paragraph comment pointing at the survivor.
+  read from its schema (or given the label the guidelines name, on a tracker without states),
+  and given a one-paragraph comment pointing at the survivor.
 - An umbrella's visible text names the shared problem; its block lists the subtasks by key with
   one clause each and repeats nothing from them.
 - A search for existing tickets made before filing is validated against a ticket known to match
