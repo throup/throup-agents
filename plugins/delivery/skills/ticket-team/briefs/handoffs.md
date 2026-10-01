@@ -34,7 +34,7 @@ brief filled in.
 To QA, first time: its brief. Again: "The DEVELOPER declared READY again at <COMMIT>. The whole
 change against its base is at <DIFF_PATH> and your worktree at <WORKTREE>. The DEVELOPER's
 decisions on your findings, verbatim: <paste>. Accept or contest each decision, then review the
-whole change again and report as before."
+whole change again and report as before; your brief says when you may skip re-running a check."
 To BLIND, first time: its brief. Again: "The change has been revised. The whole change is now at
 <DIFF_PATH> and a fresh copy of the tree at <COPY_PATH>. Review it as before and report Part 1,
 Part 2, `shasum <DIFF_PATH>` and a one-line verdict."
@@ -47,6 +47,10 @@ declare before they report is withdrawn when they do; keep its commit as the bas
 findings, and declare READY again once you have decided them.>" <Then the findings, each as the
 REVIEWER wrote it.>
 
+## Push-back stands on a finding QA stopped early for → QA (step 8)
+"Your finding <ID> was <accepted as a push-back | decided for the DEVELOPER>: <verbatim>. The READY
+at <COMMIT> stands. Run the checks you skipped at that commit and report as before."
+
 ## READY findings → DEVELOPER, once all three have reported (steps 8 and 9)
 "Reviews at <COMMIT>: <IF REVIEWER findings not yet sent: REVIEWER <counts>;> QA <counts>; BLIND
 <counts>. Per finding: accept and fix in a chunk, answer it outside the tree where it is non-blocking
@@ -55,13 +59,19 @@ raised it. A tree change ends in a new READY." <Then the findings, each as its a
 
 ## Base too far behind → DEVELOPER (Repackaging)
 "The branch lacks <COUNT> of <BASE>'s commits, over the repo's limit of <LIMIT>. Rebase onto
-`origin/<BASE>`, re-run the gates at the Gates section's scope, and report the new head as a chunk.
+`origin/<BASE>`, compile and run the tests you wrote, and report the new head as a chunk.
 It ends in a new READY."
 
 ## Predecessor repackaged → stacked DEVELOPER
 "<PREDECESSOR_BRANCH> has been repackaged; its old tip was <OLD_TIP>. Run
-`git rebase --onto <PREDECESSOR_BRANCH> <OLD_TIP>`, re-run the gates at the Gates section's scope,
+`git rebase --onto <PREDECESSOR_BRANCH> <OLD_TIP>`, compile and run the tests you wrote,
 and report the new head. A rebase that resolved a conflict is a chunk and ends in a new READY."
+
+## Stacked branch rebased → QA (Isolation)
+"The branch was rebased onto <PREDECESSOR_BRANCH> after it was repackaged; the head is now <HEAD>,
+in your worktree at <WORKTREE>. `git range-diff <OLD_TIP>..<OLD_HEAD> <PREDECESSOR_BRANCH>..<HEAD>`
+shows what the rebase brought in. Review this head as a later READY under your brief's rule for
+which checks you run, and report as before."
 
 ## Cross-team relay (a downstream DEVELOPER's report about its base)
 "A sibling DEVELOPER, building on your branch as its base, reports: <verbatim>. Treat it as a

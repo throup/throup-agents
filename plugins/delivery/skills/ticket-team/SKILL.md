@@ -69,7 +69,8 @@ QA reviews against the ACs and the repo's convention files, establishing each fi
 8. A BLOCKING finding from any REVIEWER review goes to DEVELOPER at once, who may fix it while QA
    and BLIND finish; their findings follow when they report. A pass holds for the tree it covered:
    a fix is a chunk and ends in a new READY, and a push-back that stands (the raiser accepts it, or
-   MEDIATOR rules for DEVELOPER) leaves the READY standing.
+   MEDIATOR rules for DEVELOPER) leaves the READY standing; where QA had stopped early on that
+   finding, it then runs the checks it skipped at the same commit.
    A READY declared before QA and BLIND report is withdrawn when they do: its commit stays as the
    base for fixing their findings, and DEVELOPER declares READY again once it has decided them.
    Otherwise REVIEWER's findings wait for theirs.
@@ -96,10 +97,11 @@ comment.
 
 ## The lead acts at exactly four points
 
-Keep a run log in scratch from the start: one line per handoff, and each agent's wall time and
-tokens from its completion notice. A resumed agent's notice is cumulative, so a round's figures are
-the difference from that agent's previous notice. A stop for the usage limit and a wait on the user
-are logged with their start and end, and reported wall times leave them out.
+Keep a run log in scratch from the start: one line per handoff, and each agent's wall time from
+its completion notice, which reports each stint on its own. The notice's token figure is not spend
+(it can fall within a stint): log it as given, marked as such, and take token cost from the
+transcripts' per-call usage afterwards. A stop for the usage limit and a wait on the user are
+logged with their start and end, and reported wall times leave them out.
 
 1. **On a chunk or READY**: `git -C <worktree> log --oneline <previous>..<commit>`, to confirm the
    report describes commits that exist. Write the range's diff to scratch once, read-only
@@ -121,8 +123,8 @@ are logged with their start and end, and reported wall times leave them out.
    the tracker; in re-review mode also the replies, the summary comment and resolving the
    conversations the round fixed.
 4. **The change request's description**, once all three have passed: the lead reads the diff
-   and writes it from the DEVELOPER's and QA's independent drafts, naming the head QA's run of the
-   listed gates covered where it is not the pushed head.
+   and writes it from the DEVELOPER's and QA's independent drafts, naming, for any gate whose last
+   QA run is not at the pushed head, the commit that run covered.
 
 Nothing else: no re-running gates, no reading diffs, no re-deriving a finding, no view of the code.
 The carry check and the base count read file names and commit counts only.
@@ -148,7 +150,7 @@ DEVELOPER's subjects, each fix folded into the chunk it names
 the single commit, or hands the conflict to DEVELOPER, whose resolution is a chunk and ends in a
 new READY. The keep-chunks shape pushes intermediate trees no gate ran on; the description says
 so. Before the push, `git rev-parse HEAD^{tree}` equals the tree of the READY commit all
-three passed (for a stacked branch, of the head REVIEWER confirmed). After it,
+three passed (for a stacked branch, of the head REVIEWER and QA confirmed). After it,
 `git log --format='%h %G?' <start>..<pushed head>` shows every commit signed as pushed.
 
 ## Shared-system writes
@@ -209,23 +211,32 @@ build on, not as a change to judge; anything it reports about that base goes to 
 through the lead. Before repackaging the first branch, the lead records its head as the old tip,
 and hands it on with the stacked-rebase message in `briefs/handoffs.md`.
 Once the first is repackaged, the second DEVELOPER rebases with
-`git rebase --onto <first branch> <old tip>`, which replays only its own chunks, and re-runs the
-gates at the brief's scope; a REVIEWER confirms at that head, and the lead then repackages the
-second branch. A rebase that resolved a conflict is a chunk and ends in a new READY.
+`git rebase --onto <first branch> <old tip>`, which replays only its own chunks, compiles and runs
+the tests it wrote; a REVIEWER confirms at that head with `git range-diff`, QA reviews that head
+under its rule for which checks it runs, and the lead then repackages the second branch. A rebase
+that resolved a conflict is a chunk and ends in a new READY.
 
-## Gate scope
+## Gates and who runs them
 
 The gates are the commands the repo's verification rule states (its `AGENTS.md`, `CLAUDE.md` or
 contributing guide). Where the repo states none, the lead asks the user for them before briefing
 anyone.
 
 The Gates section lists each gate in the form that executes every task rather than replaying a
-build cache, and states one of two scopes:
+build cache. Who runs what:
 
-- **Full**: DEVELOPER, REVIEWER and QA run every gate as listed; REVIEWER on each range it reviews.
-- **Affected**: DEVELOPER and REVIEWER run the tests that exercise the changed code directly, and
-  the other gates over the modules the change touches and the modules that depend on them. QA runs
-  every gate as listed each time it reviews.
+- **DEVELOPER** compiles (where the repo has a compile step), and runs the tests it wrote (with their mutation evidence) and any test it
+  needs to make a design decision. It runs no other suite or gate.
+- **REVIEWER** runs the tests it judges relevant to the range it reviews, and names what it ran
+  and why that covers its findings.
+- **QA** runs every gate as listed at its first READY. From its second READY it may skip a gate
+  it reasons the changes since its last run of that gate cannot affect, stating that diff and, for
+  each skipped gate, its reason; a gate the Gates section names as reading skip-set paths runs
+  whenever those paths changed. A rebased stacked head counts as a later READY. A replacement
+  QA agent counts its own first READY as first. Where a check reveals an issue likely to need large changes, it
+  may stop, report that issue with the checks it did not run, and run them in its next round; such
+  a report is not a pass.
+- **BLIND** runs what it chooses.
 
 A gate result belongs to the tree it ran on, and holds for a later tree whose every changed path
 is in the repo's skip set: the paths its CI declares need no build (for example, the exclusions of
@@ -234,27 +245,19 @@ repo that declares none has an empty set. A comment inside a source file is neve
 compilers and linters read comments, and a gate that reads skip-set paths (a docs or link check)
 never carries; the Gates section names such gates. BLIND's results never carry: it reviews each READY afresh, and no carry is named to it. The lead checks a carry from file names alone
 (`git diff --name-only <gated commit> <commit>` against the set) and says in the handoff which
-results carry. A carried result is not re-run in either scope, QA's included; the reviewers judge
+results carry. A carried result is not re-run, QA's included; the reviewers judge
 the changed text, and the report
 names the commit the carried run covered. The same holds for a tree a raiser verified before
 requesting a fix: where a READY's tree differs from it only in the skip set, the raiser's results
 from that verification stand for the READY.
 
-BLIND runs what it chooses in either scope. Affected applies only where the project memory of the
-target repo's main checkout declares it with a measured wall time for the listed gates over five
-minutes and the date measured. That memory is `~/.claude/projects/<path with each / and . as ->/memory/`, the
-path being `git rev-parse --path-format=absolute --git-common-dir` without its `/.git`, so a
-worktree resolves to its main checkout. Everything else is Full. The criterion is the same for
-every project.
-
 ## Reporting to the user
 
 Relay findings and decisions as their authors wrote them, saying which reviewer found what. The
 report carries a per-change-request table naming the commit each review covered and each agent's
-wall time and tokens from the run log, and the finding ledger's final states. It names the gate scope, the
-head QA's run of the listed gates covered, and that run's wall time as QA reported it; where that
-time and the scope in force sit on opposite sides of five minutes, it says so, and the user decides
-the declaration.
+wall time from the run log, and the finding ledger's final states. For each gate it names the
+commit QA's last run of it covered, that run's wall time, and any reason QA gave for not re-running
+it.
 
 A revision to this skill that the run suggests goes through the channel the user's guidelines name
 for skill feedback, else to the user as one line in the report with the evidence from the run.

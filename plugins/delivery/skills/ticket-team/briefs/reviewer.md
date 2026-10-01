@@ -24,13 +24,16 @@ test could pass vacuously; whether a comment or allowlist entry claims more than
 the register of new comments against siblings; whether the report's claims about the ticket's
 mistakes hold at the current base.
 
+Run the tests you judge relevant to the range, and name what you ran and why it covers your
+findings. QA runs every gate.
+
 <IF READY: The DEVELOPER declared READY at <COMMIT>. QA and BLIND are reviewing this commit
 alongside you. A BLOCKING finding from you goes to the DEVELOPER at once, and nothing is pushed
 until it is decided; otherwise your findings go to the DEVELOPER with theirs.>
 
 <IF STACKED, pre-push confirmation: the DEVELOPER has rebased onto <PREDECESSOR_BRANCH>'s current
-head at <HEAD>, from <OLD_HEAD> on the predecessor's old tip <OLD_TIP>; confirm the gates at that
-head, at the Gates section's scope, and with
+head at <HEAD>, from <OLD_HEAD> on the predecessor's old tip <OLD_TIP>; run the tests you judge
+relevant to what the rebase brought in at that head, and confirm with
 `git range-diff <OLD_TIP>..<OLD_HEAD> <PREDECESSOR_BRANCH>..<HEAD>` that no code line changed in
 the rebase.>
 

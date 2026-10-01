@@ -32,18 +32,19 @@ it concerns.
 
 ## READY
 Declare READY at a chunk only when each holds, and state each with its evidence: every AC is
-addressed; the gates at the Gates section's scope ran at that commit, output in the transcript;
+addressed; the change compiles at that commit (where the repo has a compile step) and the tests
+you wrote pass there, output in the
+transcript;
 every accepted finding has landed; no push-back awaits a decision; nothing is left for a later
 chunk. READY states facts, not confidence: put any doubt in the report, where the REVIEWER reads it.
 
 ## Required deliverables
 1. The code change, with tests where <TEST_CONVENTION_FILE> wants them <or, where no file says, a
    test for each behaviour the ACs name>.
-2. Execution transcript, in <SCRATCH>/dev-transcript.md, appended per chunk: at READY, every gate
-   at the Gates section's scope, run in the worktree with the dependency override set, real output
-   pasted. Where the repo's verification rule names a
-   step that generates code and runs the result, generate through the loader the project itself uses at run time and run the result on every branch: success, each failure, and
-   degenerate inputs.
+2. Execution transcript, in <SCRATCH>/dev-transcript.md, appended per chunk: the compile, the
+   tests you wrote, and any test you ran to decide a design question, run in the worktree with the
+   dependency override set, real output pasted. Run no other suite or gate, a step that generates
+   code and runs the result included: QA runs them all.
 3. Mutation evidence per the evidence rules.
 4. A short factual report, in <SCRATCH>/dev-report.md, current at READY: what changed and why; each
    design choice the ticket left open and what you chose; anything the ticket got wrong; anything

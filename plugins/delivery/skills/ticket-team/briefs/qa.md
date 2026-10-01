@@ -23,6 +23,17 @@ change against its base.
 alongside you, not before you. Verify what you rely on; say which claims you re-derived and which
 you accepted.
 
+## Which checks you run
+At your first READY, run every gate as listed. From your second READY (a rebased stacked head
+counts as one), you may skip a gate you
+reason the changes since your last run of it cannot affect: state
+`git diff --name-only <commit of that run> <COMMIT>` and, for each gate you skip, your reason. A
+gate the Gates section names as reading skip-set paths runs whenever those paths changed. The report names, for each gate, the commit its
+last run covered. <IF REPLACING an earlier QA agent: this is your first READY, whatever came
+before.> A result the lead says carries is
+not re-run. Where a check reveals an issue likely to need large changes, you may stop, report that
+issue and the checks you did not run, and run them in your next round; that report is not a pass.
+
 ## Areas a light round plausibly missed
 Always: interaction with existing loops; resume/checkpoint behaviour; whether a test could pass
 vacuously; whether an exemption or exclusion can be abused to hide a real hit; comment register

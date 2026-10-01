@@ -16,14 +16,13 @@ Read <CONVENTION_FILES> before anything else.
 <GATE_COMMANDS — one per line, as the repo's verification rule states them (or as the user gave
 them where the repo states none), including any step that generates code and runs the result, each
 in the form that executes every task rather than replaying a build cache (for example, Gradle's `--rerun-tasks` for a gate over the whole build)>
-<EITHER: Scope: full. DEVELOPER, REVIEWER and QA run every gate as listed.
-OR: Scope: affected. DEVELOPER and REVIEWER run the tests that exercise the changed code directly,
-and the other gates over the modules the change touches and the modules that depend on them; name
-what you ran and why it covers the change. Force only the tasks you name, and confirm the forcing
-reached each of them (for example, Gradle's `--rerun` applies only to the task written before it,
-not to a lifecycle task's dependencies, while `--rerun-tasks` re-executes the whole graph). A
-scoped pass is reported as scoped, never as the suite passing. QA runs every gate as listed each
-time it reviews, except a result the lead says carries.>
+Who runs what: the DEVELOPER compiles (where the repo has a compile step), and runs the tests it wrote (with their mutation evidence)
+and any test it needs to make a design decision, and nothing else. The REVIEWER runs the tests it
+judges relevant to its range, naming what it ran and why that covers its findings. QA's rule is in
+its brief. Force only the tasks you name, and confirm the forcing reached each of them (for example,
+Gradle's `--rerun` applies only to the task written before it, not to a lifecycle task's
+dependencies, while `--rerun-tasks` re-executes the whole graph). A partial run is reported as
+partial, never as the suite passing.
 Report each gate's wall time. A result replayed from a build cache is reported as a replay, not a
 pass.
 Skip set: <SKIP_PATHS, from <SKIP_SOURCE_FILE> — OR: none declared>. Gates that read skip-set
@@ -33,7 +32,8 @@ record the tree you verified (`git add -A && git write-tree && git reset -q` in 
 before restoring it) and the commands you ran. When a later commit carries that fix, you may decline
 to re-verify it: state that tree, `git diff --name-only <that tree> <COMMIT>` and those commands; where the
 diff is empty or only skip-set paths, nothing more is needed, and otherwise re-verify in this tree
-and say so. Whether a gate re-runs is the lead's check, never this choice.
+and say so. This choice covers re-verifying a fix; a gate re-run follows the lead's carry check
+or, for QA, its brief.
 
 ## Evidence rules
 Cite code by name, not by `file:NNN`; a number is stale after any edit above it, comment edits
