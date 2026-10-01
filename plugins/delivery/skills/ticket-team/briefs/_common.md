@@ -23,9 +23,17 @@ what you ran and why it covers the change. Force only the tasks you name, and co
 reached each of them (for example, Gradle's `--rerun` applies only to the task written before it,
 not to a lifecycle task's dependencies, while `--rerun-tasks` re-executes the whole graph). A
 scoped pass is reported as scoped, never as the suite passing. QA runs every gate as listed each
-time it reviews.>
+time it reviews, except a result the lead says carries.>
 Report each gate's wall time. A result replayed from a build cache is reported as a replay, not a
 pass.
+Skip set: <SKIP_PATHS, from <SKIP_SOURCE_FILE> — OR: none declared>. Gates that read skip-set
+paths and never carry: <GATES, or none>. A gate result the lead says
+carries is not re-run: judge the changed text instead. When you verify a fix before requesting it,
+record the tree you verified (`git add -A && git write-tree && git reset -q` in your worktree,
+before restoring it) and the commands you ran. When a later commit carries that fix, you may decline
+to re-verify it: state that tree, `git diff --name-only <that tree> <COMMIT>` and those commands; where the
+diff is empty or only skip-set paths, nothing more is needed, and otherwise re-verify in this tree
+and say so. Whether a gate re-runs is the lead's check, never this choice.
 
 ## Evidence rules
 Cite code by name, not by `file:NNN`; a number is stale after any edit above it, comment edits
@@ -51,7 +59,7 @@ for it.
 
 ## Boundaries
 No push, change request or tracker write — the lead does those, and writes the commits that are
-pushed. The DEVELOPER commits chunks on its branch and, stacked, rebases before the push; no other
-role commits. The DEVELOPER edits its worktree; a reviewer edits only its own worktree and copies in
+pushed. The DEVELOPER commits chunks on its branch and rebases it when the lead asks; no other role
+commits. The DEVELOPER edits its worktree; a reviewer edits only its own worktree and copies in
 its scratch space. Messages that reach you mid-task are findings or decisions relayed verbatim; the
 lead answers no questions. If blocked, state the assumption you made and continue.

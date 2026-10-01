@@ -5,7 +5,7 @@
 worktree at <WORKTREE>, detached at <COMMIT>. The DEVELOPER's chunk reports, verbatim: <paste>.
 Confirm these fixes: <ids, or none>. Report as before."
 
-## REVIEWER findings → DEVELOPER, mid-task (step 3)
+## REVIEWER findings → DEVELOPER, mid-task (step 3; a BLOCKING finding after READY uses step 8's message)
 "REVIEWER on <PREVIOUS>..<COMMIT>: <count> BLOCKING, <count> non-blocking. Decide each in your next
 chunk report: accept, with the fix in a later chunk naming the finding, or push back with a reason.
 Carry on with the work in hand." <Then the findings, each as the REVIEWER wrote it, with its
@@ -26,6 +26,9 @@ the decision arrives.>"
 DEVELOPER: land any fix in a chunk; code that waited on this decision may go ahead.>"
 
 ## READY → REVIEWER, QA and BLIND together (step 7)
+The messages to REVIEWER and QA end with the carry sentence where it applies; BLIND's never does:
+"Gate results carry from
+<GATED_COMMIT> for <commands>: every path changed since is in the skip set. Do not re-run them."
 To REVIEWER: the chunk-range message above for the READY chunk, with the READY paragraph of its
 brief filled in.
 To QA, first time: its brief. Again: "The DEVELOPER declared READY again at <COMMIT>. The whole
@@ -36,11 +39,12 @@ To BLIND, first time: its brief. Again: "The change has been revised. The whole 
 <DIFF_PATH> and a fresh copy of the tree at <COPY_PATH>. Review it as before and report Part 1,
 Part 2, `shasum <DIFF_PATH>` and a one-line verdict."
 
-## REVIEWER BLOCKING at READY → DEVELOPER, at once (step 8)
-"REVIEWER at <COMMIT>: <count> BLOCKING, <count> non-blocking. QA's and BLIND's passes at this
-commit do not count; their findings follow when they report. You may fix these now in chunks. A
-READY you declare before they report is withdrawn when they do; keep its commit as the base for
-fixing their findings, and declare READY again once you have decided them." <Then the findings, each as the
+## REVIEWER BLOCKING → DEVELOPER, at once (step 8)
+"REVIEWER at <COMMIT>: <count> BLOCKING, <count> non-blocking. Nothing is pushed until each
+BLOCKING finding is decided. Decide each: fix it in a chunk, which ends in a new READY, or push back
+with a reason. <IF QA or BLIND are reviewing: their findings follow when they report. A READY you
+declare before they report is withdrawn when they do; keep its commit as the base for fixing their
+findings, and declare READY again once you have decided them.>" <Then the findings, each as the
 REVIEWER wrote it.>
 
 ## READY findings → DEVELOPER, once all three have reported (steps 8 and 9)
@@ -48,6 +52,11 @@ REVIEWER wrote it.>
 <counts>. Per finding: accept and fix in a chunk, answer it outside the tree where it is non-blocking
 (the description or a follow-up), or push back with a reason — a push-back goes back to whoever
 raised it. A tree change ends in a new READY." <Then the findings, each as its author wrote it.>
+
+## Base too far behind → DEVELOPER (Repackaging)
+"The branch lacks <COUNT> of <BASE>'s commits, over the repo's limit of <LIMIT>. Rebase onto
+`origin/<BASE>`, re-run the gates at the Gates section's scope, and report the new head as a chunk.
+It ends in a new READY."
 
 ## Predecessor repackaged → stacked DEVELOPER
 "<PREDECESSOR_BRANCH> has been repackaged; its old tip was <OLD_TIP>. Run

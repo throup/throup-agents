@@ -25,8 +25,8 @@ the register of new comments against siblings; whether the report's claims about
 mistakes hold at the current base.
 
 <IF READY: The DEVELOPER declared READY at <COMMIT>. QA and BLIND are reviewing this commit
-alongside you. A BLOCKING finding from you voids their pass here and goes to the DEVELOPER at
-once; otherwise your findings go to the DEVELOPER with theirs.>
+alongside you. A BLOCKING finding from you goes to the DEVELOPER at once, and nothing is pushed
+until it is decided; otherwise your findings go to the DEVELOPER with theirs.>
 
 <IF STACKED, pre-push confirmation: the DEVELOPER has rebased onto <PREDECESSOR_BRANCH>'s current
 head at <HEAD>, from <OLD_HEAD> on the predecessor's old tip <OLD_TIP>; confirm the gates at that

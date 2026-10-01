@@ -20,7 +20,11 @@ project's guidelines (`~/.claude/CLAUDE.md`, the repo's `CLAUDE.md` and `AGENTS.
 already in context) name which ones, the CLI or API for each, and the tracker's states. Where they
 do not, the lead asks the user before the first write; the repo's remote settles the host, never
 the tracker.
-**Scratch** is a directory outside every worktree: the session's scratchpad where it has one.
+**Scratch** is a directory outside every worktree that outlives the session: the one the user's
+guidelines name, else `ticket-team-runs/<ticket key, or the change request's number in re-review
+mode>/` beside the repo's main checkout. The session scratchpad is not scratch: it does not survive
+a session that stops for days. BLIND's inputs never go in scratch, whose path names the ticket: see
+the lead's first point.
 A **chunk** is a local commit the DEVELOPER makes on the ticket's branch and reports to the lead
 while it carries on working. **READY** is the DEVELOPER's declaration that one chunk completes the
 change, against the criteria in `briefs/developer.md`.
@@ -62,15 +66,17 @@ QA reviews against the ACs and the repo's convention files, establishing each fi
    concerns waits. Both sides take its decision.
 6. DEVELOPER declares READY at a chunk.
 7. At READY, REVIEWER, QA and BLIND start together at that commit.
-8. A BLOCKING finding from REVIEWER voids QA's and BLIND's pass at that commit and goes to
-   DEVELOPER at once, who may fix it while they finish; their findings follow when they report.
-   A READY declared before they report is withdrawn when they do: its commit stays as the base
-   for fixing their findings, and DEVELOPER declares READY again once it has decided them.
+8. A BLOCKING finding from any REVIEWER review goes to DEVELOPER at once, who may fix it while QA
+   and BLIND finish; their findings follow when they report. A pass holds for the tree it covered:
+   a fix is a chunk and ends in a new READY, and a push-back that stands (the raiser accepts it, or
+   MEDIATOR rules for DEVELOPER) leaves the READY standing.
+   A READY declared before QA and BLIND report is withdrawn when they do: its commit stays as the
+   base for fixing their findings, and DEVELOPER declares READY again once it has decided them.
    Otherwise REVIEWER's findings wait for theirs.
 9. Every finding from the three goes to DEVELOPER, whatever its tag, and returns to 3; a push-back
    goes to the role that raised it.
-10. All three pass at one READY with no blocking issue remaining: repackage, push, open a draft
-    change request.
+10. All three pass at one READY, and no BLOCKING finding is open or undecided: repackage, push,
+    open a draft change request.
 
 Any change to the tree after READY, a test or a comment included, is a chunk and ends in a new
 READY.
@@ -90,23 +96,27 @@ comment.
 
 ## The lead acts at exactly four points
 
-Keep a run log in scratch from the start: one line per handoff, and each agent's wall time from its
-completion notice.
+Keep a run log in scratch from the start: one line per handoff, and each agent's wall time and
+tokens from its completion notice. A resumed agent's notice is cumulative, so a round's figures are
+the difference from that agent's previous notice. A stop for the usage limit and a wait on the user
+are logged with their start and end, and reported wall times leave them out.
 
 1. **On a chunk or READY**: `git -C <worktree> log --oneline <previous>..<commit>`, to confirm the
    report describes commits that exist. Write the range's diff to scratch once, read-only
    (`git diff <previous> <commit>`), and at READY the whole change as well. For REVIEWER and QA,
    cut a worktree detached at the commit (`git worktree add --detach`), holding what the gates
-   need; for BLIND, such a worktree copied without `.git` to a path carrying no ticket key, since
-   `git archive` drops `export-ignore` paths and writes the hash into `export-subst` ones. Remove each
+   need; for BLIND, such a worktree copied without `.git` (rather than `git archive`, which drops
+   `export-ignore` paths and writes the hash into `export-subst` ones), together with BLIND's copy
+   of the diff, in a directory whose path carries no ticket key or change-request number. Remove each
    once its report arrives. `<previous>` is the last commit REVIEWER reviewed: at the start, the
    reviewed commit in re-review mode, else the merge base. A range that lands while REVIEWER is
    reviewing waits for it; at READY, QA and BLIND start at once. A READY that lands while QA or
    BLIND is still on an earlier one is withdrawn when they report (step 8).
 2. **The finding ledger**, in the run log: one line per finding with its id (the raiser's initial
    and a number running across the run: R3, Q2, B5), the commit it was raised at, and each state a
-   report gives it: accepted, pushed back, contested, decided, fixed in a commit, confirmed. The
-   lead records what the reports say. At READY it hands REVIEWER the ids to confirm.
+   report gives it: accepted, pushed back, contested, decided, fixed in a commit, confirmed, and
+   for a fix its raiser verified, the tree it verified and whether the raiser re-verified. The lead
+   records what the reports say. At READY it hands REVIEWER the ids to confirm.
 3. **Repackaging and writes to a shared system**: the pushed commits, the push, the change request,
    the tracker; in re-review mode also the replies, the summary comment and resolving the
    conversations the round fixed.
@@ -115,10 +125,16 @@ completion notice.
    listed gates covered where it is not the pushed head.
 
 Nothing else: no re-running gates, no reading diffs, no re-deriving a finding, no view of the code.
+The carry check and the base count read file names and commit counts only.
 
 ## Repackaging
 
-Chunks are the team's snapshots, not the pushed history. Before the push the lead rebuilds the
+Chunks are the team's snapshots, not the pushed history. Before repackaging, the lead counts the
+base's commits the branch lacks (`git -C <worktree> fetch`, then
+`git -C <worktree> rev-list --count HEAD..origin/<base>`). Where the repo's checks set a limit and
+the count is over it, DEVELOPER updates the branch per the Rebase rule below; the rebased tree is a
+chunk and ends in a new READY. In re-review mode that rewrites pushed commits, so the lead reports
+the count and the user decides. Where no limit is set, the report states the count. Before the push the lead rebuilds the
 branch from `<start>` as signed commits. `<start>` is the merge base, or in re-review mode the
 change request's head as pushed (`git fetch`, then `git rev-parse origin/<branch>`, recorded as a
 hash because the push moves the ref), so commits already pushed
@@ -211,6 +227,19 @@ build cache, and states one of two scopes:
   the other gates over the modules the change touches and the modules that depend on them. QA runs
   every gate as listed each time it reviews.
 
+A gate result belongs to the tree it ran on, and holds for a later tree whose every changed path
+is in the repo's skip set: the paths its CI declares need no build (for example, the exclusions of
+a paths filter that gates the build job), named with that file in each brief's Gates section; a
+repo that declares none has an empty set. A comment inside a source file is never in it, since
+compilers and linters read comments, and a gate that reads skip-set paths (a docs or link check)
+never carries; the Gates section names such gates. BLIND's results never carry: it reviews each READY afresh, and no carry is named to it. The lead checks a carry from file names alone
+(`git diff --name-only <gated commit> <commit>` against the set) and says in the handoff which
+results carry. A carried result is not re-run in either scope, QA's included; the reviewers judge
+the changed text, and the report
+names the commit the carried run covered. The same holds for a tree a raiser verified before
+requesting a fix: where a READY's tree differs from it only in the skip set, the raiser's results
+from that verification stand for the READY.
+
 BLIND runs what it chooses in either scope. Affected applies only where the project memory of the
 target repo's main checkout declares it with a measured wall time for the listed gates over five
 minutes and the date measured. That memory is `~/.claude/projects/<path with each / and . as ->/memory/`, the
@@ -222,7 +251,7 @@ every project.
 
 Relay findings and decisions as their authors wrote them, saying which reviewer found what. The
 report carries a per-change-request table naming the commit each review covered and each agent's
-wall time from the run log, and the finding ledger's final states. It names the gate scope, the
+wall time and tokens from the run log, and the finding ledger's final states. It names the gate scope, the
 head QA's run of the listed gates covered, and that run's wall time as QA reported it; where that
 time and the scope in force sit on opposite sides of five minutes, it says so, and the user decides
 the declaration.
