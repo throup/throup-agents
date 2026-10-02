@@ -1,7 +1,7 @@
 ---
-name: ticket-team-next
-description: Trial version of ticket-team, run only when invoked by name. Drive one ticket to a draft change request (pull or merge request), or an existing change request's review round to pushed commits and replies, with a sub-agent team — DEVELOPER, REVIEWER, QA, BLIND, and MEDIATOR as an escape hatch — iterating develop→review→fix→re-review without the lead in the loop; chunks are reviewed while the DEVELOPER carries on, and REVIEWER, QA and BLIND start together once it declares READY. Use when a ticket's correctness depends on behaviour outside its diff, or when several tickets should progress in parallel. Not for a doc fix or a rename.
-disable-model-invocation: true
+name: ticket-team
+description: Drive one ticket to a draft change request (pull or merge request), or an existing change request's review round to pushed commits and replies, with a sub-agent team — DEVELOPER, REVIEWER, QA, BLIND, and MEDIATOR as an escape hatch — iterating develop→review→fix→re-review without the lead in the loop; chunks are reviewed while the DEVELOPER carries on, and REVIEWER, QA and BLIND start together once it declares READY. Use when a ticket's correctness depends on behaviour outside its diff, or when several tickets should progress in parallel. Not for a doc fix or a rename.
+disable-model-invocation: false
 allowed-tools: Agent, SendMessage, Bash, Read, Grep, Glob, TodoWrite
 ---
 

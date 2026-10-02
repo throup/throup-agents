@@ -11,9 +11,10 @@ supported.
 ### `delivery:ticket-team`
 
 A lead agent drives one ticket to a draft change request (a pull request on GitHub or Bitbucket, a
-merge request on GitLab) through fixed sub-agent roles: a DEVELOPER writes the change, a REVIEWER
-checks each round, then QA and a BLIND reviewer (who sees only the diff) review it in parallel,
-with a MEDIATOR for a contested push-back. The team loops until no blocking finding remains; the
+merge request on GitLab) through fixed sub-agent roles: a DEVELOPER commits the change in chunks,
+a REVIEWER reviews each chunk while the DEVELOPER carries on, and once the DEVELOPER declares it
+READY, the REVIEWER, QA and a BLIND reviewer (who sees only the diff) review it together, with a
+MEDIATOR for a contested push-back. The team loops until no blocking finding remains; the
 lead only routes messages and makes the writes to shared systems. It also runs one round of an
 existing change request's external review through to pushed commits and posted replies.
 
@@ -64,10 +65,11 @@ fixed. It asks first where you did not ask for the run, where the ticket or the 
 belongs to someone else, where the host, tracker or gates are unknown, and where the host has no
 draft change requests.
 
-Gates run at full scope. To let the developer and reviewer run only the affected tests in a slow
-repo, record in Claude Code's project memory for the repo that the scope is affected, with the
-measured wall time of the full gates (over five minutes) and the date measured; QA still runs
-everything.
+The developer runs only the tests it wrote, the reviewer the tests it judges relevant, and QA every
+gate at its first review, then those the later changes could affect. A gate result also carries
+across changes confined to the paths your CI declares need no build. Each run keeps its log and
+the roles' deliverables in `ticket-team-runs/<ticket key>/` beside the repo's checkout, so a run
+that stops for days keeps its evidence.
 
 ### Adjust freely
 
@@ -82,6 +84,7 @@ These are defaults; state your own rule and the skill follows it.
 - What "ready for human review" means, which ends a handover's job.
 - Where the handover store lives (`~/.claude/handovers/` by default).
 - Where suggested improvements to a skill go: by default, one line to you at the end of a run.
+- Where `ticket-team` keeps a run's log and deliverables.
 
 ### The skill's mechanism: changing it changes what the skill is
 
@@ -92,7 +95,8 @@ These are defaults; state your own rule and the skill follows it.
   account diverges from the intent, the code is not saying what it was meant to.
 - **Findings are established by execution**, and a new check is proved by breaking the thing it
   protects and naming the assertion that fired. A finding that has only been read is a hypothesis.
-- **Any change after QA passed re-enters review.** Otherwise the reviewed tree and the pushed tree
+- **Any change after READY ends in a new READY, and the pushed tree is the one all three passed.**
+  The lead checks the tree's hash before the push, so the reviewed tree and the pushed tree cannot
   differ.
 - **A change that depends on how something else behaves takes the full team.** One reviewer is
   enough only where correctness is readable from the diff.
@@ -103,8 +107,8 @@ These are defaults; state your own rule and the skill follows it.
 
 ## Examples
 
-Excerpts from real runs on [throup/triangles](https://github.com/throup/triangles), a small Java
-web app, run with the author's personal guidelines, which shape some of what you see. Each excerpt
+Excerpts from real runs of version 0.1 on [throup/triangles](https://github.com/throup/triangles),
+a small Java web app, run with the author's personal guidelines, which shape some of what you see. Each excerpt
 is quoted as written; `…` marks a gap, and an excerpt may stop before its message ends.
 
 ### A ticket through the team
