@@ -29,8 +29,8 @@ DEVELOPER: land any fix in a chunk; code that waited on this decision may go ahe
 The messages to REVIEWER and QA end with the carry sentence where it applies; BLIND's never does:
 "Gate results carry from
 <GATED_COMMIT> for <commands>: every path changed since is in the skip set. Do not re-run them."
-To REVIEWER: the chunk-range message above for the READY chunk, with the READY paragraph of its
-brief filled in.
+To REVIEWER: the chunk-range message above for the READY chunk, followed by the `<IF READY: …>`
+paragraph of `reviewer.md`, filled in.
 To QA, first time: its brief. Again: "The DEVELOPER declared READY again at <COMMIT>. The whole
 change against its base is at <DIFF_PATH> and your worktree at <WORKTREE>. The DEVELOPER's
 decisions on your findings, verbatim: <paste>. Accept or contest each decision, then review the
@@ -66,6 +66,13 @@ It ends in a new READY."
 "<PREDECESSOR_BRANCH> has been repackaged; its old tip was <OLD_TIP>. Run
 `git rebase --onto <PREDECESSOR_BRANCH> <OLD_TIP>`, compile and run the tests you wrote,
 and report the new head. A rebase that resolved a conflict is a chunk and ends in a new READY."
+
+## Stacked branch rebased → REVIEWER (Isolation)
+"The branch was rebased onto <PREDECESSOR_BRANCH> after it was repackaged; the head is now <HEAD>,
+from <OLD_HEAD> on the old tip <OLD_TIP>, in your worktree at <WORKTREE>. Run the tests you judge
+relevant to what the rebase brought in, and confirm with
+`git range-diff <OLD_TIP>..<OLD_HEAD> <PREDECESSOR_BRANCH>..<HEAD>` that no code line changed in
+the rebase. Report as before."
 
 ## Stacked branch rebased → QA (Isolation)
 "The branch was rebased onto <PREDECESSOR_BRANCH> after it was repackaged; the head is now <HEAD>,

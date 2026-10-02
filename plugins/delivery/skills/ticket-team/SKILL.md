@@ -2,7 +2,7 @@
 name: ticket-team
 description: Drive one ticket to a draft change request (pull or merge request), or an existing change request's review round to pushed commits and replies, with a sub-agent team — DEVELOPER, REVIEWER, QA, BLIND, and MEDIATOR as an escape hatch — iterating develop→review→fix→re-review without the lead in the loop; chunks are reviewed while the DEVELOPER carries on, and REVIEWER, QA and BLIND start together once it declares READY. Use when a ticket's correctness depends on behaviour outside its diff, or when several tickets should progress in parallel. Not for a doc fix or a rename.
 disable-model-invocation: false
-allowed-tools: Agent, SendMessage, Bash, Read, Grep, Glob, TodoWrite
+allowed-tools: Agent, SendMessage, AskUserQuestion, Bash, Read, Grep, Glob, TodoWrite
 ---
 
 # Ticket team
@@ -44,7 +44,8 @@ readable from its diff. A change that depends on how something else behaves (an 
 provider, a tool's enforcement boundary) takes the full team, whatever the diff's size: BLIND is
 the reviewer that reads the dependency's own contract unanchored by the ticket's account of it.
 The lead chooses the team size from the ticket before the run starts and tells the user which
-and why. MEDIATOR is spawned only when step 5 fires.
+and why. MEDIATOR is spawned only when step 5 fires. "All three" below means REVIEWER, QA and
+BLIND, or REVIEWER and QA in a light team.
 
 QA uses the project's own review skill where it has one. Project skills load when a session
 starts, so they resolve by name only in a session started in the target repo; where the lead's
@@ -134,26 +135,26 @@ The carry check and the base count read file names and commit counts only.
 ## Repackaging
 
 Chunks are the team's snapshots, not the pushed history. Before repackaging, the lead counts the
-base's commits the branch lacks (`git -C <worktree> fetch`, then
-`git -C <worktree> rev-list --count HEAD..origin/<base>`). Where the repo's checks set a limit and
-the count is over it, DEVELOPER updates the branch per the Rebase rule below; the rebased tree is a
-chunk and ends in a new READY. In re-review mode that rewrites pushed commits, so the lead reports
-the count and the user decides. Where no limit is set, the report states the count. Before the push the lead rebuilds the
-branch from `<start>` as signed commits. `<start>` is the merge base, or in re-review mode the
-change request's head as pushed (`git fetch`, then `git rev-parse origin/<branch>`, recorded as a
-hash because the push moves the ref), so commits already pushed
-keep their hashes and the push stays a fast-forward. Before rebuilding,
-`git merge-base --is-ancestor <start> HEAD` succeeds; where it fails, the lead stops and asks the
-user. By
-default one commit whose message the lead writes (`git reset --soft <start>`, then
-`git commit -S`); where the ACs are independent findings, one commit per chunk under the
-DEVELOPER's subjects, each fix folded into the chunk it names
-(`git rebase --autosquash --force-rebase --gpg-sign <start>`). A rebase that stops on a conflict is aborted; the lead takes
-the single commit, or hands the conflict to DEVELOPER, whose resolution is a chunk and ends in a
-new READY. The keep-chunks shape pushes intermediate trees no gate ran on; the description says
-so. Before the push, `git rev-parse HEAD^{tree}` equals the tree of the READY commit all
-three passed (for a stacked branch, of the head REVIEWER and QA confirmed). After it,
-`git log --format='%h %G?' <start>..<pushed head>` shows every commit signed as pushed.
+base's commits the branch lacks (`git -C <worktree> fetch`, then `git -C <worktree> rev-list --count
+HEAD..origin/<base>`). Where the repo's checks set a limit and the count is over it, DEVELOPER
+updates the branch per the Rebase rule below; the rebased tree is a chunk and ends in a new READY.
+In re-review mode that rewrites pushed commits, so the lead reports the count and the user decides.
+Where no limit is set, the report states the count. Before the push the lead rebuilds the branch
+from `<start>` as signed commits. `<start>` is the merge base, or in re-review mode the change
+request's head as pushed (`git fetch`, then `git rev-parse origin/<branch>`, recorded as a hash
+because the push moves the ref), so commits already pushed keep their hashes and the push stays a
+fast-forward. Before rebuilding, `git merge-base --is-ancestor <start> HEAD` succeeds; where it
+fails, the lead stops and asks the user. By default one commit whose message the lead writes (`git
+reset --soft <start>`, then `git commit -S`); where the ACs are independent findings, one commit per
+chunk under the DEVELOPER's subjects, each fix folded into the chunk it names (`git rebase
+--autosquash --force-rebase --gpg-sign <start>`), after which `git log --format=%s <start>..HEAD`
+shows no `fixup!` subject; where it does, the lead takes the single commit. A fix to a commit
+already pushed stays a commit of its own. A rebase that stops on a conflict is aborted; the lead
+takes the single commit, or hands the conflict to DEVELOPER, whose resolution is a chunk and ends in
+a new READY. The keep-chunks shape pushes intermediate trees no gate ran on; the description says
+so. Before the push, `git rev-parse HEAD^{tree}` equals the tree of the READY commit all three
+passed (for a stacked branch, of the head REVIEWER and QA confirmed). After it, `git log
+--format='%h %G?' <start>..<pushed head>` shows every commit signed as pushed.
 
 ## Shared-system writes
 
@@ -203,9 +204,9 @@ report does not arrive is replaced by a fresh agent briefed from its template, n
 
 One git worktree per ticket for the DEVELOPER, branched from the base, holding what the gates need
 (`.env` and similar); every reviewer works in its own, cut at the commit it reviews, so nothing
-changes a tree under review. Where the change's correctness depends on another codebase checked out beside the repo
-(the dependency), the worktree is given its location explicitly: a worktree does not resolve a
-sibling checkout by relative path.
+changes a tree under review. Where the change's correctness depends on another codebase checked out
+beside the repo (the dependency), the worktree is given its location explicitly: a worktree does not
+resolve a sibling checkout by relative path.
 
 When one ticket must name another's code, branch the second from the first's branch and open its
 change request against that branch. The second DEVELOPER reads the first's output as a base to
@@ -215,7 +216,8 @@ and hands it on with the stacked-rebase message in `briefs/handoffs.md`.
 Once the first is repackaged, the second DEVELOPER rebases with
 `git rebase --onto <first branch> <old tip>`, which replays only its own chunks, compiles and runs
 the tests it wrote; a REVIEWER confirms at that head with `git range-diff`, QA reviews that head
-under its rule for which checks it runs, and the lead then repackages the second branch. A rebase
+under its rule for which checks it runs (BLIND does not), and the lead then repackages the second
+branch. A rebase
 that resolved a conflict is a chunk and ends in a new READY.
 
 ## Gates and who runs them
@@ -227,28 +229,29 @@ anyone.
 The Gates section lists each gate in the form that executes every task rather than replaying a
 build cache. Who runs what:
 
-- **DEVELOPER** compiles (where the repo has a compile step), and runs the tests it wrote (with their mutation evidence) and any test it
-  needs to make a design decision. It runs no other suite or gate.
+- **DEVELOPER** compiles (where the repo has a compile step), and runs the tests it wrote (with
+  their mutation evidence) and any test it needs to make a design decision. It runs no other suite
+  or gate.
 - **REVIEWER** runs the tests it judges relevant to the range it reviews, and names what it ran
   and why that covers its findings.
-- **QA** runs every gate as listed at its first READY. From its second READY it may skip a gate
-  it reasons the changes since its last run of that gate cannot affect, stating that diff and, for
-  each skipped gate, its reason; a gate the Gates section names as reading skip-set paths runs
-  whenever those paths changed. A rebased stacked head counts as a later READY. A replacement
-  QA agent counts its own first READY as first. Where a check reveals an issue likely to need large changes, it
-  may stop, report that issue with the checks it did not run, and run them in its next round; such
-  a report is not a pass.
+- **QA** runs every gate as listed at its first READY. From its second READY it may skip a gate it
+  reasons the changes since its last run of that gate cannot affect, stating that diff and, for each
+  skipped gate, its reason; a gate the Gates section names as reading skip-set paths runs whenever
+  those paths changed. A rebased stacked head counts as a later READY. A replacement QA agent counts
+  its own first READY as first. Where a check reveals an issue likely to need large changes, it may
+  stop, report that issue with the checks it did not run, and run them in its next round; such a
+  report is not a pass.
 - **BLIND** runs what it chooses.
 
-A gate result belongs to the tree it ran on, and holds for a later tree whose every changed path
-is in the repo's skip set: the paths its CI declares need no build (for example, the exclusions of
-a paths filter that gates the build job), named with that file in each brief's Gates section; a
-repo that declares none has an empty set. A comment inside a source file is never in it, since
-compilers and linters read comments, and a gate that reads skip-set paths (a docs or link check)
-never carries; the Gates section names such gates. BLIND's results never carry: it reviews each READY afresh, and no carry is named to it. The lead checks a carry from file names alone
-(`git diff --name-only <gated commit> <commit>` against the set) and says in the handoff which
-results carry. A carried result is not re-run, QA's included; the reviewers judge
-the changed text, and the report
+A gate result belongs to the tree it ran on, and holds for a later tree whose every changed path is
+in the repo's skip set: the paths its CI declares need no build (for example, the exclusions of a
+paths filter that gates the build job), named with that file in each brief's Gates section; a repo
+that declares none has an empty set. A comment inside a source file is never in it, since compilers
+and linters read comments, and a gate that reads skip-set paths (a docs or link check) never
+carries; the Gates section names such gates. BLIND's results never carry: it reviews each READY
+afresh, and no carry is named to it. The lead checks a carry from file names alone (`git diff
+--name-only <gated commit> <commit>` against the set) and says in the handoff which results carry. A
+carried result is not re-run, QA's included; the reviewers judge the changed text, and the report
 names the commit the carried run covered. The same holds for a tree a raiser verified before
 requesting a fix: where a READY's tree differs from it only in the skip set, the raiser's results
 from that verification stand for the READY.

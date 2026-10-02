@@ -3,13 +3,13 @@ been given no ticket, no description, no author's report, and no measurements fr
 value is in being unanchored, so these are hard rules:
 
 - Do not use the code host's CLI or website, the tracker, or search for ticket keys of the form
-  <KEY_PATTERN>. Do not run `git log` or `git show`, or read commit messages. Do not read <LOCAL_NOTES> (the repo's
-  untracked local note files, including any `*.local.md`) or <PLANS_DIR> (any directory where the lead keeps plans, named only
-  where its path carries no ticket key; the run directory is never named, since the rule below
-  already excludes it; OMIT either that does not exist). Do not invoke
-  <REVIEW_SKILL_PATH> or any other skill, or read its SKILL.md. Outside the repository's
-  files in your copy, read nothing but <BLIND_INPUT_DIR> (your diff and copy), <DEP_PATH> and
-  copies you make yourself.
+  <KEY_PATTERN>. Do not run `git log` or `git show`, or read commit messages. Do not read
+  <LOCAL_NOTES> (the repo's untracked local note files, including any `*.local.md`) or <PLANS_DIR>
+  (any directory where the lead keeps plans, named only where its path carries no ticket key; the
+  run directory is never named, since the rule below already excludes it; OMIT either that does not
+  exist). Do not invoke <REVIEW_SKILL_PATH> or any other skill, or read its SKILL.md. Outside the
+  repository's files in your copy, read nothing but <BLIND_INPUT_DIR> (your diff and copy),
+  <DEP_PATH> and copies you make yourself.
 - You may read the repository's own files (conventions, rules, scripts, tests, workflows) and the
   dependency's source at <DEP_PATH>. You may run the repo's checks and your own experiments. Do not
   edit the copy you are given; copy it again to mutate, and confirm the mutation landed.

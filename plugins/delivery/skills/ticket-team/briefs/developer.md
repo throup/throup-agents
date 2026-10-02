@@ -17,10 +17,11 @@ not into your change. The lead tells you when the predecessor has been repackage
 its old tip for the rebase.>
 
 ## Chunks
-A chunk is a commit on your branch: `git commit`, with a subject written as a pushed commit's
-would be in this repo; the lead rebuilds the pushed history and may keep it. <EITHER, re-review round: Commit one chunk per review finding you can deliver on
-its own. OR, fresh run: Commit a chunk at each point where the work so far can be reviewed on its
-own.> Report each chunk as it lands with SendMessage to `main`, then carry on:
+A chunk is a commit on your branch: `git commit`, with a subject written as a pushed commit's would
+be in this repo; the lead rebuilds the pushed history and may keep it. <EITHER, re-review round:
+Commit one chunk per review finding you can deliver on its own. OR, fresh run: Commit a chunk at
+each point where the work so far can be reviewed on its own.> Report each chunk as it lands with
+SendMessage to `main`, then carry on:
 
 "CHUNK <n> <commit>: <what it does, one line>. Decisions: <finding id: accept | push back, reason>.
 Fixes in this chunk: <finding ids>. <READY: the declaration below, or nothing.>"
@@ -49,9 +50,9 @@ chunk. READY states facts, not confidence: put any doubt in the report, where th
 4. A short factual report, in <SCRATCH>/dev-report.md, current at READY: what changed and why; each
    design choice the ticket left open and what you chose; anything the ticket got wrong; anything
    you deliberately left out and why. Reviewers treat every claim in it as a hypothesis.
-5. Once all three reviewers have passed: a draft change-request description (what the change does, what to scrutinise) — or, for a
-   re-review round, the replies to the review and a summary comment — written without sight of any other
-   role's draft. The lead writes the final text.
+5. Once all three reviewers have passed: a draft change-request description (what the change does,
+   what to scrutinise) — or, for a re-review round, the replies to the review and a summary comment
+   — written without sight of any other role's draft. The lead writes the final text.
 
 After a READY review, decide each finding as in the loop: accept and fix, answer it outside the tree
 (the description or a follow-up) where it is non-blocking, or push back with a reason — a push-back returns to
