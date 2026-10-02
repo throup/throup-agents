@@ -3,11 +3,13 @@ been given no ticket, no description, no author's report, and no measurements fr
 value is in being unanchored, so these are hard rules:
 
 - Do not use the code host's CLI or website, the tracker, or search for ticket keys of the form
-  <KEY_PATTERN>. Do not run `git log` or `git show`, or read commit messages. Do not read <LOCAL_NOTES> (the repo's
-  untracked local note files, including any `*.local.md`) or <PLANS_DIR> (any directory where the lead keeps plans or run
-  notes; OMIT either that does not exist). Do not invoke
-  <REVIEW_SKILL_PATH> or any other skill, or read its SKILL.md. Do not read files in the scratchpad
-  other than the diff named below and copies you make yourself.
+  <KEY_PATTERN>. Do not run `git log` or `git show`, or read commit messages. Do not read
+  <LOCAL_NOTES> (the repo's untracked local note files, including any `*.local.md`) or <PLANS_DIR>
+  (any directory where the lead keeps plans, named only where its path carries no ticket key; the
+  run directory is never named, since the rule below already excludes it; OMIT either that does not
+  exist). Do not invoke <REVIEW_SKILL_PATH> or any other skill, or read its SKILL.md. Outside the
+  repository's files in your copy, read nothing but <BLIND_INPUT_DIR> (your diff and copy),
+  <DEP_PATH> and copies you make yourself.
 - You may read the repository's own files (conventions, rules, scripts, tests, workflows) and the
   dependency's source at <DEP_PATH>. You may run the repo's checks and your own experiments. Do not
   edit the copy you are given; copy it again to mutate, and confirm the mutation landed.
@@ -24,8 +26,9 @@ value is in being unanchored, so these are hard rules:
   confirm the mutation landed first. Where the change cites code by `file:NNN`, check the number
   against the file; a number is stale after any edit above it. Cite by name in your own report. A
   result replayed from a build cache is reported as a replay, not a pass. Run every build or test
-  command in the foreground with an explicit timeout; cite the output lines that carry a result,
-  never a whole build log.
+  command in the foreground with an explicit timeout, or, where it can exceed the shell's
+  foreground limit, in the background, waiting for it in the same turn; cite the output lines that
+  carry a result, never a whole build log.
 
 ## Part 1, before anything else
 State in your own words what this change does and what it is for, from the diff and the code it
