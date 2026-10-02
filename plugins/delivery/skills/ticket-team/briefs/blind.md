@@ -26,8 +26,9 @@ value is in being unanchored, so these are hard rules:
   confirm the mutation landed first. Where the change cites code by `file:NNN`, check the number
   against the file; a number is stale after any edit above it. Cite by name in your own report. A
   result replayed from a build cache is reported as a replay, not a pass. Run every build or test
-  command in the foreground with an explicit timeout; cite the output lines that carry a result,
-  never a whole build log.
+  command in the foreground with an explicit timeout, or, where it can exceed the shell's
+  foreground limit, in the background, waiting for it in the same turn; cite the output lines that
+  carry a result, never a whole build log.
 
 ## Part 1, before anything else
 State in your own words what this change does and what it is for, from the diff and the code it

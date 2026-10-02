@@ -37,8 +37,7 @@ relevant to what the rebase brought in at that head, and confirm with
 `git range-diff <OLD_TIP>..<OLD_HEAD> <PREDECESSOR_BRANCH>..<HEAD>` that no code line changed in
 the rebase.>
 
-Run every build or test command in the foreground with an explicit timeout. Cite the output lines
-that carry a result; never paste a build log.
+Cite the output lines that carry a result; never paste a build log.
 
 Report: numbered findings tagged BLOCKING/non-blocking with scenario and output; each fix to
 confirm, confirmed or not; "claims re-derived vs accepted"; the commit you reviewed; one-line

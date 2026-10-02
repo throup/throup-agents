@@ -40,8 +40,7 @@ vacuously; whether an exemption or exclusion can be abused to hide a real hit; c
 against sibling files; whether the change composes with an in-flight sibling. This list is fixed;
 the lead adds nothing to it.
 
-Run every build or test command in the foreground with an explicit timeout. Cite the output lines
-that carry a result; never paste a build log.
+Cite the output lines that carry a result; never paste a build log.
 
 Report: numbered findings tagged BLOCKING/non-blocking with scenario and output; "claims re-derived
 vs accepted"; the commit you reviewed; one-line verdict on readiness for a draft change request; on a

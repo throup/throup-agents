@@ -24,7 +24,9 @@ Gradle's `--rerun` applies only to the task written before it, not to a lifecycl
 dependencies, while `--rerun-tasks` re-executes the whole graph). A partial run is reported as
 partial, never as the suite passing.
 Report each gate's wall time. A result replayed from a build cache is reported as a replay, not a
-pass.
+pass. Run every build or test command in the foreground with an explicit timeout; one that can
+exceed the shell's foreground limit runs in the background, and you wait for it in the same turn
+(a polling loop or a monitor). Never end your turn while one runs.
 Skip set: <SKIP_PATHS, from <SKIP_SOURCE_FILE> — OR: none declared>. Gates that read skip-set
 paths and never carry: <GATES, or none>. A gate result the lead says
 carries is not re-run: judge the changed text instead. When you verify a fix before requesting it,

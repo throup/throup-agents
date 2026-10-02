@@ -98,9 +98,11 @@ comment.
 ## The lead acts at exactly four points
 
 Keep a run log in scratch from the start: one line per handoff, and each agent's wall time from
-its completion notice, which reports each stint on its own. The notice's token figure is not spend
-(it can fall within a stint): log it as given, marked as such, and take token cost from the
-transcripts' per-call usage afterwards. A stop for the usage limit and a wait on the user are
+its completion notice. A notice after a resume reports that stint's duration and tool uses alone;
+an interim notice sent while an agent waits on its own background work reports the time since it
+was spawned; the log says which kind each is. The notice's token figure is not spend (it can fall
+within a stint): log it as given, marked as such, and take token cost from the transcripts'
+per-call usage afterwards. A stop for the usage limit and a wait on the user are
 logged with their start and end, and reported wall times leave them out.
 
 1. **On a chunk or READY**: `git -C <worktree> log --oneline <previous>..<commit>`, to confirm the
@@ -252,6 +254,10 @@ requesting a fix: where a READY's tree differs from it only in the skip set, the
 from that verification stand for the READY.
 
 ## Reporting to the user
+
+Where a role's report stops on something only the user can do (a machine change, a credential, a
+host file), the lead puts it to the user as a question prompt at once, not as a line in a status
+update.
 
 Relay findings and decisions as their authors wrote them, saying which reviewer found what. The
 report carries a per-change-request table naming the commit each review covered and each agent's
