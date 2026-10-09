@@ -11,18 +11,16 @@ An audit cuts one skill to the sentences its confirmed purpose needs and no auth
 states, and has a reviewer with none of the audit's context judge the cut against that purpose and
 the baseline. It produces the shorter skill, edited in place or through a change request, and a
 report of what it did not apply: disputed findings, fixes outside the skill's files and conflicts
-with an authority. The operator confirms the purpose before anything is cut and decides the
-report. The audit changes no authority and adds no rule the baseline did not state; a rule the
-skill has never had is a suggestion for the skill.
+with an authority. The operator confirms the purpose before anything is cut, decides the report,
+and merges the change request where there is one. The audit changes no authority and adds no rule
+the baseline did not state; a rule the skill has never had is a suggestion for the skill.
 
 ## Authorities
 
 The texts in context when the skill loads: the user's guidelines (`~/.claude/CLAUDE.md`); for a
 skill inside a repo, that repo's `CLAUDE.md`, `AGENTS.md` and rules; any memory directory the
 harness loads, whose index is read before anything else. Name each file and directory as the
-population, and say which files were read. For a skill other people install, such as a plugin's,
-a sentence is cut as stated by an authority only where every installer loads that authority; the
-user's guidelines and memory still govern how the audit runs.
+population, and say which files were read.
 
 ## Purpose first
 
@@ -45,8 +43,9 @@ a ticket, a branch and a change request in the repo the command printed, using t
 host the guidelines name, and asking before writing where they name none; the edit is made in a
 worktree, not the checkout a live skill loads from, and the base commit is the baseline.
 
-Read the body against the purpose. Cut a sentence an authority states and a sentence the purpose
-does not need. Agent-loaded text is imperative and terse: current facts, no motivation, no worked
+Read the body against the purpose. Cut a sentence an authority states (for a skill in a plugin's
+source tree, only an authority every installer of the plugin loads) and a sentence the purpose does
+not need. Agent-loaded text is imperative and terse: current facts, no motivation, no worked
 examples, no history and no prediction, unless the authorities set another register. Write or
 rewrite the opening as one paragraph stating the confirmed purpose: what the skill produces, who
 acts on it, and what it leaves to them. The frontmatter is otherwise unchanged, except that a
