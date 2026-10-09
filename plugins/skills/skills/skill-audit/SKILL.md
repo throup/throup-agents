@@ -2,7 +2,7 @@
 name: skill-audit
 description: Cut one skill to the sentences its confirmed purpose needs and no authority already states, then have a fresh blind reviewer judge the cut against that purpose and a baseline. Use when a skill has grown, when its text and the user's or project's guidelines or memory disagree, or when asked to audit, trim or shorten a skill. Not for processing suggestions already recorded for a skill, not for writing a skill from nothing, and not for a rule file or a prompt.
 disable-model-invocation: false
-allowed-tools: Agent, Bash, Read, Write, Edit, Grep, Glob
+allowed-tools: Agent, SendMessage, Bash, Read, Write, Edit, Grep, Glob
 ---
 
 # Skill audit
@@ -56,10 +56,13 @@ review, against the new text.
 
 ## Blind review
 
-Write a brief carrying the confirmed purpose as the specification, the baseline, the skill's
-artefacts, the authorities as a population, a command that checks each file the job names, and a
-place for the findings. It asks the reviewer to state first what the skill is for from the cut
-alone, and to give each finding a kind and a cited line:
+Write the brief in two stages. Stage one carries the cut, the authorities as a population, a command
+that checks each file the job names, and a place for the findings; it asks the reviewer only to
+write what the skill is for, from the cut alone, under `## Reading` in that place, and to return
+with no findings and the job not closed, its second stage following by message. Write stage two only
+once that statement is recorded, to a file in a new temporary directory: the confirmed purpose as
+the specification, the baseline, the skill's artefacts, and a request to give each finding a kind
+and a cited line:
 
 1. a rule dropped that the purpose needs and no authority states;
 2. a sentence kept that the purpose does not need or an authority states;
@@ -67,23 +70,35 @@ alone, and to give each finding a kind and a cited line:
    right;
 4. a rule the skill's own artefacts do not follow, or a structure they have that no rule asks for.
 
-Withheld from the reviewer: editing anything but the findings; backups other than the baseline; the
-audit's reasoning, and on the tracked route the ticket, the change request and the commit messages
-that carry it; invoking the skill under review. Launch with the Agent tool, subagent type
-`general-purpose`, never a fork of this session, so the reviewer starts with none of the audit's
-context.
+Withheld from the reviewer: editing anything but the findings; backups other than the baseline;
+before stage two, the purpose as confirmed, the baseline and the artefacts, backups and git history
+included; the audit's reasoning, and on the tracked route the ticket, the change request and the
+commit messages that carry it; invoking the skill under review. Neither stage, nor any message to
+the reviewer, carries more than this section and the Apply section list. Launch with the Agent tool,
+subagent type `general-purpose`, never a fork of this session, so the reviewer starts with none of
+the audit's context. Send stage two to that same agent with SendMessage, with this and nothing more:
+
+```
+Read <absolute path of stage two> and continue.
+```
+
+Where the reviewer returns without a reading, closes the job before stage two or does not continue
+with it, launch a new reviewer from a newly written stage one, on the handover route a new handover;
+where that one fails the same way, or SendMessage is not available, stop and say so.
 
 Where the `handover` skill is installed (as `handover` or `delivery:handover`), is not the skill
 under audit, and the session is in a git checkout for the pointer, the brief is a handover written
-with it: Verify lines for the checks, findings returned as its `## Closed` note, and the store's
-other files withheld. Place the symlink and launch with this and nothing more:
+with it: stage one is the handover, with Verify lines for the checks, `## Reading` appended to the
+store file, findings returned as its `## Closed` note once stage two is done, and the store's other
+files withheld; stage two is outside the store. Place the symlink and launch with this and nothing
+more:
 
 ```
 You have been pointed at <absolute path of the symlink>. Invoke the handover skill and receive it.
 ```
 
-Otherwise write the brief to a file in a new temporary directory, with the findings to be appended
-under a closing heading, and launch with this and nothing more:
+Otherwise stage one is a file in a new temporary directory, with the reading and the findings to be
+appended under closing headings, and launch with this and nothing more:
 
 ```
 Read <absolute path of the brief> and do the job it describes.
@@ -99,13 +114,22 @@ a conflict between the skill and an authority, and a finding the auditor dispute
 the operator with the line, and nothing else is edited. Suggestions already recorded for the
 audited skill are decided against the new text by the process the guidelines name for skill
 feedback; where they name none, the report lists them. The reviewer's suggestion for `handover`
-goes through that channel, else into the report. A tracked skill's audit ends when its change
+goes through that channel, else into the report.
+
+Keep the text the reviewer judged: on the tracked route its commit, on the untracked route a copy
+beside the backup. Every edit made after it, fixes and applied suggestions alike, goes to one new
+reviewer launched as in Blind review on the current text, whose stage two adds the diff from the
+judged text to the current text and asks only for findings the diff causes, on any line. Its
+findings are reported to the operator with the line, and nothing more is edited; an edit the
+operator then asks for is reviewed the same way. A tracked skill's audit then ends when its change
 request is ready for human review as the guidelines define it, else as `handover` defines it where
 installed; otherwise when every relevant commit is pushed, a fresh review at the head found nothing
-blocking, and CI is green at the head.
+blocking, and CI is green at the head. A review of a text that a later edit changed is not a review
+at the head.
 
-Report word counts before and after, each finding's kind with applied or reported, and the
-conflicts awaiting the operator.
+Report each reviewer's reading beside the confirmed purpose, as two columns of one table; word
+counts before and after; each finding's kind with applied or reported; and the conflicts awaiting
+the operator.
 
 A revision to this skill that the run suggests goes through the channel the user's guidelines name
 for skill feedback, else to the user as one line in the report with the evidence from the run.
