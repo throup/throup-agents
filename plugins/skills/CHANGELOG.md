@@ -4,8 +4,8 @@ All notable changes to the `skills` plugin. Versions follow [semver](https://sem
 
 ## 0.3.0
 
-- `skill-audit`: for a skill in a plugin's source tree, a sentence is cut as already stated only
-  where every installer of the plugin loads the authority that states it.
+- `skill-audit`: for a tracked skill, the authorities the cut and its register answer to are the
+  ones every user of its repo or plugin loads, not the user's own guidelines or memory.
 - `skill-audit`: cut by an audit of the skill with itself; its opening states the skill's purpose.
 
 ## 0.2.1
