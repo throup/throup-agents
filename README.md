@@ -9,6 +9,7 @@ software with agents.
 claude plugin marketplace add throup/throup-agents
 claude plugin install delivery@throup-agents
 claude plugin install tickets@throup-agents
+claude plugin install skills@throup-agents
 ```
 
 Inside a session, the same commands work as `/plugin marketplace add throup/throup-agents` and
@@ -20,6 +21,7 @@ To update:
 claude plugin marketplace update throup-agents
 claude plugin update delivery@throup-agents
 claude plugin update tickets@throup-agents
+claude plugin update skills@throup-agents
 ```
 
 ## Plugins
@@ -28,6 +30,7 @@ claude plugin update tickets@throup-agents
 |---|---|---|
 | [`delivery`](plugins/delivery/README.md) | Drive a ticket to a draft change request with a sub-agent team, and hand a job over to a fresh session | [README](plugins/delivery/README.md) |
 | [`tickets`](plugins/tickets/README.md) | Write a ticket that a product owner can prioritise from its visible text and an implementer can start from its collapsed block | [README](plugins/tickets/README.md) |
+| [`skills`](plugins/skills/README.md) | Audit a skill: cut it to what its confirmed purpose needs, then have a blind reviewer judge the cut | [README](plugins/skills/README.md) |
 
 ## Examples
 
