@@ -2,6 +2,12 @@
 
 All notable changes to the `skills` plugin. Versions follow [semver](https://semver.org/).
 
+## 0.2.1
+
+- `skill-audit`: on the handover route the blind reviewer may remove the handover's symlink when it
+  closes it, and the auditor removes any symlink still in place once it is done with that reviewer,
+  so no pointer to the handover is left in the checkout.
+
 ## 0.2.0
 
 - `skill-audit`: the blind reviewer states what the skill is for from the cut alone, before the

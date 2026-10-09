@@ -70,13 +70,14 @@ and a cited line:
    right;
 4. a rule the skill's own artefacts do not follow, or a structure they have that no rule asks for.
 
-Withheld from the reviewer: editing anything but the findings; backups other than the baseline;
-before stage two, the purpose as confirmed, the baseline and the artefacts, backups and git history
-included; the audit's reasoning, and on the tracked route the ticket, the change request and the
-commit messages that carry it; invoking the skill under review. Neither stage, nor any message to
-the reviewer, carries more than this section and the Apply section list. Launch with the Agent tool,
-subagent type `general-purpose`, never a fork of this session, so the reviewer starts with none of
-the audit's context. Send stage two to that same agent with SendMessage, with this and nothing more:
+Withheld from the reviewer: editing anything but the reading, the findings and, on the handover
+route, the symlink the handover's close removes; backups other than the baseline; before stage two,
+the purpose as confirmed, the baseline and the artefacts, backups and git history included; the
+audit's reasoning, and on the tracked route the ticket, the change request and the commit messages
+that carry it; invoking the skill under review. Neither stage, nor any message to the reviewer,
+carries more than this section and the Apply section list. Launch with the Agent tool, subagent type
+`general-purpose`, never a fork of this session, so the reviewer starts with none of the audit's
+context. Send stage two to that same agent with SendMessage, with this and nothing more:
 
 ```
 Read <absolute path of stage two> and continue.
@@ -97,8 +98,11 @@ more:
 You have been pointed at <absolute path of the symlink>. Invoke the handover skill and receive it.
 ```
 
-Otherwise stage one is a file in a new temporary directory, with the reading and the findings to be
-appended under closing headings, and launch with this and nothing more:
+Once the audit is done with that reviewer, whether it closed the handover, was replaced or the audit
+stopped, remove that reviewer's symlink if it is still in place.
+
+Where `handover` is not used, stage one is a file in a new temporary directory, with the reading and
+the findings to be appended under closing headings, and launch with this and nothing more:
 
 ```
 Read <absolute path of the brief> and do the job it describes.
