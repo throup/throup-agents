@@ -67,16 +67,16 @@ alone, and to give each finding a kind and a cited line:
    right;
 4. a rule the skill's own artefacts do not follow, or a structure they have that no rule asks for.
 
-Withheld from the reviewer: editing anything; backups other than the baseline; the audit's
-reasoning, and on the tracked route the ticket, the change request and the commit messages that
-carry it; invoking the skill under review. Launch with the Agent tool, subagent type
+Withheld from the reviewer: editing anything but the findings; backups other than the baseline; the
+audit's reasoning, and on the tracked route the ticket, the change request and the commit messages
+that carry it; invoking the skill under review. Launch with the Agent tool, subagent type
 `general-purpose`, never a fork of this session, so the reviewer starts with none of the audit's
 context.
 
-Where the `handover` skill is installed (as `handover` or `delivery:handover`) and is not the
-skill under audit, the brief is a handover written with it: Verify lines for the checks, findings
-returned as its `## Closed` note, and the store's other files withheld. Place the symlink and
-launch with this and nothing more:
+Where the `handover` skill is installed (as `handover` or `delivery:handover`), is not the skill
+under audit, and the session is in a git checkout for the pointer, the brief is a handover written
+with it: Verify lines for the checks, findings returned as its `## Closed` note, and the store's
+other files withheld. Place the symlink and launch with this and nothing more:
 
 ```
 You have been pointed at <absolute path of the symlink>. Invoke the handover skill and receive it.
