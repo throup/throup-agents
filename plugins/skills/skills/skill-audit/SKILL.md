@@ -35,11 +35,15 @@ step.
 ## Cut
 
 Establish the route from the directory the skill loads from, symlinks followed:
-`d=$(cd <that directory> && pwd -P); git -C "$d" ls-files --error-unmatch . >/dev/null 2>&1 && git -C "$d" rev-parse --show-toplevel || echo untracked`.
-An untracked skill is edited in place; back its files up first, to the location the guidelines
-name or else `~/.claude/skill-backups/<skill>/<yyyy-mm-dd>/`, outside any skills directory so the
-copy does not register. A tracked skill is a ticket, a branch and a change request in the repo
-the command printed, and the base commit is the baseline.
+`if d=$(cd "<that directory>" && pwd -P); then git -C "$d" ls-files --error-unmatch . >/dev/null 2>&1 && git -C "$d" rev-parse --show-toplevel || echo untracked; else echo "no such directory"; fi`.
+A skill loaded from a plugin cache (`~/.claude/plugins/cache/`) is audited in a checkout of its
+plugin's source repo, as a tracked skill; where there is none, stop and say so. An untracked skill
+is edited in place; back its files up first, to the location the guidelines name or else
+`~/.claude/skill-backups/<skill>/<yyyy-mm-dd>/`, outside any skills directory so the copy does not
+register. A tracked skill is a ticket, a branch and a change request in the repo the command
+printed, using the tracker and code host the guidelines name, and asking before writing where they
+name none; the edit is made in a worktree, not the checkout a live skill loads from, and the base
+commit is the baseline.
 
 Read the body against the purpose. Cut a sentence an authority states and a sentence the purpose
 does not need. Agent-loaded text is imperative and terse: current facts, no motivation, no worked
@@ -63,39 +67,42 @@ alone, and to give each finding a kind and a cited line:
    right;
 4. a rule the skill's own artefacts do not follow, or a structure they have that no rule asks for.
 
-Withheld from the reviewer: editing anything; the backups; invoking the skill under review.
-Launch with the Agent tool, subagent type `general-purpose`, never a fork of this session, so the
-reviewer starts with none of the audit's context.
+Withheld from the reviewer: editing anything; backups other than the baseline; the audit's
+reasoning, and on the tracked route the ticket, the change request and the commit messages that
+carry it; invoking the skill under review. Launch with the Agent tool, subagent type
+`general-purpose`, never a fork of this session, so the reviewer starts with none of the audit's
+context.
 
-Where the `handover` skill is installed, the brief is a handover written with it: Verify lines for
-the checks, findings returned as its `## Closed` note, and the store's other files withheld. A
-suggestion the reviewer has for `handover` goes in that note. Place the symlink and launch with
-this and nothing more:
+Where the `handover` skill is installed (as `handover` or `delivery:handover`) and is not the
+skill under audit, the brief is a handover written with it: Verify lines for the checks, findings
+returned as its `## Closed` note, and the store's other files withheld. Place the symlink and
+launch with this and nothing more:
 
 ```
 You have been pointed at <absolute path of the symlink>. Invoke the handover skill and receive it.
 ```
 
-Where it is not, write the brief to a file outside any skills directory and the skill's repo,
-with the findings to be appended under a closing heading, and launch with this and nothing more:
+Otherwise write the brief to a file in a new temporary directory, with the findings to be appended
+under a closing heading, and launch with this and nothing more:
 
 ```
 Read <absolute path of the brief> and do the job it describes.
 ```
 
-The report then recommends installing `handover`, from the `delivery` plugin of the marketplace
-this skill came from.
+Where `handover` is not installed, the report recommends the `delivery` plugin from
+[throup-agents](https://github.com/throup/throup-agents).
 
 ## Apply
 
 A confirmed finding is applied to the skill. A finding whose fix lands outside the skill's files,
 a conflict between the skill and an authority, and a finding the auditor disputes are reported to
 the operator with the line, and nothing else is edited. Suggestions already recorded for the
-audited skill, and the reviewer's suggestion for `handover`, go through the guidelines' channel
-for skill feedback and are decided there against the new text, else into the report. A tracked skill's audit ends when
-its change request is ready for human review as the guidelines define it; where they do not, when
-every relevant commit is pushed, a fresh review at the head found nothing blocking, and CI is
-green at the head.
+audited skill are decided against the new text by the process the guidelines name for skill
+feedback; where they name none, the report lists them. The reviewer's suggestion for `handover`
+goes through that channel, else into the report. A tracked skill's audit ends when its change
+request is ready for human review as the guidelines define it, else as `handover` defines it where
+installed; otherwise when every relevant commit is pushed, a fresh review at the head found nothing
+blocking, and CI is green at the head.
 
 Report word counts before and after, each finding's kind with applied or reported, and the
 conflicts awaiting the operator.

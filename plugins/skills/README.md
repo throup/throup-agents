@@ -3,8 +3,9 @@
 One skill for keeping a skill short: it cuts the text to what the skill is for, and has a fresh
 reviewer who never saw the audit judge the cut.
 
-Built for Claude Code. Works on a skill in `~/.claude/skills/`, in a repo, or installed from a
-plugin, and on any tracker and code host for a skill kept in version control.
+Built for Claude Code. Works on a skill in `~/.claude/skills/` or in a repo, and on a plugin's
+skill through a checkout of the plugin's source repo. For a skill kept in version control it works
+with any tracker and code host.
 
 ## Skills
 
@@ -23,7 +24,8 @@ trimmed. **Not for** writing a skill from nothing, or for a rule file or a promp
 ## Prerequisites
 
 - Claude Code with sub-agents (the blind reviewer is one).
-- git, if the skill under audit is kept in a repo.
+- For a skill kept in a repo: git, and CLI or API access to your tracker and code host,
+  authenticated.
 
 ### Recommended
 
