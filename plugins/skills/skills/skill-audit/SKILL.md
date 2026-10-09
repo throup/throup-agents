@@ -20,7 +20,9 @@ skill has never had is a suggestion for the skill.
 The texts in context when the skill loads: the user's guidelines (`~/.claude/CLAUDE.md`); for a
 skill inside a repo, that repo's `CLAUDE.md`, `AGENTS.md` and rules; any memory directory the
 harness loads, whose index is read before anything else. Name each file and directory as the
-population, and say which files were read.
+population, and say which files were read. For a skill other people install, such as a plugin's,
+a sentence is cut as stated by an authority only where every installer loads that authority; the
+user's guidelines and memory still govern how the audit runs.
 
 ## Purpose first
 
@@ -49,7 +51,7 @@ examples, no history and no prediction, unless the authorities set another regis
 rewrite the opening as one paragraph stating the confirmed purpose: what the skill produces, who
 acts on it, and what it leaves to them. The frontmatter is otherwise unchanged, except that a
 statement of when the skill is not invoked, cut from the body, lands in the description's "Not
-for" sentence. The cut applies no recorded suggestion.
+for" sentence. The cut adds nothing a recorded suggestion proposes.
 
 ## Blind review
 

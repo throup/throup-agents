@@ -2,8 +2,10 @@
 
 All notable changes to the `skills` plugin. Versions follow [semver](https://semver.org/).
 
-## 0.2.2
+## 0.3.0
 
+- `skill-audit`: for a skill other people install, a sentence is cut as already stated only where
+  every installer loads the authority that states it.
 - `skill-audit`: cut by an audit of the skill with itself; its opening states the skill's purpose.
 
 ## 0.2.1

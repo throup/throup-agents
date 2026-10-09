@@ -13,7 +13,8 @@ with any tracker and code host.
 
 Asks you to confirm, in two or three sentences, what a skill is for, then cuts every sentence that
 purpose does not need and every sentence your guidelines, the repo's instruction files or the
-memory already state. A blind reviewer, launched with no context from the audit, says what the cut
+memory already state; for a skill other people install, only what every installer loads counts. A
+blind reviewer, launched with no context from the audit, says what the cut
 is for before it is shown the confirmed purpose and the original, then judges the cut against them.
 Confirmed findings are applied, and a new blind reviewer checks every edit made after the review;
 its findings, conflicts with your guidelines and disputed findings come back to you. An untracked
@@ -60,7 +61,8 @@ These are defaults; state your own rule and the skill follows it.
   for the cut and for the review; without it, the auditor's reading of the skill becomes the
   standard it is judged by.
 - **A sentence an authority already states is cut.** A rule stated twice drifts, and the skill
-  is loaded on every use.
+  is loaded on every use. For a skill other people install, the authority must be one every
+  installer loads.
 - **The reviewer is blind.** It gets the purpose, the baseline, the skill's artefacts and the
   authorities, never the audit's reasoning, and states what the skill is for from the cut alone
   before it is given the purpose, the baseline and the artefacts. Every edit after its review goes
