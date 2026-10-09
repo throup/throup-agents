@@ -26,6 +26,15 @@
       "skills": [
         "./skills/write-ticket"
       ]
+    },
+    {
+      "name": "skills",
+      "description": "Audit a skill: cut it to what its confirmed purpose needs, then have a blind reviewer judge the cut",
+      "source": "./plugins/skills",
+      "strict": true,
+      "skills": [
+        "./skills/skill-audit"
+      ]
     }
   ]
 }

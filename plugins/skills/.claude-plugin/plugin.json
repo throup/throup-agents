@@ -1,0 +1,14 @@
+{
+  "name": "skills",
+  "version": "0.1.0",
+  "description": "Audit a skill: cut it to what its confirmed purpose needs, then have a blind reviewer judge the cut",
+  "author": {
+    "name": "Chris Throup"
+  },
+  "homepage": "https://github.com/throup/throup-agents",
+  "repository": "https://github.com/throup/throup-agents",
+  "license": "MIT",
+  "skills": [
+    "./skills/skill-audit"
+  ]
+}
