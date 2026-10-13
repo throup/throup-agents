@@ -32,9 +32,10 @@ schema or its documentation rather than assuming them.
 - **In the collapsed block** when the implementer would otherwise re-derive it: mechanism,
   locators pinned as "line N on `<base>` at `<sha>`", evidence, options not chosen, related
   tickets with one clause each. Provenance names the mechanism and measurement, not a change
-  request, key, branch or person. A locator that no longer resolves is named here as gone, not
-  dropped. Include what this ticket's implementer needs and no paragraph written for
-  completeness. The block ends by naming the repository the change lands in, as a link to it on the code host
+  request, key, branch or person. Evidence is re-run against that base before it is written
+  down: a finding from a review or another session is a hypothesis until then, and its scope is
+  what the re-run shows. A locator that no longer resolves is named here as gone, not dropped.
+  Include what this ticket's implementer needs and no paragraph written for completeness. The block ends by naming the repository the change lands in, as a link to it on the code host
   and the files concerned, or in the form the guidelines name, so tooling that starts from the
   ticket can find the code without reading the prose.
 - **In the field, not the prose**: priority, and anything else the tracker holds as a field
