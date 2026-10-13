@@ -1,6 +1,6 @@
 {
   "name": "tickets",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Write a ticket that a product owner can prioritise from its visible text and an implementer can start from its collapsed block",
   "author": {
     "name": "Chris Throup"
