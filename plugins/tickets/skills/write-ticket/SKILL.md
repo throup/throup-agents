@@ -1,6 +1,6 @@
 ---
 name: write-ticket
-description: Write or rewrite a ticket in the project's tracker (YouTrack, Jira, GitHub Issues or another) so a product owner can read the title, the first two paragraphs and the acceptance criteria, and an implementer finds everything else in one collapsed block. Use when filing a ticket, reshaping one, merging duplicates, or folding an amendment back into a description. Not for a one-line note to yourself.
+description: Write or rewrite a ticket in the project's tracker (YouTrack, Jira, GitHub Issues or another) so a product owner can read the title, the first two paragraphs and the acceptance criteria, and an implementer finds everything else in one collapsed block. Use when filing a ticket, reshaping one, merging duplicates, folding an amendment back into a description, or writing a change request's description where the repository has no template. Not for a one-line note to yourself.
 disable-model-invocation: false
 allowed-tools: Bash, Read, Write, Edit, Grep, Glob
 ---
@@ -60,6 +60,20 @@ names from its schema or documentation.
    per paragraph. Nothing sits between the ACs and the block.
 6. **Attribution line.** `🤖 Generated with [Claude Code](https://claude.com/claude-code)`,
    or the line the user's guidelines name instead.
+
+## A change request's description
+
+Where the repository has no template, a change request's description takes the same shape with
+these changes; the user's or the project's guidelines on change-request write-ups govern where
+they differ.
+
+- Whoever decides to merge takes the product owner's place, and the reviewer the implementer's.
+- The title follows the repository's convention for change-request titles.
+- The visible part may name files, commits, change requests and the ticket the change closes,
+  and ends with what to scrutinise, ahead of the acceptance criteria.
+- The acceptance criteria are what the change delivers.
+- The block's summary reads `Technical detail for the reviewer`. Its locators are pinned at the
+  head, its verification is re-run there, and its provenance may name change requests.
 
 ## Changing a ticket that exists
 

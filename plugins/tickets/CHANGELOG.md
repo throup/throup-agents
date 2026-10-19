@@ -2,6 +2,11 @@
 
 All notable changes to the `tickets` plugin. Versions follow [semver](https://semver.org/).
 
+## 0.2.0
+
+- `write-ticket`: shapes a change request's description where the repository has no template,
+  with the collapsed block for the reviewer.
+
 ## 0.1.3
 
 - `write-ticket`: a scope change from any source, not only a tracker comment, gets the "folded in
