@@ -4,10 +4,10 @@ All notable changes to the `skills` plugin. Versions follow [semver](https://sem
 
 ## 0.4.1
 
-- `skill-audit`: cut by a second audit of the skill with itself. Recorded suggestions are decided
-  after the audit unless the operator's guidelines have them decided within it; the stage-one
-  reading takes the purpose's shape; the loaded-on-other-machines check reports a missing
-  directory.
+- `skill-audit`: audited with itself a second time. Recorded suggestions are decided after the
+  audit unless the operator's guidelines have them decided within it; the purpose and the
+  stage-one reading both state what the skill produces; the loaded-on-other-machines check reports
+  a missing directory.
 
 ## 0.4.0
 
