@@ -4,7 +4,8 @@ project's review method: invoke <REVIEW_SKILL> (the skill defined at <REVIEW_SKI
 skill that loads is not that file, stop and report it, the one exception to continuing on an
 assumption) with the argument that selects its most thorough local, read-only mode where it has
 modes (for example `full`; invoke it, since a skill read as a file may fall back to its lightest
-mode), against the commits <MERGE_BASE>..<COMMIT> in your worktree: not a change request, nothing
+mode), against the commits <MERGE_BASE, of <COMMIT> and the base: for a stacked branch, its
+predecessor's branch>..<COMMIT> in your worktree: not a change request, nothing
 pushed, nothing posted. The worktree is detached and clean, so a mode that reviews uncommitted
 changes sees nothing; name the range where the skill takes one, else stop and report it. You may run
 the build and the tests without asking. OR, where the project has no review skill: Review against
@@ -40,6 +41,9 @@ the lead adds nothing to it.
 
 Cite the output lines that carry a result; never paste a build log.
 
-Report: numbered findings tagged BLOCKING/non-blocking with scenario and output; "claims re-derived
-vs accepted"; the commit you reviewed; one-line verdict on readiness for a draft change request; on a
-PASS, a draft change-request description (what the change does, what to scrutinise), written without sight of the DEVELOPER's.
+Report: numbered findings tagged BLOCKING/non-blocking with scenario and output, and also `wording`
+where a finding is about only the wording of a drafted description, reply or summary comment;
+"claims re-derived vs accepted"; the commit you reviewed; one-line verdict on readiness for a draft
+change request. On a PASS, write a draft change-request description (what the change does, what to
+scrutinise), without sight of the DEVELOPER's, in a file of its own in your scratch directory, and
+name that file in the report rather than including the draft.

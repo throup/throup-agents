@@ -10,8 +10,8 @@ output that demonstrates it.
 
 ## The range
 <DIFF_PATH> is `git diff <PREVIOUS> <COMMIT>`: <the chunks it covers>. Your worktree is at
-<COMMIT>, so the rest of the change is there to read. Findings to confirm fixed: <ids, as the
-DEVELOPER named them, or none>.
+<COMMIT>, so the rest of the change is there to read. Findings to confirm fixed, each as its
+raiser wrote it: <id: the finding verbatim, or none>.
 
 ## The DEVELOPER's chunk reports, report and transcript — every claim is a hypothesis
 <Paste them.> Judge the transcript alongside the diff. Verify the load-bearing claims yourself and
@@ -29,16 +29,22 @@ findings. QA runs every gate.
 
 <IF READY: The DEVELOPER declared READY at <COMMIT>. QA and BLIND are reviewing this commit
 alongside you. A BLOCKING finding from you goes to the DEVELOPER at once, and nothing is pushed
-until it is decided; otherwise your findings go to the DEVELOPER with theirs.>
+until it is decided; otherwise your findings go to the DEVELOPER with theirs. <EITHER, a commit
+you have already reported on: Your report at <COMMIT> is your READY review of it. Reply with
+whether each of its findings and its verdict stand now that this commit is READY, re-tagging any
+that change with the reason, and with any finding the READY adds; that reply is your pass or fail
+at this READY. OR, the commit you are reviewing now: The report you are writing is your READY
+review of it.>>
 
-<IF STACKED, pre-push confirmation: the DEVELOPER has rebased onto <PREDECESSOR_BRANCH>'s current
-head at <HEAD>, from <OLD_HEAD> on the predecessor's old tip <OLD_TIP>; run the tests you judge
-relevant to what the rebase brought in at that head, and confirm with
-`git range-diff <OLD_TIP>..<OLD_HEAD> <PREDECESSOR_BRANCH>..<HEAD>` that no code line changed in
-the rebase.>
+<IF STACKED, pre-push confirmation: the DEVELOPER has rebased onto the current head of <ONTO:
+PREDECESSOR_BRANCH, or BASE once the predecessor is merged> at <HEAD>, from <OLD_HEAD> on the
+predecessor's old tip <OLD_TIP>; run the tests you judge relevant to what the rebase brought in at
+that head, and confirm with `git range-diff <OLD_TIP>..<OLD_HEAD> <ONTO>..<HEAD>` that no code line
+changed in the rebase.>
 
 Cite the output lines that carry a result; never paste a build log.
 
-Report: numbered findings tagged BLOCKING/non-blocking with scenario and output; each fix to
-confirm, confirmed or not; "claims re-derived vs accepted"; the commit you reviewed; one-line
+Report: numbered findings tagged BLOCKING/non-blocking with scenario and output, and also `wording`
+where a finding is about only the wording of a drafted description, reply or summary comment; each
+fix to confirm, confirmed or not; "claims re-derived vs accepted"; the commit you reviewed; one-line
 verdict: BLOCKING or not.

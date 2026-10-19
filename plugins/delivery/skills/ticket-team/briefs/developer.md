@@ -13,8 +13,8 @@ where you must interoperate with them, e.g. a sibling branch touching the same r
 <IF STACKED: This branch is cut from <PREDECESSOR_BRANCH>, not from the default branch, because
 this change must name code that only exists there; the change request will be based on that branch. Read that
 base as something to build on. Anything you find wrong in it goes in your report under "base",
-not into your change. The lead tells you when the predecessor has been repackaged, and names
-its old tip for the rebase.>
+not into your change. The lead tells you when the predecessor has been rewritten
+(repackaged, rebased or merged), and names your branch's old tip on it for the rebase.>
 
 ## Chunks
 A chunk is a commit on your branch: `git commit`, with a subject written as a pushed commit's would
@@ -42,14 +42,14 @@ chunk. READY states facts, not confidence: put any doubt in the report, where th
 ## Required deliverables
 1. The code change, with tests where <TEST_CONVENTION_FILE> wants them <or, where no file says, a
    test for each behaviour the ACs name>.
-2. Execution transcript, in <SCRATCH>/dev-transcript.md, appended per chunk: the compile, the
+2. Execution transcript, in <ROLE_SCRATCH>/dev-transcript.md, appended per chunk: the compile, the
    tests you wrote, and any test you ran to decide a design question, run in the worktree with the
    dependency override set, real output pasted. Run no other suite or gate, a step that generates
    code and runs the result included: QA runs them all.
 3. Mutation evidence per the evidence rules.
-4. A short factual report, in <SCRATCH>/dev-report.md, current at READY: what changed and why; each
-   design choice the ticket left open and what you chose; anything the ticket got wrong; anything
-   you deliberately left out and why. Reviewers treat every claim in it as a hypothesis.
+4. A short factual report, in <ROLE_SCRATCH>/dev-report.md, current at READY: what changed and why;
+   each design choice the ticket left open and what you chose; anything the ticket got wrong;
+   anything you deliberately left out and why. Reviewers treat every claim in it as a hypothesis.
 5. Once all three reviewers have passed: a draft change-request description (what the change does,
    what to scrutinise) — or, for a re-review round, the replies to the review and a summary comment
    — written without sight of any other role's draft. The lead writes the final text.

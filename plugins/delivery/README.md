@@ -44,6 +44,8 @@ the same class of error — or when you ask for one. **Not for** notes to the sa
   store file there, and removing a pointer that links to one, even with an allow rule,
   `acceptEdits` or `--add-dir`. Run handovers interactively, or name a store outside `~/.claude/`
   in your guidelines.
+- For `ticket-team`: Claude Code's experimental Agent Teams feature off is recommended; the skill
+  states what a run does with it on.
 - For `ticket-team`: a verification rule in the repo (its `AGENTS.md`, `CLAUDE.md` or
   contributing guide) naming the commands that gate a change. Without one, the lead asks you.
 
@@ -61,9 +63,10 @@ the skills tell the agent to read `AGENTS.md`. Put these in your guidelines:
 `ticket-team` writes under your account: it assigns and moves the ticket, pushes the branch (with a
 lease after a rebase), opens the draft change request, files an observed follow-up once you agree,
 and in re-review mode posts replies, updates the description and resolves the conversations it
-fixed. It asks first where you did not ask for the run, where the ticket or the change request
-belongs to someone else, where the host, tracker or gates are unknown, and where the host has no
-draft change requests.
+fixed. After a push it answers on the code host any check's or bot's finding the team judged a
+false positive, and marks the change request ready only where you ask. It asks first where you did
+not ask for the run, where the ticket or the change request belongs to someone else, where the
+host, tracker or gates are unknown, and where the host has no draft change requests.
 
 The developer runs only the tests it wrote, the reviewer the tests it judges relevant, and QA every
 gate at its first review, then those the later changes could affect. A gate result also carries
