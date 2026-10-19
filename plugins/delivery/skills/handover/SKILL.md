@@ -9,8 +9,8 @@ allowed-tools: Bash, Read, Write, Edit, Grep, Glob
 
 One file carries one job from this session to one fresh session that would judge it better, and
 is placed where only that reader finds it; the reader receives it, checks it against the live
-state, does the job and closes it with what the file got wrong or left out. The same file serves as
-the brief for an isolated reviewer. It holds what the reader cannot derive and nothing else: the
+state, does the job and closes it with what the file got wrong or left out. The same format serves
+as the brief for an isolated reviewer. It holds what the reader cannot derive and nothing else: the
 question and the evidence, never the writer's leaning, so the judgements are the reader's. The user
 decides whether to hand over, rules on what the reader escalates, and owns the acts the file leaves
 to them.
@@ -29,8 +29,8 @@ Treat each of these as a trigger to say so and offer a fresh session:
 - **Correcting yourself repeatedly on the same class of error.**
 
 Frame it as a recommendation with the reason, not a request for permission, and name what should
-carry over: memories, tickets, change-request state, open decisions. The user decides. When the
-user accepts, write the file.
+carry over: memories, tickets, change-request state, open decisions. When the user accepts,
+write the file.
 
 ## Where the file lives
 
@@ -101,7 +101,8 @@ went.
 
 1. **Read every other section against Withheld.** No other section has the reader see, run or
    produce what Withheld bars at that point: not a Verify command's output, a State locator, an
-   Open item's settling act or a Tools skill. Where a later stage lifts a Withheld item, the item
+   Open item's settling act or a Tools skill; `git rev-parse --short HEAD` confirms a head without
+   printing a withheld commit message. Where a later stage lifts a Withheld item, the item
    says from when. Where two sections still treat one artefact differently, the file says which
    governs. Repeat this step after steps 2 and 3, which add to Withheld.
 2. **For a reader who judges blind, read each file offered as an authority**, the memory directory
@@ -114,8 +115,8 @@ went.
    `<store file stem>.parked/` beside the store file, and its index line into `MEMORY.md` there. A
    match in a guidelines file is the user's to resolve. Withheld bars the reader from that folder
    and names the user as who restores it after closing, and the store's hand purge spares it until
-   then. Where a match stays where the
-   reader loads it, the handover is not written; say so to the user.
+   then. Where a match stays where the reader loads it, the handover is not written; say so to the
+   user.
 4. **Give every artefact the reader creates, or the writer creates for it, a disposal**: removed
    at closing, or kept until a named event by a named party. That includes a worktree, branch,
    input directory or copy of a tree, wherever it lives.
