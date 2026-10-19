@@ -95,7 +95,8 @@ present; delete any other section that does not apply, and leave no empty headin
    reader runs a skill, name every input that skill would otherwise ask the user for, such as the
    commands it checks the work with and those it may skip, so the reader runs without stopping to
    ask. A value the user decides is asked of the user at writing, not chosen by the writer. A
-   confirmation of a write the reader will draft is not such an input: the reader still asks it.
+   confirmation of a write the reader will draft is not such an input: the reader still asks it,
+   and a run being measured stops its clock while it waits.
 
 Write only what the reader cannot derive from the repo, the tracker, the change requests, the
 project memory directory and the user's and the project's guidelines (`~/.claude/CLAUDE.md`, the
@@ -109,7 +110,7 @@ narrative of how the work went.
    Open item's settling act or a Tools skill; `git rev-parse --short HEAD` confirms a head without
    printing a withheld commit message. Where a later stage lifts a Withheld item, the item says
    from when. Where two sections still treat one artefact differently, the file says which
-   governs.
+   governs. Repeat this step after steps 2 and 3, which add to Withheld.
 2. **For a reader who judges blind, read each file offered as an authority**, the memory directory
    included, and name in Withheld any that records the design history or review threads of the
    thing under review.
@@ -170,8 +171,8 @@ superseding it closes it as "Where the file lives" says:
 1. Append `## Closed` to the store file: date, outcome in one line, and what the handover got
    wrong or left out.
 2. Remove the symlink. Do not delete the store file.
-3. Dispose of each artefact as the handover states; the note names any kept, until when and by
-   whom. Where Withheld names parked memory, the outcome message tells the user it awaits
+3. Dispose of each artefact as the handover states, and add to the note any kept, until when and
+   by whom. Where Withheld names parked memory, the outcome message tells the user it awaits
    restoring.
 
 A revision this skill's use suggests, at writing or at closing, goes through the channel the
