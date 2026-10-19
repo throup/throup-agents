@@ -63,16 +63,17 @@ names from its schema or documentation.
 
 ## A change request's description
 
-The same shape serves a change request's description where the repository has no template; the
-user's or the project's guidelines on change-request write-ups govern where they say more. The
-reader who decides to merge takes the product owner's place, and the reviewer the implementer's:
+Where the repository has no template, a change request's description takes the same shape with
+these changes; the user's or the project's guidelines on change-request write-ups govern where
+they differ.
 
+- Whoever decides to merge takes the product owner's place, and the reviewer the implementer's.
 - The title follows the repository's convention for change-request titles.
+- The visible part may name files, commits and change requests, and ends with what to
+  scrutinise, ahead of the acceptance criteria.
 - The acceptance criteria are what the change delivers.
-- The block's summary reads `Technical detail for the reviewer`. It holds the verification, re-run
-  at the head it names, and what to scrutinise; its locators may name change requests and
-  commits, which the reviewer acts on.
-- After a push that changes the diff, the description is re-read against the new head.
+- The block's summary reads `Technical detail for the reviewer`. Its locators are pinned at the
+  head, its verification is re-run there, and its provenance may name change requests.
 
 ## Changing a ticket that exists
 
