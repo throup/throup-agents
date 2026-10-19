@@ -7,11 +7,14 @@ allowed-tools: Agent, SendMessage, TaskStop, AskUserQuestion, Bash, Read, Grep, 
 
 # Ticket team
 
-One lead drives one ticket to a draft change request, or one change request's review round to
-pushed commits and replies, through fixed roles that develop, review, fix and re-review. The lead routes work and
-makes the writes to shared systems; it reads, judges and summarises none of the work in flight. A
-handoff carries no framing, question or prompt of the lead's own, and a brief quotes the ticket's
-constraints as the ticket's or the user's, none the lead inferred.
+One lead takes one ticket to a draft change request, or one change request's review round to
+pushed commits and replies, in which every finding has been raised, decided and confirmed at the
+head, with a run log in scratch recording each handoff and finding. Fixed roles develop, review,
+fix and re-review; the lead routes their work and makes the writes to shared systems, and reads,
+judges, summarises and frames none of the work in flight. A handoff carries no framing, question
+or prompt of the lead's own, and a brief quotes the ticket's constraints as the ticket's or the
+user's, none the lead inferred. The user rules on what the run escalates to them, and owns human
+review and the merge.
 
 Terms: the **code host** holds the repository and its review (GitHub, GitLab, Bitbucket); a
 **change request** is the unit it reviews (a pull request on GitHub or Bitbucket, a merge request
@@ -20,24 +23,21 @@ project's guidelines (`~/.claude/CLAUDE.md`, the repo's `CLAUDE.md` and `AGENTS.
 already in context) name which ones, the CLI or API for each, and the tracker's states. Where they
 do not, the lead asks the user before the first write; the repo's remote settles the host, never
 the tracker.
-**Scratch** is a directory outside every worktree that outlives the session: the one the user's
-guidelines name, else `ticket-team-runs/<ticket key, or the change request's number in re-review
-mode>/` beside the repo's main checkout. The session scratchpad is not scratch: it does not survive
-a session that stops for days, and every agent in the session shares it. Each role in a run has a
+**Scratch** is a directory outside every worktree that outlives the session, not the session
+scratchpad: the one the user's guidelines name, else `ticket-team-runs/<ticket key, or the change
+request's number in re-review mode>/` beside the repo's main checkout. Each role in a run has a
 directory of its own in scratch (`lead/`, `developer/`, `reviewer/`, `qa/`, `mediator/`; a
 replacement agent gets a new one, such as `qa-2/`), named in its brief, and writes in no other. The
 first re-review round on a change request takes `<number>/`, and each later round on it a new one
-(`<number>-r2/`, `<number>-r3/`), so no round writes over an earlier round's log or briefs. BLIND's
-inputs and its scratch never go in scratch, whose path names the ticket: see the lead's first point.
+(`<number>-r2/`, `<number>-r3/`). BLIND's inputs and its scratch go outside scratch (point 1).
 **The base** is the branch the change request targets: the default branch, or for a stacked
 branch its predecessor's branch. Every merge base and whole-change diff below is taken against it.
 For a stacked branch the lead records the predecessor's head it was cut from or last rebased onto
 (its old tip). Where `git merge-base --is-ancestor <old tip> <commit>` succeeds and `git merge-base
---is-ancestor <old tip> <base>` fails, the predecessor was rewritten under it (repackaged, rebased,
-or squash-merged and the change request retargeted) and its whole change would include the
-predecessor's: the lead hands out no review of it until the DEVELOPER rebases (the stacked-rebase
-message). Once the run has pushed, and throughout re-review mode, that rebase rewrites pushed
-commits, and the user decides, as in Repackaging.
+--is-ancestor <old tip> <base>` fails, the predecessor was rewritten under it: the lead hands out
+no review of it until the DEVELOPER rebases (the stacked-rebase message). Once the run has pushed,
+and throughout re-review mode, that rebase rewrites pushed commits, and the user decides, as in
+Repackaging.
 A **chunk** is a local commit the DEVELOPER makes on the ticket's branch and reports to the lead
 while it carries on working. **READY** is the DEVELOPER's declaration that one chunk completes the
 change, against the criteria in `briefs/developer.md`.
@@ -54,18 +54,17 @@ change, against the criteria in `briefs/developer.md`.
 
 A full team runs every role. A light team runs without BLIND, for a change whose correctness is
 readable from its diff. A change that depends on how something else behaves (an engine, a
-provider, a tool's enforcement boundary) takes the full team, whatever the diff's size: BLIND is
-the reviewer that reads the dependency's own contract unanchored by the ticket's account of it.
-The lead chooses the team size from the ticket before the run starts and tells the user which
-and why. MEDIATOR is spawned only when step 5 fires. "All three" below means REVIEWER, QA and
-BLIND, or REVIEWER and QA in a light team.
+provider, a tool's enforcement boundary) takes the full team, whatever the diff's size. The lead
+chooses the team size from the ticket before the run starts and tells the user which and why.
+MEDIATOR is spawned only when step 5 fires. "All three" below means REVIEWER, QA and BLIND, or
+REVIEWER and QA in a light team.
 
-QA uses the project's own review skill where it has one. Project skills load when a session
-starts, so they resolve by name only in a session started in the target repo; where the lead's
-session was not, the lead tells the user before the run starts, and the user chooses a restart
-there or the no-skill review below. The lead names in QA's brief the file its session loaded the
-skill from. Where it has none, QA's brief says so and
-QA reviews against the ACs and the repo's convention files, establishing each finding by execution.
+QA uses the project's own review skill where it has one. Where the lead's session was not started
+in the target repo, the skill does not resolve by name: the lead tells the user before the run
+starts, and the user chooses a restart there or the no-skill review below. The lead names in QA's
+brief the file its session loaded the skill from. Where the project has none, QA's brief says so
+and QA reviews against the ACs and the repo's convention files, establishing each finding by
+execution.
 
 ## The loop
 
@@ -91,24 +90,22 @@ QA reviews against the ACs and the repo's convention files, establishing each fi
 9. Every finding from the three goes to DEVELOPER, whatever its tag, and returns to 3; a push-back
    goes to the role that raised it. The exception is a non-blocking finding its raiser tags
    `wording`, about only the wording of a drafted description, reply or summary comment: the lead
-   settles it when it writes the final text (point 4), and it does not go to DEVELOPER. A reviewer
-   meets a draft only where it is handed one, such as a later round reviewing text already on the
-   code host.
+   settles it when it writes the final text (point 4), and it does not go to DEVELOPER.
 10. All three pass at one READY, and no BLOCKING finding is open or undecided: repackage, push,
     and at the run's first push open a draft change request.
 11. A run that pushes is finished only once the code host's automated checks and review bots have
     reported on the pushed head, and again after each change the run makes to the change request's
-    state (marking it ready, where the user asks), since some start only then. The lead expects
-    every check the host lists or requires for the head, and every bot that has posted on the
-    repo's recent change requests; it waits until each has reported, or for a limit it states in
-    the run log, and the report names any that had not. Each finding they raise goes through the
-    loop from step 3. A push-back calling one a false positive goes to REVIEWER in the raiser's
-    place, a contest to MEDIATOR; one that stands, the lead posts on the finding's own
-    conversation. A fix ends in a new READY and push, and this step repeats. A pass is the reports
-    after one push or state change. In the first, every finding goes to DEVELOPER; from the second,
-    every finding goes to the user first, who decides for each whether it goes through the loop or
-    is declined. The lead answers a declined finding on its conversation as the user's decision and
-    records it in the description, or files it as a follow-up under Shared-system writes.
+    state (marking it ready, where the user asks). The lead expects every check the host lists or
+    requires for the head, and every bot that has posted on the repo's recent change requests; it
+    waits until each has reported, or for a limit it states in the run log, and the report names
+    any that had not. Each finding they raise goes through the loop from step 3. A push-back
+    calling one a false positive goes to REVIEWER in the raiser's place, a contest to MEDIATOR; one
+    that stands, the lead posts on the finding's own conversation. A fix ends in a new READY and
+    push, and this step repeats. A pass is the reports after one push or state change. In the
+    first, every finding goes to DEVELOPER; from the second, every finding goes to the user first,
+    who decides for each whether it goes through the loop or is declined. The lead answers a
+    declined finding on its conversation as the user's decision and records it in the description,
+    or files it as a follow-up under Shared-system writes.
 
 Any change to the tree after READY, a test or a comment included, is a chunk and ends in a new
 READY.
@@ -120,39 +117,33 @@ review's findings, numbered, are the ACs; the DEVELOPER's worktree is reused, no
 commits one chunk per finding it can deliver on its own; QA reads the review conversations where it
 would read the ticket; the terminal step is the lead's shared-system writes, as in a normal run: it
 pushes the round's commits, posts the replies and the summary comment, updates the change request's
-description and resolves the conversations the round fixed, then follows step 11. The whole change
-is `git diff $(git merge-base <base> <commit>) <commit>`, so commits the base gained since are not
-shown as reversions. REVIEWER takes chunk ranges; QA and BLIND take the whole change; each brief's
-`<DIFF_PATH>` says which. The DEVELOPER's fifth deliverable becomes the replies and a summary
-comment.
+description and resolves the conversations the round fixed, then follows step 11. REVIEWER takes
+chunk ranges; QA and BLIND take the whole change; each brief's `<DIFF_PATH>` says which. The
+DEVELOPER's fifth deliverable becomes the replies and a summary comment.
 
 ## The lead acts at exactly four points
 
 Keep a run log in scratch from the start: one line per handoff, and each agent's wall time from
 its completion notice. A notice after a resume reports that stint's duration and tool uses alone;
 an interim notice sent while an agent waits on its own background work reports the time since it
-was spawned; the log says which kind each is. The notice's token figure is not spend (it can fall
-within a stint): log it as given, marked as such, and take token cost from the transcripts'
-per-call usage afterwards. A stop for the usage limit and a wait on the user are
-logged with their start and end, and reported wall times leave them out. Every time in the log is
-read from a clock, never estimated, and is the time of the event the line records: `date` as the
-event happens, or the event's own timestamp (a notice's, the code host's), converted to one named
-zone. A line written after its event says so.
+was spawned; the log says which kind each is. The notice's token figure is not spend: log it as
+given, marked as such, and take token cost from the transcripts' per-call usage afterwards. A stop
+for the usage limit and a wait on the user are logged with their start and end, and reported wall
+times leave them out. Every time in the log is read from a clock, never estimated, and is the time
+of the event the line records: `date` as the event happens, or the event's own timestamp (a
+notice's, the code host's), converted to one named zone. A line written after its event says so.
 
 1. **On a chunk or READY**: `git -C <worktree> log --oneline <previous>..<commit>`, to confirm the
    report describes commits that exist. Write the range's diff to scratch once, read-only
    (`git diff <previous> <commit>`), and at READY the whole change as well
-   (`git diff $(git merge-base <base> <commit>) <commit>`). For REVIEWER and QA,
-   cut a worktree detached at the commit (`git worktree add --detach`), holding what the gates
-   need; for BLIND, such a worktree copied without `.git` (rather than `git archive`, which drops
-   `export-ignore` paths and writes the hash into `export-subst` ones), together with BLIND's copy
-   of the diff and a `scratch/` directory for its own files, in a directory whose path carries no
+   (`git diff $(git merge-base <base> <commit>) <commit>`). For REVIEWER and QA, cut a worktree
+   detached at the commit (`git worktree add --detach`), holding what the gates need; for BLIND,
+   such a worktree copied without `.git` (not with `git archive`), together with BLIND's copy of
+   the diff and a `scratch/` directory for its own files, in a directory whose path carries no
    ticket key or change-request number. Each stays in place until every finding in its report is
-   decided, since a push-back returns to the reviewer to check against it; then remove it.
-   `<previous>` is the last commit REVIEWER reviewed: at the start, the
+   decided; then remove it. `<previous>` is the last commit REVIEWER reviewed: at the start, the
    reviewed commit in re-review mode, else the merge base. A range that lands while REVIEWER is
-   reviewing waits for it; at READY, QA and BLIND start at once. A READY that lands while QA or
-   BLIND is still on an earlier one is withdrawn when they report (step 8). For REVIEWER judging a
+   reviewing waits for it; at READY, QA and BLIND start at once. For REVIEWER judging a
    false-positive push-back (step 11), cut a worktree at the pushed head; for a replacement
    reviewer (Briefs), new inputs at new paths, after stopping the agent it replaces where needed.
 2. **The finding ledger**, in the run log: one line per finding with its id (the raiser's initial, H
@@ -184,36 +175,36 @@ base's commits the branch lacks (`git -C <worktree> fetch`, then `git -C <worktr
 HEAD..origin/<base>`). Where the repo's checks set a limit and the count is over it, DEVELOPER
 updates the branch per the Rebase rule below; the rebased tree is a chunk and ends in a new READY.
 Once the run has pushed, and throughout re-review mode, that rewrites pushed commits, so the lead
-reports the count and the user decides.
-Where no limit is set, the report states the count. Before the push the lead rebuilds the branch
-from `<start>` as signed commits. `<start>` is the merge base until the run's first push; after
-it, and throughout re-review mode, it is the change request's head as pushed (`git fetch`, then
-`git rev-parse origin/<branch>`, recorded as a hash
-because the push moves the ref), so commits already pushed keep their hashes and the push stays a
-fast-forward. Before rebuilding, `git merge-base --is-ancestor <start> HEAD` succeeds; where it
-fails, the lead stops and asks the user. By default one commit whose message the lead writes (`git
-reset --soft <start>`, then `git commit -S`); where the ACs are independent findings, one commit per
-chunk under the DEVELOPER's subjects, each fix folded into the chunk it names (`git rebase
---autosquash --force-rebase --gpg-sign <start>`), after which `git log --format=%s <start>..HEAD`
-shows no `fixup!` subject; where it does, the lead takes the single commit. A fix to a commit
-already pushed stays a commit of its own. A rebase that stops on a conflict is aborted; the lead
-takes the single commit, or hands the conflict to DEVELOPER, whose resolution is a chunk and ends in
-a new READY. The keep-chunks shape pushes intermediate trees no gate ran on; the description says
-so. Before the push, `git rev-parse HEAD^{tree}` equals the tree of the READY commit all three
-passed (for a stacked branch, of the head REVIEWER and QA confirmed). After it, `git log
---format='%h %G?' <start>..<pushed head>` shows every commit signed as pushed.
+reports the count and the user decides. Where no limit is set, the report states the count.
+
+Before the push the lead rebuilds the branch from `<start>` as signed commits. `<start>` is the
+merge base until the run's first push; after it, and throughout re-review mode, it is the change
+request's head as pushed (`git fetch`, then `git rev-parse origin/<branch>`, recorded as a hash).
+Before rebuilding, `git merge-base --is-ancestor <start> HEAD` succeeds; where it fails, the lead
+stops and asks the user. By default one commit whose message the lead writes (`git reset --soft
+<start>`, then `git commit -S`); where the ACs are independent findings, one commit per chunk under
+the DEVELOPER's subjects, each fix folded into the chunk it names (`git rebase --autosquash
+--force-rebase --gpg-sign <start>`), after which `git log --format=%s <start>..HEAD` shows no
+`fixup!` subject; where it does, the lead takes the single commit. A fix to a commit already pushed
+stays a commit of its own. A rebase that stops on a conflict is aborted; the lead takes the single
+commit, or hands the conflict to DEVELOPER, whose resolution is a chunk and ends in a new READY.
+Where the keep-chunks shape pushes intermediate trees no gate ran on, the description says so.
+Before the push, `git rev-parse HEAD^{tree}` equals the tree of the READY commit all three passed
+(for a stacked branch, of the head REVIEWER and QA confirmed). After it, `git log --format='%h
+%G?' <start>..<pushed head>` shows every commit signed as pushed.
 
 ## Shared-system writes
 
-The user's and the project's guidelines replace any of these defaults they address. Where the user did not ask for
-a ticket-team run on this ticket, the lead confirms with the user before the first write.
+The user's and the project's guidelines replace any of these defaults they address. Where the user
+did not ask for a ticket-team run on this ticket, the lead confirms with the user before the first
+write.
 
 - **Tracker.** In a fresh run (re-review mode leaves the ticket alone), before the first artefact
-  carrying the ticket's key (a branch, a worktree, a
-  commit), assign the ticket to the user and move it to the tracker's in-progress state (or the
-  label or field the guidelines name for it), read from the tracker's own schema rather than
-  assumed; then re-read the ticket to confirm both landed. Where the ticket is assigned to someone
-  else, stop and ask the user. Reading or commenting on a ticket does not take it.
+  carrying the ticket's key (a branch, a worktree, a commit), assign the ticket to the user and
+  move it to the tracker's in-progress state (or the label or field the guidelines name for it),
+  read from the tracker's own schema rather than assumed; then re-read the ticket to confirm both
+  landed. Where the ticket is assigned to someone else, stop and ask the user. Reading or
+  commenting on a ticket does not take it.
 - **Change request.** Opened as a draft; where the host has no drafts, the lead asks the user. In
   re-review mode, where the change request's author is not the user, the lead asks before pushing
   to its branch or posting on it.
@@ -234,8 +225,7 @@ a ticket-team run on this ticket, the lead confirms with the user before the fir
   resolved, and where it can do neither, leave it and say so in the report.
 - **Rebase.** Where the base's history has no merge commits, a branch is updated by rebasing onto
   its base and pushing with a lease, never by merging the base in. After any base update, grep the
-  branch for every path, command and symbol the base changed: a clean rebase does not flag a doc
-  that names a renamed file.
+  branch for every path, command and symbol the base changed.
 - **Follow-ups.** A non-blocking finding becomes a ticket only when it was observed, not merely
   shown reachable, and the lead files it once the user agrees; otherwise it is recorded in the
   description with "not observed".
@@ -243,8 +233,8 @@ a ticket-team run on this ticket, the lead confirms with the user before the fir
 ## Briefs
 
 Every brief starts from the role's template in `briefs/` beside this file, and every between-round
-message from `briefs/handoffs.md`. The evidence rules, BLIND's exclusions and the
-disposition of findings after a READY are stated there and nowhere else.
+message from `briefs/handoffs.md`. The evidence rules, who runs which gate, BLIND's exclusions and
+the disposition of findings after a READY are stated there and nowhere else.
 
 A reviewer is replaced only once its report can no longer arrive: it ended without one, or the lead
 stopped it. A message to a finished reviewer that comes back queued resumes it, and its report is
@@ -256,26 +246,20 @@ received: its own findings, the push-backs on them and MEDIATOR's rulings.
 ## Agent Teams
 
 Run with Claude Code's experimental Agent Teams feature off (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`
-unset); a session whose `Agent` tool takes a `name` has it on. Off is recommended, not required: a
-session with it on runs the skill too. Every role is spawned without a name, since the loop resumes
-an unnamed agent by its ID; only with the feature on may the lead name DEVELOPER, REVIEWER, QA or
-MEDIATOR, and it logs which it named. BLIND is never named. With the feature on, a named spawn's
-whole brief is stored in the team's files, which every agent in the session can read, and any agent
-can message a named one; on or off, every sub-agent can message the lead, which holds the ticket,
-and the machine's other sessions. Every brief but BLIND's allows messages to the lead only; BLIND's
-allows none, and forbids every route to another role's brief or the ticket. Where an agent type is
-defined for BLIND without messaging tools (for example `tools: [Read, Bash]`), the lead spawns BLIND
-from it; that closes the messaging routes only, and the file routes rest on BLIND's brief whatever
-its type. Should a message from BLIND arrive anyway, the lead answers it with nothing BLIND's brief
-withholds.
+unset); a session whose `Agent` tool takes a `name` has it on. Off is recommended, not required.
+Every role is spawned without a name; only with the feature on may the lead name DEVELOPER,
+REVIEWER, QA or MEDIATOR, and it logs which it named. BLIND is never named. Every brief but
+BLIND's allows messages to the lead only; BLIND's allows none, and forbids every route to another
+role's brief or the ticket. Where an agent type is defined for BLIND without messaging tools, the
+lead spawns BLIND from it, with its brief unchanged. Should a message from BLIND arrive anyway, the
+lead answers it with nothing BLIND's brief withholds.
 
 ## Isolation
 
 One git worktree per ticket for the DEVELOPER, branched from the base, holding what the gates need
-(`.env` and similar); every reviewer works in its own, cut at the commit it reviews, so nothing
-changes a tree under review. Where the change's correctness depends on another codebase checked out
-beside the repo (the dependency), the worktree is given its location explicitly: a worktree does not
-resolve a sibling checkout by relative path. A dependency version a brief names is the one the build
+(`.env` and similar); every reviewer works in its own, cut at the commit it reviews. Where the
+change's correctness depends on another codebase checked out beside the repo (the dependency), the
+worktree is given its location explicitly. A dependency version a brief names is the one the build
 resolves (its lockfile or dependency report, not a catalog's declaration), for each artifact the
 change reads.
 
@@ -284,49 +268,30 @@ change request against that branch. The second DEVELOPER reads the first's outpu
 on, not as a change to judge; anything it reports about that base goes to the first team through the
 lead. Once the first branch is rewritten, the lead hands the old tip (as "The base" defines it) on
 with the stacked-rebase message in `briefs/handoffs.md`, and the second DEVELOPER rebases with
-`git rebase --onto <first branch, or the base once the first is merged> <old tip>`, which replays
-only its own chunks, compiles and runs the tests it wrote; a REVIEWER confirms at that head with
-`git range-diff`, QA reviews that head under its rule for which checks it runs
-(BLIND does not), and the lead then repackages the second branch. A rebase that resolved a conflict
-is a chunk and ends in a new READY.
+`git rebase --onto <first branch, or the base once the first is merged> <old tip>`, compiles and
+runs the tests it wrote; a REVIEWER confirms at that head with `git range-diff`, QA reviews that
+head under its rule for which checks it runs (BLIND does not), and the lead then repackages the
+second branch. A rebase that resolved a conflict is a chunk and ends in a new READY.
 
-## Gates and who runs them
+## Gates
 
 The gates are the commands the repo's verification rule states (its `AGENTS.md`, `CLAUDE.md` or
 contributing guide). Where the repo states none, the lead asks the user for them before briefing
 anyone. A gate narrowed to the projects the change touches still runs every root-level task the
-repo's full gate runs (a formatter or linter configured only at the build's root, for example), and
-the Gates section names each one.
-
-The Gates section lists each gate in the form that executes every task rather than replaying a
-build cache. Who runs what:
-
-- **DEVELOPER** compiles (where the repo has a compile step), and runs the tests it wrote (with
-  their mutation evidence) and any test it needs to make a design decision. It runs no other suite
-  or gate.
-- **REVIEWER** runs the tests it judges relevant to the range it reviews, and names what it ran
-  and why that covers its findings.
-- **QA** runs every gate as listed at its first READY. From its second READY it may skip a gate it
-  reasons the changes since its last run of that gate cannot affect, stating that diff and, for each
-  skipped gate, its reason; a gate the Gates section names as reading skip-set paths runs whenever
-  those paths changed. A rebased stacked head counts as a later READY. A replacement QA agent counts
-  its own first READY as first. Where a check reveals an issue likely to need large changes, it may
-  stop, report that issue with the checks it did not run, and run them in its next round; such a
-  report is not a pass.
-- **BLIND** runs what it chooses.
+repo's full gate runs, and the Gates section names each one. The Gates section lists each gate in
+the form that executes every task rather than replaying a build cache.
 
 A gate result belongs to the tree it ran on, and holds for a later tree whose every changed path is
 in the repo's skip set: the paths its CI declares need no build (for example, the exclusions of a
 paths filter that gates the build job), named with that file in each brief's Gates section; a repo
-that declares none has an empty set. A comment inside a source file is never in it, since compilers
-and linters read comments, and a gate that reads skip-set paths (a docs or link check) never
-carries; the Gates section names such gates. BLIND's results never carry: it reviews each READY
-afresh, and no carry is named to it. The lead checks a carry from file names alone (`git diff
---name-only <gated commit> <commit>` against the set) and says in the handoff which results carry. A
-carried result is not re-run, QA's included; the reviewers judge the changed text, and the report
-names the commit the carried run covered. The same holds for a tree a raiser verified before
-requesting a fix: where a READY's tree differs from it only in the skip set, the raiser's results
-from that verification stand for the READY.
+that declares none has an empty set. A comment inside a source file is never in it, and a gate that
+reads skip-set paths (a docs or link check) never carries; the Gates section names such gates.
+BLIND's results never carry, and no carry is named to it. The lead checks a carry from file names
+alone (`git diff --name-only <gated commit> <commit>` against the set) and says in the handoff which
+results carry. A carried result is not re-run, QA's included, and the report names the commit the
+carried run covered. The same holds for a tree a raiser verified before requesting a fix: where a
+READY's tree differs from it only in the skip set, the raiser's results from that verification
+stand for the READY.
 
 ## Reporting to the user
 
