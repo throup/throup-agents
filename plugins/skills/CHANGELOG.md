@@ -2,6 +2,23 @@
 
 All notable changes to the `skills` plugin. Versions follow [semver](https://semver.org/).
 
+## 0.5.0
+
+- `skill-audit`: a review route. Where the operator asks for a review of a skill's change request,
+  or chooses the route for a change request the audit finds open on the skill, the audit opens no
+  ticket and no second change request and commits nothing: an audit cuts uncommitted in a worktree
+  at the change request's head, a review makes no cut and judges the head against its merge base
+  with the base branch, and the results go up as one comment-only review once the operator confirms
+  the post. The exposure check counts only where its commit range resolves.
+- `skill-audit`: each time the opening is written or rewritten, it is read against the body's rules
+  and the description before the next reviewer launches.
+- `skill-audit`: stage one allows, once stage two arrives, the stage-two file and the directory
+  holding stage two's inputs.
+- `skill-audit`: where the session already has the audited skill loaded whole, the operator is told
+  before the purpose is proposed, and chooses to carry on or start a fresh session.
+- `skill-audit`: Cut's opening names the same three parts as the purpose; the opening's exception
+  is a suggestion that the process the guidelines name applies within the audit.
+
 ## 0.4.1
 
 - `skill-audit`: audited with itself a second time. Recorded suggestions are decided after the
