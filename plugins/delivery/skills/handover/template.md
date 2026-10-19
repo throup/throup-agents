@@ -11,11 +11,11 @@
 | Item | Where | Note |
 |---|---|---|
 | <change request / branch / ticket / worktree> | <locator> | <as read from the live source, and when> |
-| <artefact the reader creates> | <locator> | <removed at closing, or kept until <event>> |
 
 ## Open
 
 - <Thing> — settled by <check, event, or whose judgement>.
+- <Artefact the reader creates> — removed at closing, or kept until <event> by <party>.
 
 ## Verify
 

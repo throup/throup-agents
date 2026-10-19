@@ -53,8 +53,10 @@ not: by name, and `grep -l` for the ticket key and the scope. Name each match in
 the reader must not see it, or point to it where it carries something the reader needs, and say
 which and why. A match still active (a `HANDOVER-*.local.md` resolving to it in any checkout or
 worktree of the project, `git worktree list`) is resolved first: one with a `## Closed` section is
-debris, named to the user; one without is the user's to declare superseded, and is closed as
-Closing describes before the new file is written.
+debris, named to the user, and writing goes on. One without is the user's to judge. Where the user
+declares it superseded, the writer appends `## Closed` with the date and "superseded, not
+received", removes its symlink and names its artefacts to the user, leaving them in place; where
+not, no new handover is written for the job.
 
 ## What goes in
 
@@ -96,23 +98,27 @@ narrative of how the work went.
 
 ## Before the file is finished
 
-1. **Read every other section against Withheld.** No Verify command, State locator, Open item's
-   settling act or Tools skill has the reader see, run or produce what Withheld bars at that point;
-   `git rev-parse --short HEAD` confirms a head without printing a withheld commit message. Where a
-   later stage lifts a Withheld item, the item says from when. Where two sections still treat one
-   artefact differently, the file says which governs.
+1. **Read every other section against Withheld.** No other section has the reader see, run or
+   produce what Withheld bars at that point: not a Verify command's output, a State locator, an
+   Open item's settling act or a Tools skill; `git rev-parse --short HEAD` confirms a head without
+   printing a withheld commit message. Where a later stage lifts a Withheld item, the item says
+   from when. Where two sections still treat one artefact differently, the file says which
+   governs.
 2. **Check what loads into the reader's session unasked** (the project memory index and the files
    it points to, and the user's and the project's guidelines) for anything Withheld names: a change
-   request, branch or file, or its content. With the user's agreement, move each match into
-   `<store file stem>.parked/` beside the store file, removing its index line. Withheld bars the
-   reader from that folder and names the user as who restores it after closing; restoring means
-   reading it, so it is never the reader's.
+   request, branch or file, or its content. Ask the user, saying that every session on the machine
+   loses a parked file until it is restored. With agreement, move each matching memory file into
+   `<store file stem>.parked/` beside the store file, and its index line into `MEMORY.md` there. A
+   match in a guidelines file is the user's to resolve. Withheld bars the reader from that folder
+   and names the user as who restores it after closing; restoring means reading it, so it is never
+   the reader's. Where a match stays where the reader loads it, the handover is not written; say so
+   to the user.
 3. **For a reader who judges blind, read each file offered as an authority**, the memory directory
    included, and name in Withheld any that records the design history or review threads of the
    thing under review.
-4. **Give every artefact the handover has the reader create a disposal**: removed at closing, or
-   kept until a named event. That includes a worktree, branch, input directory or copy outside the
-   run directory, and any no other line names.
+4. **Give every artefact the reader creates, or the writer creates for it, a disposal**: removed
+   at closing, or kept until a named event by a named party. That includes a worktree, branch,
+   input directory or copy of a tree, wherever it lives.
 
 ## Ready for human review
 
@@ -137,16 +143,18 @@ finding, not a review that finds nothing.
 
 ## Independence
 
-One handover names no other session and no sibling handover. Where two pieces of work are
+One handover names no concurrent session and no sibling handover written alongside it; an earlier
+handover on the same job is named only as "Where the file lives" says. Where two pieces of work are
 coupled, the coupling goes into the shared record (the change request, the ticket) and the
 handover says "after X, re-read that record". Where one session writes several, grep each finished
 file for the others' identifiers and paths, expecting no hit outside its own.
 
 ## Receiving
 
-Read only the pointer you were given. Before acting, check the file's claims against the live
-state; a handover is the previous session's report and a hypothesis like any other. Where it is
-wrong, correct the live record you act on, not the handover.
+Read only the pointer you were given, and any earlier handover it points to. Before acting, check
+the file's claims against the live state; a handover is the previous session's report and a
+hypothesis like any other. Where it is wrong, correct the live record you act on, not the
+handover.
 
 ## Closing
 
@@ -154,15 +162,16 @@ The session that received the file closes it, when the job is done or superseded
 
 1. Append `## Closed` to the store file: date, outcome in one line, and what the handover got
    wrong or left out.
-2. Dispose of each artefact as the handover states; the note names any kept, and until when.
-   Where Withheld names parked memory, the outcome message tells the user it awaits restoring.
-3. Remove the symlink. Do not delete the store file.
+2. Remove the symlink. Do not delete the store file.
+3. Dispose of each artefact as the handover states; the note names any kept, until when and by
+   whom. Where Withheld names parked memory, the outcome message tells the user it awaits
+   restoring.
 
 A revision this skill's use suggests, at writing or at closing, goes through the channel the
 user's guidelines name for skill feedback, or into the `## Closed` note where the handover
-withholds that channel. With no channel named, it goes to the user as one line in the outcome
-message, naming the store files whose `## Closed` notes show the shape. Where there is no
-revision, the message says so. Nothing is applied to this file at closing.
+withholds that channel, and the outcome message says so. With no channel named, it goes to the
+user as one line in the outcome message, naming the store files whose `## Closed` notes show the
+shape. Where there is no revision, the message says so. Nothing is applied to this file at closing.
 
-A symlink whose store file has a `## Closed` section is debris; another session names it as
-debris and stops.
+A symlink whose store file has a `## Closed` section is debris; a session pointed at it names it
+as debris and stops.
