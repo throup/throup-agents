@@ -2,6 +2,10 @@
 
 All notable changes to the `skills` plugin. Versions follow [semver](https://semver.org/).
 
+## 0.2.2
+
+- `skill-audit`: cut by an audit of the skill with itself; its opening states the skill's purpose.
+
 ## 0.2.1
 
 - `skill-audit`: on the handover route the blind reviewer may remove the handover's symlink when it

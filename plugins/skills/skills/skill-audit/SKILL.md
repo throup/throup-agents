@@ -7,21 +7,20 @@ allowed-tools: Agent, SendMessage, Bash, Read, Write, Edit, Grep, Glob
 
 # Skill audit
 
-A skill an agent loads says only what its job needs and nothing an authority already says; every
-other sentence costs context on each action, and a rule stated twice drifts. An audit leaves a
-shorter skill and a list of the places it disagrees with the rules it sits under. The operator
-acts on both: they say what the skill is for before a word is cut, decide any finding the auditor
-disputes, and settle each conflict with an authority. The audit edits the skill and reports
-everything else; it changes no authority and adds no rule the baseline did not state. A rule the
-skill has never had is a suggestion for the skill, not part of the cut.
+An audit cuts one skill to the sentences its confirmed purpose needs and no authority already
+states, and has a reviewer with none of the audit's context judge the cut against that purpose and
+the baseline. It produces the shorter skill, edited in place or through a change request, and a
+report of what it did not apply: disputed findings, fixes outside the skill's files and conflicts
+with an authority. The operator confirms the purpose before anything is cut, decides the report,
+and merges the change request where there is one. The audit changes no authority and adds no rule
+the baseline did not state; a rule the skill has never had is a suggestion for the skill.
 
 ## Authorities
 
 The texts in context when the skill loads: the user's guidelines (`~/.claude/CLAUDE.md`); for a
 skill inside a repo, that repo's `CLAUDE.md`, `AGENTS.md` and rules; any memory directory the
 harness loads, whose index is read before anything else. Name each file and directory as the
-population, and say which files were read; a reviewer bounded to a subset cannot tell "not
-stated" from "stated in a file it was not given".
+population, and say which files were read.
 
 ## Purpose first
 
@@ -39,20 +38,18 @@ Establish the route from the directory the skill loads from, symlinks followed:
 A skill loaded from a plugin cache (`~/.claude/plugins/cache/`) is audited in a checkout of its
 plugin's source repo, as a tracked skill; where there is none, stop and say so. An untracked skill
 is edited in place; back its files up first, to the location the guidelines name or else
-`~/.claude/skill-backups/<skill>/<yyyy-mm-dd>/`, outside any skills directory so the copy does not
-register. A tracked skill is a ticket, a branch and a change request in the repo the command
-printed, using the tracker and code host the guidelines name, and asking before writing where they
-name none; the edit is made in a worktree, not the checkout a live skill loads from, and the base
-commit is the baseline.
+`~/.claude/skill-backups/<skill>/<yyyy-mm-dd>/`, outside any skills directory. A tracked skill is
+a ticket, a branch and a change request in the repo the command printed, using the tracker and code
+host the guidelines name, and asking before writing where they name none; the edit is made in a
+worktree, not the checkout a live skill loads from, and the base commit is the baseline.
 
 Read the body against the purpose. Cut a sentence an authority states and a sentence the purpose
 does not need. Agent-loaded text is imperative and terse: current facts, no motivation, no worked
 examples, no history and no prediction, unless the authorities set another register. Write or
 rewrite the opening as one paragraph stating the confirmed purpose: what the skill produces, who
 acts on it, and what it leaves to them. The frontmatter is otherwise unchanged, except that a
-statement of when the skill is not invoked, cut from the body, lands in the description's "Not
-for" sentence. The cut adds nothing a recorded suggestion proposes; those are decided after the
-review, against the new text.
+statement of when the skill is not invoked, cut from the body, lands in the description's "Not for"
+sentence. The cut adds nothing a recorded suggestion proposes.
 
 ## Blind review
 
@@ -76,8 +73,8 @@ the purpose as confirmed, the baseline and the artefacts, backups and git histor
 audit's reasoning, and on the tracked route the ticket, the change request and the commit messages
 that carry it; invoking the skill under review. Neither stage, nor any message to the reviewer,
 carries more than this section and the Apply section list. Launch with the Agent tool, subagent type
-`general-purpose`, never a fork of this session, so the reviewer starts with none of the audit's
-context. Send stage two to that same agent with SendMessage, with this and nothing more:
+`general-purpose`, never a fork of this session. Send stage two to that same agent with
+SendMessage, with this and nothing more:
 
 ```
 Read <absolute path of stage two> and continue.
@@ -128,8 +125,7 @@ findings are reported to the operator with the line, and nothing more is edited;
 operator then asks for is reviewed the same way. A tracked skill's audit then ends when its change
 request is ready for human review as the guidelines define it, else as `handover` defines it where
 installed; otherwise when every relevant commit is pushed, a fresh review at the head found nothing
-blocking, and CI is green at the head. A review of a text that a later edit changed is not a review
-at the head.
+blocking, and CI is green at the head.
 
 Report each reviewer's reading beside the confirmed purpose, as two columns of one table; word
 counts before and after; each finding's kind with applied or reported; and the conflicts awaiting
