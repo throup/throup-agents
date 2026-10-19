@@ -25,10 +25,10 @@ guidelines name, else `ticket-team-runs/<ticket key, or the change request's num
 mode>/` beside the repo's main checkout. The session scratchpad is not scratch: it does not survive
 a session that stops for days, and every agent in the session shares it. Each role in a run has a
 directory of its own in scratch (`lead/`, `developer/`, `reviewer/`, `qa/`, `mediator/`; a
-replacement agent gets a new one, such as `qa-2/`), named in its brief, and writes in no other. A
-later round on the same change request takes a new scratch directory (`<number>-r2/`), so no round
-writes over an earlier round's log or briefs. BLIND's inputs and its scratch never go in scratch,
-whose path names the ticket: see the lead's first point.
+replacement agent gets a new one, such as `qa-2/`), named in its brief, and writes in no other. The
+first re-review round on a change request takes `<number>/`, and each later round on it a new one
+(`<number>-r2/`, `<number>-r3/`), so no round writes over an earlier round's log or briefs. BLIND's
+inputs and its scratch never go in scratch, whose path names the ticket: see the lead's first point.
 **The base** is the branch the change request targets: the default branch, or for a stacked
 branch its predecessor's branch. Every merge base and whole-change diff below is taken against it.
 For a stacked branch the lead records the predecessor's head it was cut from or last rebased onto
@@ -95,7 +95,7 @@ QA reviews against the ACs and the repo's convention files, establishing each fi
    meets a draft only where it is handed one, such as a later round reviewing text already on the
    code host.
 10. All three pass at one READY, and no BLOCKING finding is open or undecided: repackage, push,
-    open a draft change request.
+    and at the run's first push open a draft change request.
 11. A run that pushes is finished only once the code host's automated checks and review bots have
     reported on the pushed head, and again after each change the run makes to the change request's
     state (marking it ready, where the user asks), since some start only then. The lead expects
@@ -104,7 +104,8 @@ QA reviews against the ACs and the repo's convention files, establishing each fi
     the run log, and the report names any that had not. Each finding they raise goes through the
     loop from step 3. A push-back calling one a false positive goes to REVIEWER in the raiser's
     place, a contest to MEDIATOR; one that stands, the lead posts on the finding's own
-    conversation. A fix ends in a new READY and push, and this step repeats.
+    conversation. A fix ends in a new READY and push, and this step repeats. From its second pass,
+    a non-blocking finding goes to the user, who decides whether another round runs.
 
 Any change to the tree after READY, a test or a comment included, is a chunk and ends in a new
 READY.
@@ -149,7 +150,8 @@ zone. A line written after its event says so.
    reviewed commit in re-review mode, else the merge base. A range that lands while REVIEWER is
    reviewing waits for it; at READY, QA and BLIND start at once. A READY that lands while QA or
    BLIND is still on an earlier one is withdrawn when they report (step 8). For REVIEWER judging a
-   false-positive push-back (step 11), cut a worktree at the pushed head.
+   false-positive push-back (step 11), cut a worktree at the pushed head; for a replacement
+   reviewer (Briefs), new inputs at new paths, after stopping the agent it replaces where needed.
 2. **The finding ledger**, in the run log: one line per finding with its id (the raiser's initial, H
    for the code host's checks and bots, and a number running across the run: R3, Q2, B5, H1), the
    commit it was raised at, and each state a report gives it: accepted, pushed back, contested,
@@ -180,8 +182,9 @@ HEAD..origin/<base>`). Where the repo's checks set a limit and the count is over
 updates the branch per the Rebase rule below; the rebased tree is a chunk and ends in a new READY.
 In re-review mode that rewrites pushed commits, so the lead reports the count and the user decides.
 Where no limit is set, the report states the count. Before the push the lead rebuilds the branch
-from `<start>` as signed commits. `<start>` is the merge base, or in re-review mode the change
-request's head as pushed (`git fetch`, then `git rev-parse origin/<branch>`, recorded as a hash
+from `<start>` as signed commits. `<start>` is the merge base until the run's first push; after
+it, and throughout re-review mode, it is the change request's head as pushed (`git fetch`, then
+`git rev-parse origin/<branch>`, recorded as a hash
 because the push moves the ref), so commits already pushed keep their hashes and the push stays a
 fast-forward. Before rebuilding, `git merge-base --is-ancestor <start> HEAD` succeeds; where it
 fails, the lead stops and asks the user. By default one commit whose message the lead writes (`git
@@ -250,16 +253,17 @@ received: its own findings, the push-backs on them and MEDIATOR's rulings.
 
 Run with Claude Code's experimental Agent Teams feature off (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`
 unset); a session whose `Agent` tool takes a `name` has it on. Off is recommended, not required: a
-session with it on runs the skill too. There, DEVELOPER, REVIEWER, QA and MEDIATOR are spawned with
-or without a name, as the lead chooses, since the loop resumes an unnamed agent by its ID; BLIND is
-always spawned without one. With the feature on, a named spawn's whole brief is stored in the team's
-files, which every agent in the session can read, and any agent can message a named one; on or off,
-every sub-agent can message the lead, which holds the ticket, and the machine's other sessions.
-Every brief forbids messaging any agent but the lead, and BLIND's forbids every route to another
-role's brief or the ticket. Where an agent type is defined for BLIND without messaging tools (for
-example `tools: [Read, Bash]`), the lead spawns BLIND from it; that closes the messaging routes
-only, and the file routes rest on BLIND's brief whatever its type. The lead answers a message from
-BLIND with nothing BLIND's brief withholds.
+session with it on runs the skill too. Every role is spawned without a name, since the loop resumes
+an unnamed agent by its ID; only with the feature on may the lead name DEVELOPER, REVIEWER, QA or
+MEDIATOR, and it logs which it named. BLIND is never named. With the feature on, a named spawn's
+whole brief is stored in the team's files, which every agent in the session can read, and any agent
+can message a named one; on or off, every sub-agent can message the lead, which holds the ticket,
+and the machine's other sessions. Every brief but BLIND's allows messages to the lead only; BLIND's
+allows none, and forbids every route to another role's brief or the ticket. Where an agent type is
+defined for BLIND without messaging tools (for example `tools: [Read, Bash]`), the lead spawns BLIND
+from it; that closes the messaging routes only, and the file routes rest on BLIND's brief whatever
+its type. Should a message from BLIND arrive anyway, the lead answers it with nothing BLIND's brief
+withholds.
 
 ## Isolation
 
