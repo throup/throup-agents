@@ -1,6 +1,6 @@
 ---
 name: write-ticket
-description: Write or rewrite a ticket in the project's tracker (YouTrack, Jira, GitHub Issues or another) so a product owner can read the title, the first two paragraphs and the acceptance criteria, and an implementer finds everything else in one collapsed block. Use when filing a ticket, reshaping one, merging duplicates, or folding an amendment back into a description. Not for a one-line note to yourself.
+description: Write or rewrite a ticket in the project's tracker (YouTrack, Jira, GitHub Issues or another) so a product owner can read the title, the first two paragraphs and the acceptance criteria, and an implementer finds everything else in one collapsed block. Use when filing a ticket, reshaping one, merging duplicates, folding an amendment back into a description, or writing a change request's description where the repository has no template. Not for a one-line note to yourself.
 disable-model-invocation: false
 allowed-tools: Bash, Read, Write, Edit, Grep, Glob
 ---
@@ -60,6 +60,19 @@ names from its schema or documentation.
    per paragraph. Nothing sits between the ACs and the block.
 6. **Attribution line.** `🤖 Generated with [Claude Code](https://claude.com/claude-code)`,
    or the line the user's guidelines name instead.
+
+## A change request's description
+
+The same shape serves a change request's description where the repository has no template; the
+user's or the project's guidelines on change-request write-ups govern where they say more. The
+reader who decides to merge takes the product owner's place, and the reviewer the implementer's:
+
+- The title follows the repository's convention for change-request titles.
+- The acceptance criteria are what the change delivers.
+- The block's summary reads `Technical detail for the reviewer`. It holds the verification, re-run
+  at the head it names, and what to scrutinise; its locators may name change requests and
+  commits, which the reviewer acts on.
+- After a push that changes the diff, the description is re-read against the new head.
 
 ## Changing a ticket that exists
 

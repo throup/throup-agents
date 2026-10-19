@@ -15,7 +15,8 @@ owner can prioritise from, numbered acceptance criteria, and one collapsed block
 everything the implementer would otherwise re-derive (mechanism, pinned locators, evidence,
 options not chosen). Each sentence goes to the reader who acts on it. It also reshapes an
 existing ticket, folds a scope change back into the description, merges duplicates, and writes
-an umbrella over subtasks.
+an umbrella over subtasks. Where a repository has no template, it shapes a change request's
+description the same way, with the collapsed block for the reviewer.
 
 **Use it** when filing a ticket from an investigation, when a ticket has grown into an argument
 rather than a decision, or when two tickets describe one problem. **Not for** a one-line note to
