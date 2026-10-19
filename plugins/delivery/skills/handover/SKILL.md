@@ -48,18 +48,19 @@ with the line `/*.local.md`, never through `.gitignore`; check the line is prese
 creating the link. The symlink is what makes a handover active: a store file with no symlink is
 history.
 
-Before writing, search the store for earlier files on the same job, ticket or scope, closed or
-not: by name, and `grep -l` for the ticket key and the scope. Name each match in Withheld where
-the reader must not see it, by path and reason and never by what it says, or point to it where it
+Before writing, search the store for earlier files on the same job, ticket or scope, closed or not:
+by name, and `grep -l` for the ticket key and the scope. Name each match in Withheld where the
+reader must not see it, by path and reason and never by what it says, or point to it where it
 carries something the reader needs, and say which and why. A match still active (a
 `HANDOVER-*.local.md` resolving to it in any checkout or worktree of the projects the job spans,
-`git worktree list`) is resolved: one with a `## Closed` section is debris, named to the user. One
-without is the user's to judge. Where the user declares it superseded, the writer closes it once
-the new file has passed "Before the file is finished", the one case a session closes a handover
-it did not receive: `## Closed` with the date and "superseded, not received" in place of what it
-got wrong, its symlink removed, and its artefacts left in place for the user. Where not, no new
-handover is written for the job. Where a match holds the new file's store path or pointer name,
-the new one takes a scope of its own.
+`git worktree list`) is resolved first: one with a `## Closed` section is debris, named to the user,
+and writing goes on. One without is the user's to judge. Where the user declares it superseded, the
+writer closes it once the new file has passed "Before the file is finished", the one case a session
+closes a handover it did not receive: `## Closed` with the date and "superseded, not received" in
+place of what it got wrong, its symlink removed, and its artefacts and any parked memory its
+Withheld names left in place and named to the user. Where not, no new handover is written for the
+job. Where a match holds the new file's store path or pointer name, the new one takes a scope of its
+own.
 
 ## What goes in
 
@@ -93,7 +94,8 @@ present; delete any other section that does not apply, and leave no empty headin
 7. **Tools.** Which skills fit this job and which do not, with the distinguishing case. Where the
    reader runs a skill, name every input that skill would otherwise ask the user for, such as the
    commands it checks the work with and those it may skip, so the reader runs without stopping to
-   ask. A value the user decides is asked of the user at writing, not chosen by the writer.
+   ask. A value the user decides is asked of the user at writing, not chosen by the writer. A
+   confirmation of a write the reader will draft is not such an input: the reader still asks it.
 
 Write only what the reader cannot derive from the repo, the tracker, the change requests, the
 project memory directory and the user's and the project's guidelines (`~/.claude/CLAUDE.md`, the
