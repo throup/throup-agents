@@ -65,8 +65,9 @@ never a whole report or a file of one: a reviewer's draft description, and a `wo
 ## Code host checks and bots → DEVELOPER (step 11)
 "The code host's checks and review bots on the pushed head <HEAD>: <count> findings. Per finding:
 accept and fix in a chunk, which ends in a new READY, or push back that it is a false positive,
-with the reason; REVIEWER judges a push-back in the raiser's place before the lead posts it."
-<Then each finding as the check or bot wrote it, with its link.>
+with the reason; REVIEWER judges a push-back in the raiser's place before the lead posts it.
+<IF a later pass: The user chose these findings for another round.>" <Then each finding as the
+check or bot wrote it, with its link.>
 
 ## False-positive push-back on a code host finding → REVIEWER (step 11)
 "The DEVELOPER pushed back on code host finding <ID> as a false positive. The finding, as the check

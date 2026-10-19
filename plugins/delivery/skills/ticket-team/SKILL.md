@@ -36,7 +36,7 @@ For a stacked branch the lead records the predecessor's head it was cut from or 
 --is-ancestor <old tip> <base>` fails, the predecessor was rewritten under it (repackaged, rebased,
 or squash-merged and the change request retargeted) and its whole change would include the
 predecessor's: the lead hands out no review of it until the DEVELOPER rebases (the stacked-rebase
-message). In re-review mode that rebase rewrites pushed commits, and the user decides, as in
+message). Once the run has pushed, that rebase rewrites pushed commits, and the user decides, as in
 Repackaging.
 A **chunk** is a local commit the DEVELOPER makes on the ticket's branch and reports to the lead
 while it carries on working. **READY** is the DEVELOPER's declaration that one chunk completes the
@@ -104,8 +104,11 @@ QA reviews against the ACs and the repo's convention files, establishing each fi
     the run log, and the report names any that had not. Each finding they raise goes through the
     loop from step 3. A push-back calling one a false positive goes to REVIEWER in the raiser's
     place, a contest to MEDIATOR; one that stands, the lead posts on the finding's own
-    conversation. A fix ends in a new READY and push, and this step repeats. From its second pass,
-    a non-blocking finding goes to the user, who decides whether another round runs.
+    conversation. A fix ends in a new READY and push, and this step repeats. A pass is the reports
+    after one push or state change. In the first, every finding goes to DEVELOPER; from the second,
+    every finding goes to the user first, who decides for each whether it goes through the loop or
+    is declined. The lead answers a declined finding on its conversation as the user's decision and
+    records it in the description, or files it as a follow-up once the user agrees.
 
 Any change to the tree after READY, a test or a comment included, is a chunk and ends in a new
 READY.
@@ -180,7 +183,8 @@ Chunks are the team's snapshots, not the pushed history. Before repackaging, the
 base's commits the branch lacks (`git -C <worktree> fetch`, then `git -C <worktree> rev-list --count
 HEAD..origin/<base>`). Where the repo's checks set a limit and the count is over it, DEVELOPER
 updates the branch per the Rebase rule below; the rebased tree is a chunk and ends in a new READY.
-In re-review mode that rewrites pushed commits, so the lead reports the count and the user decides.
+Once the run has pushed, that rewrites pushed commits, so the lead reports the count and the user
+decides.
 Where no limit is set, the report states the count. Before the push the lead rebuilds the branch
 from `<start>` as signed commits. `<start>` is the merge base until the run's first push; after
 it, and throughout re-review mode, it is the change request's head as pushed (`git fetch`, then

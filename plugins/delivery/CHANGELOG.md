@@ -5,13 +5,15 @@ All notable changes to the `delivery` plugin. Versions follow [semver](https://s
 ## 0.4.0
 
 - `ticket-team`: states its stance on Claude Code's Agent Teams: run with it off; where it is on,
-  DEVELOPER, REVIEWER, QA and MEDIATOR may be named teammates and BLIND is never named. BLIND's
-  brief forbids obtaining another role's brief or the ticket through the team's files, transcripts
-  or a message to anyone; every other role messages only the lead, and BLIND is spawned from an
-  agent type without messaging tools where one is defined.
+  every role is spawned unnamed unless the lead names a non-blind one, and BLIND is never named.
+  BLIND's brief forbids obtaining another role's brief or the ticket through the team's files,
+  transcripts or a message to anyone; every other role messages only the lead, and BLIND is spawned
+  from an agent type without messaging tools where one is defined.
 - `ticket-team`: a pushing run finishes only once the code host's checks and review bots have
   reported on the pushed head, again after marking it ready, and their findings have been through
-  the loop or answered as false positives, with REVIEWER judging each false-positive claim.
+  the loop or answered as false positives, with REVIEWER judging each false-positive claim. From
+  the second pass the user decides, per finding, whether another round runs; the change request is
+  opened at the first push only, and every later push rebuilds from the pushed head.
 - `ticket-team`: each role in a run, and each later round, has a scratch directory of its own; a
   reviewer's worktree or copy stays until its findings are decided; a stacked branch's whole change
   is diffed against its predecessor's branch, and held from review while the predecessor is
