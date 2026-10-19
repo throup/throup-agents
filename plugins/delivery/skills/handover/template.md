@@ -15,6 +15,7 @@
 ## Open
 
 - <Thing> — settled by <check, event, or whose judgement>.
+- <Artefact the reader creates> — removed at closing, or kept until <event> by <party>.
 
 ## Verify
 
@@ -24,8 +25,10 @@ reachable.>
 
 ## Withheld
 
-<What the reader must not read, be told, or do, and why.>
+<What the reader must not read, be told, or do, and why; from when a later stage lifts an item;
+where parked memory went, and that the user restores it.>
 
 ## Tools
 
-- <skill> fits when <case>; not when <case>.
+- <skill> fits when <case>; not when <case>. Where the reader runs it, the inputs it would ask the
+  user for: <values>.

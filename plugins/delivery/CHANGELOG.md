@@ -2,6 +2,25 @@
 
 All notable changes to the `delivery` plugin. Versions follow [semver](https://semver.org/).
 
+## 0.3.0
+
+- `handover`: before writing, the writer searches the store for earlier handovers on the same
+  job, withholds or points to each, and resolves an active one; a superseded one is the one
+  handover a session closes without receiving it, with its artefacts left for the user; one the
+  user does not declare superseded means no new handover. A taken store path or pointer name
+  gives the new one a scope of its own.
+- `handover`: a new "Before the file is finished" pass checks every section against Withheld,
+  withholds a blind reader's design-history authorities, parks with the user's agreement any
+  memory that would load withheld material unasked (or the handover is not written), and gives
+  every artefact the reader creates a disposal. Closing disposes of them after removing the
+  symlink, and reminds the user of parked memory. The template carries the new slots.
+- `handover`: the pointer goes in a worktree the writer creates for the reader where other
+  sessions share the checkout; Tools names every input a skill would ask the user for, asking the
+  user for values that are theirs, while a write confirmation stays with the reader, outside any
+  measured window; a withheld feedback channel sends the suggestion to the `## Closed` note.
+- `handover`: Independence and Receiving allow pointing to an earlier handover, and the
+  debris-and-stop rule applies to a session pointed at the debris.
+
 ## 0.2.1
 
 - `handover`: Verify names any live request a check makes as a side effect, with how to block it
