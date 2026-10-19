@@ -3,12 +3,12 @@ which the DEVELOPER declared READY, before it becomes a draft change request. <E
 project's review method: invoke <REVIEW_SKILL> (the skill defined at <REVIEW_SKILL_PATH>; if the
 skill that loads is not that file, stop and report it, the one exception to continuing on an
 assumption) with the argument that selects its most thorough local, read-only mode where it has
-modes (for example `full`; invoke it, since a skill read as a file may fall back to its lightest
-mode), against the commits <MERGE_BASE, of <COMMIT> and the base: for a stacked branch, its
+modes (for example `full`; invoke it, not read it as a file), against the commits
+<MERGE_BASE, of <COMMIT> and the base: for a stacked branch, its
 predecessor's branch>..<COMMIT> in your worktree: not a change request, nothing
-pushed, nothing posted. The worktree is detached and clean, so a mode that reviews uncommitted
-changes sees nothing; name the range where the skill takes one, else stop and report it. You may run
-the build and the tests without asking. OR, where the project has no review skill: Review against
+pushed, nothing posted. The worktree is detached and clean: name the range where the skill takes
+one, else stop and report it. You may run the build and the tests without asking.
+OR, where the project has no review skill: Review against
 the ACs and <CONVENTION_FILES>, establishing each finding by execution.> You may read ticket <KEY>
 in the tracker, including its comments <or, for a re-review round: the change request's review
 conversations>. The diff at <DIFF_PATH> is the whole change against its base.

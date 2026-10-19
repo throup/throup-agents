@@ -5,16 +5,15 @@ output.
 <COMMON BLOCK, whole>
 
 ## Ticket <KEY>
-<Title. Description verbatim, including any correction comments — the description's mechanism may
-be wrong and the comment right. Acceptance criteria numbered. Constraints, quoted from the ticket or
-the user, none the lead inferred. Related tickets only
-where you must interoperate with them, e.g. a sibling branch touching the same region.>
+<Title. Description verbatim, including any correction comments. Acceptance criteria numbered.
+Constraints, quoted from the ticket or the user, none the lead inferred. Related tickets only where
+you must interoperate with them, e.g. a sibling branch touching the same region.>
 
-<IF STACKED: This branch is cut from <PREDECESSOR_BRANCH>, not from the default branch, because
-this change must name code that only exists there; the change request will be based on that branch. Read that
-base as something to build on. Anything you find wrong in it goes in your report under "base",
-not into your change. The lead tells you when the predecessor has been rewritten
-(repackaged, rebased or merged), and names your branch's old tip on it for the rebase.>
+<IF STACKED: This branch is cut from <PREDECESSOR_BRANCH>, not from the default branch, and the
+change request will be based on that branch. Read that base as something to build on. Anything you
+find wrong in it goes in your report under "base", not into your change. The lead tells you when
+the predecessor has been rewritten (repackaged, rebased or merged), and names your branch's old tip
+on it for the rebase.>
 
 ## Chunks
 A chunk is a commit on your branch: `git commit`, with a subject written as a pushed commit's would
@@ -37,7 +36,7 @@ addressed; the change compiles at that commit (where the repo has a compile step
 you wrote pass there, output in the
 transcript;
 every accepted finding has landed; no push-back awaits a decision; nothing is left for a later
-chunk. READY states facts, not confidence: put any doubt in the report, where the REVIEWER reads it.
+chunk. READY states facts, not confidence: put any doubt in the report.
 
 ## Required deliverables
 1. The code change, with tests where <TEST_CONVENTION_FILE> wants them <or, where no file says, a
@@ -49,7 +48,7 @@ chunk. READY states facts, not confidence: put any doubt in the report, where th
 3. Mutation evidence per the evidence rules.
 4. A short factual report, in <ROLE_SCRATCH>/dev-report.md, current at READY: what changed and why;
    each design choice the ticket left open and what you chose; anything the ticket got wrong;
-   anything you deliberately left out and why. Reviewers treat every claim in it as a hypothesis.
+   anything you deliberately left out and why.
 5. Once all three reviewers have passed: a draft change-request description (what the change does,
    what to scrutinise) — or, for a re-review round, the replies to the review and a summary comment
    — written without sight of any other role's draft. The lead writes the final text.

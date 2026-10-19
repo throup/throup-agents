@@ -2,6 +2,11 @@
 
 All notable changes to the `delivery` plugin. Versions follow [semver](https://semver.org/).
 
+## 0.4.1
+
+- `ticket-team`: cut by an audit with `skill-audit`, its briefs included; its opening states the
+  skill's purpose, and who runs which gate is stated in the briefs only.
+
 ## 0.4.0
 
 - `ticket-team`: states its stance on Claude Code's Agent Teams: run with it off; where it is on,

@@ -17,16 +17,16 @@ Read <CONVENTION_FILES> before anything else.
 ## Gates
 <GATE_COMMANDS — one per line, as the repo's verification rule states them (or as the user gave them
 where the repo states none), including any step that generates code and runs the result, each in the
-form that executes every task rather than replaying a build cache (for example, Gradle's
-`--rerun-tasks` for a gate over the whole build); where a gate is narrowed to the projects the
-change touches, also every root-level task the repo's full gate runs, each named> Who runs what: the
-DEVELOPER compiles (where the repo has a compile step), and runs the tests it wrote (with their
-mutation evidence) and any test it needs to make a design decision, and nothing else. The REVIEWER
-runs the tests it judges relevant to its range, naming what it ran and why that covers its findings.
-QA's rule is in its brief. Force only the tasks you name, and confirm the forcing reached each of
-them (for example, Gradle's `--rerun` applies only to the task written before it, not to a lifecycle
-task's dependencies, while `--rerun-tasks` re-executes the whole graph). A partial run is reported
-as partial, never as the suite passing. Report each gate's wall time. A result replayed from a build
+form that executes every task rather than replaying a build cache; where a gate is narrowed to the
+projects the change touches, also every root-level task the repo's full gate runs, each named>
+Who runs what: the DEVELOPER compiles (where the repo has a compile step), and runs the tests it
+wrote (with their mutation evidence) and any test it needs to make a design decision, and nothing
+else. The REVIEWER runs the tests it judges relevant to its range, naming what it ran and why that
+covers its findings. QA's rule is in its brief. Force only the tasks you name, and confirm the
+forcing reached each of them (for example, Gradle's `--rerun` forces only the task written
+before it, not a lifecycle task's dependencies; `--rerun-tasks` forces every task the build
+runs). A partial run is reported as partial, never as the suite passing.
+Report each gate's wall time. A result replayed from a build
 cache is reported as a replay, not a pass. Run every build or test command in the foreground with an
 explicit timeout; one that can exceed the shell's foreground limit runs in the background, and you
 wait for it in the same turn (a polling loop or a monitor). Never end your turn while one runs. Skip
@@ -40,23 +40,20 @@ paths, nothing more is needed, and otherwise re-verify in this tree and say so. 
 re-verifying a fix; a gate re-run follows the lead's carry check or, for QA, its brief.
 
 ## Evidence rules
-Cite code by name, not by `file:NNN`; a number is stale after any edit above it, comment edits
-included. Where a number is already in the tree, a round that edits that file re-checks or replaces
-it.
+Cite code by name, not by `file:NNN`. Where a number is already in the tree, a round that edits
+that file re-checks or replaces it.
 
 Mutation: break the thing each new check claims to protect. Show by `diff` or `grep` that the
 mutation landed before trusting a result. The suite must go red **at the assertion that names that
-check**, and the report names the line that fired; a test that reddens on a different line has
-proved nothing about the line under test. A test body whose non-final assertion does not abort it
-reports only its last command's status, so a non-final assertion is fail-fast
+check**, and the report names the line that fired. A test body whose non-final assertion does not
+abort it reports only its last command's status, so a non-final assertion is fail-fast
 (`|| { echo … >&2; return 1; }`, or `if cmd; then return 1; fi` for a negation). Mutate in a tree
-with no untracked copy of the file under review (an editor backup is a second copy the checks will
-scan) and clear bytecode caches between runs (a stale `.pyc` survives a source edit). Finish
-mutate → run → restore → verify within one turn; never end a turn with a mutation on disk. In the
-DEVELOPER's worktree, restore by re-editing the mutated lines — never `git checkout -- <file>`,
-`git stash` or a copy taken earlier, which revert every uncommitted edit in the file. A reviewer's
-worktree holds no uncommitted work, so `git checkout -- <file>` restores it. Verify with
-`git status --short` that the tree matches its commit again.
+with no untracked copy of the file under review, such as an editor backup, and clear bytecode
+caches between runs. Finish mutate → run → restore → verify within one turn; never end a turn with
+a mutation on disk. In the DEVELOPER's worktree, restore by re-editing the mutated lines — never
+`git checkout -- <file>`, `git stash` or a copy taken earlier. In a reviewer's worktree,
+`git checkout -- <file>` restores it. Verify with `git status --short` that the tree matches its
+commit again.
 
 State the commit you worked on or reviewed. Do not overwrite <DIFF_PATH>, the diff the lead wrote
 for it.
