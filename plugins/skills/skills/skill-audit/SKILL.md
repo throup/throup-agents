@@ -14,8 +14,9 @@ report: each reviewer's reading against the purpose, each finding with what was 
 the conflicts, disputed findings and fixes outside the skill's files left to the operator. The
 operator confirms the purpose before anything is cut, rules on what the report escalates, and
 merges the change request where there is one. The audit changes no authority and adds no rule
-the baseline did not state, other than a recorded suggestion the guidelines have decided within the
-audit; a rule the skill has never had is a suggestion for the skill.
+the baseline did not state, other than a suggestion already recorded for the skill that the
+guidelines have decided within the audit; a rule the skill has never had is a suggestion for the
+skill.
 
 ## Authorities
 
