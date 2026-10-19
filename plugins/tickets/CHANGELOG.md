@@ -2,6 +2,11 @@
 
 All notable changes to the `tickets` plugin. Versions follow [semver](https://semver.org/).
 
+## 0.1.2
+
+- `write-ticket`: cut by an audit with `skill-audit`; its opening states the skill's purpose,
+  including refining a ticket that exists.
+
 ## 0.1.1
 
 - `write-ticket`: evidence that can be re-run is re-run at the pinned commit before it is
