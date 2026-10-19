@@ -2,6 +2,12 @@
 
 All notable changes to the `tickets` plugin. Versions follow [semver](https://semver.org/).
 
+## 0.1.3
+
+- `write-ticket`: a scope change from any source, not only a tracker comment, gets the "folded in
+  from `<source>` of `<date>`" line a comment already had, as a bold lead-in in the collapsed
+  block.
+
 ## 0.1.2
 
 - `write-ticket`: cut by an audit with `skill-audit`; its opening states the skill's purpose,

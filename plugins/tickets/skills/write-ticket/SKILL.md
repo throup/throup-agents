@@ -65,9 +65,12 @@ names from its schema or documentation.
 
 - Only tickets the user's account reported are edited; a change to another is proposed as a
   comment or asked about first. A resolved ticket is not rewritten.
-- A comment that changes scope changes the description in the same sitting: the ACs, a "folded
-  in from the comment of `<date>`" line in the block, and the visible impact paragraph when a
-  question is resolved or a blocker cleared.
+- A scope change changes the description in the same sitting: the ACs, a "folded in from
+  `<source>` of `<date>`" line in the block as its paragraph's bold lead-in, and the visible
+  impact paragraph when a question is resolved or a blocker cleared. The source is the item the
+  change came from: the comment, the conversation, the review decision, or the entry in the
+  channel the user's guidelines name for skill feedback. The date is that item's, or the day it
+  is folded in where the item has none.
 - Merging duplicates: the survivor takes both AC sets and a "Merged from" paragraph in its
   block; the closed one is linked to the survivor as its duplicate (the tracker's duplicate link
   type, or a "Duplicate of" line where it has none), moved to the tracker's not-doing state as
