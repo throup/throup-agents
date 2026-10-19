@@ -9,7 +9,11 @@ value is in being unanchored, so these are hard rules:
   run directory is never named, since the rule below already excludes it; OMIT either that does not
   exist). Do not invoke <REVIEW_SKILL_PATH> or any other skill, or read its SKILL.md. Outside the
   repository's files in your copy, read nothing but <BLIND_INPUT_DIR> (your diff and copy),
-  <DEP_PATH> and copies you make yourself.
+  <DEP_PATH> and copies you make yourself. Write your own files, copies included, only in
+  <BLIND_INPUT_DIR>/scratch/, never the session scratchpad.
+- Obtain no other role's brief and nothing of the ticket by any route: not the team's files under
+  `~/.claude/teams/`, session transcripts, or a message to a teammate, the lead or another session
+  (`SendMessage`, `ListAgents`). Send no message; your report is your final answer.
 - You may read the repository's own files (conventions, rules, scripts, tests, workflows) and the
   dependency's source at <DEP_PATH>. You may run the repo's checks and your own experiments. Do not
   edit the copy you are given; copy it again to mutate, and confirm the mutation landed.

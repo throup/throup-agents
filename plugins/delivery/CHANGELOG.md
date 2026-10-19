@@ -2,6 +2,30 @@
 
 All notable changes to the `delivery` plugin. Versions follow [semver](https://semver.org/).
 
+## 0.4.0
+
+- `ticket-team`: states its stance on Claude Code's Agent Teams: run with it off; where it is on,
+  every role is spawned unnamed unless the lead names a non-blind one, and BLIND is never named.
+  BLIND's brief forbids obtaining another role's brief or the ticket through the team's files,
+  transcripts or a message to anyone; every other role messages only the lead, and BLIND is spawned
+  from an agent type without messaging tools where one is defined.
+- `ticket-team`: a pushing run finishes only once the code host's checks and review bots have
+  reported on the pushed head, again after marking it ready, and their findings have been through
+  the loop or answered as false positives, with REVIEWER judging each false-positive claim. From
+  the second pass the user decides, per finding, whether another round runs; the change request is
+  opened at the first push only, and every later push rebuilds from the pushed head.
+- `ticket-team`: each role in a run, and each later round, has a scratch directory of its own; a
+  reviewer's worktree or copy stays until its findings are decided; a stacked branch's whole change
+  is diffed against its predecessor's branch, and held from review while the predecessor is
+  rewritten under it.
+- `ticket-team`: a finding its raiser tags `wording` is settled by the lead in the final text, and
+  no reviewer's draft reaches the DEVELOPER; a reviewer is replaced only once its report cannot
+  arrive, with inputs of its own and the earlier rounds' findings (for BLIND, only what the BLIND it
+  replaces received); a READY at a commit REVIEWER has seen says what its READY review is; a fix to
+  confirm is handed as its raiser wrote it.
+- `ticket-team`: run-log times are read from a clock; a narrowed gate keeps every root-level task;
+  a named dependency version is the one the build resolves.
+
 ## 0.3.0
 
 - `handover`: before writing, the writer searches the store for earlier handovers on the same
