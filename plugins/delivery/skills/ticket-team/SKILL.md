@@ -29,7 +29,8 @@ request's number in re-review mode>/` beside the repo's main checkout. Each role
 directory of its own in scratch (`lead/`, `developer/`, `reviewer/`, `qa/`, `mediator/`; a
 replacement agent gets a new one, such as `qa-2/`), named in its brief, and writes in no other. The
 first re-review round on a change request takes `<number>/`, and each later round on it a new one
-(`<number>-r2/`, `<number>-r3/`). BLIND's inputs and its scratch go outside scratch (point 1).
+(`<number>-r2/`, `<number>-r3/`). BLIND's inputs and its scratch never go in scratch, whose path
+names the ticket: see the lead's first point.
 **The base** is the branch the change request targets: the default branch, or for a stacked
 branch its predecessor's branch. Every merge base and whole-change diff below is taken against it.
 For a stacked branch the lead records the predecessor's head it was cut from or last rebased onto
@@ -123,9 +124,9 @@ DEVELOPER's fifth deliverable becomes the replies and a summary comment.
 
 ## The lead acts at exactly four points
 
-Keep a run log in scratch from the start: one line per handoff, and each agent's wall time from
-its completion notice. A notice after a resume reports that stint's duration and tool uses alone;
-an interim notice sent while an agent waits on its own background work reports the time since it
+Keep a run log in the lead's scratch directory from the start: one line per handoff, and each
+agent's wall time from its completion notice. A notice after a resume reports that stint's
+duration and tool uses alone; an interim notice sent while an agent waits on its own background work reports the time since it
 was spawned; the log says which kind each is. The notice's token figure is not spend: log it as
 given, marked as such, and take token cost from the transcripts' per-call usage afterwards. A stop
 for the usage limit and a wait on the user are logged with their start and end, and reported wall
@@ -252,7 +253,10 @@ REVIEWER, QA or MEDIATOR, and it logs which it named. BLIND is never named. Ever
 BLIND's allows messages to the lead only; BLIND's allows none, and forbids every route to another
 role's brief or the ticket. Where an agent type is defined for BLIND without messaging tools, the
 lead spawns BLIND from it, with its brief unchanged. Should a message from BLIND arrive anyway, the
-lead answers it with nothing BLIND's brief withholds.
+lead answers it with nothing BLIND's brief withholds. With the feature on, a named spawn's whole
+brief is stored in the team's files, which every agent in the session can read, and any agent can
+message a named one; on or off, every sub-agent can message the lead, which holds the ticket, and
+the machine's other sessions.
 
 ## Isolation
 
@@ -277,9 +281,7 @@ second branch. A rebase that resolved a conflict is a chunk and ends in a new RE
 
 The gates are the commands the repo's verification rule states (its `AGENTS.md`, `CLAUDE.md` or
 contributing guide). Where the repo states none, the lead asks the user for them before briefing
-anyone. A gate narrowed to the projects the change touches still runs every root-level task the
-repo's full gate runs, and the Gates section names each one. The Gates section lists each gate in
-the form that executes every task rather than replaying a build cache.
+anyone; `briefs/_common.md` states the form the Gates section lists them in.
 
 A gate result belongs to the tree it ran on, and holds for a later tree whose every changed path is
 in the repo's skip set: the paths its CI declares need no build (for example, the exclusions of a

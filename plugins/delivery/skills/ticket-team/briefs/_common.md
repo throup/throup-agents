@@ -23,8 +23,9 @@ Who runs what: the DEVELOPER compiles (where the repo has a compile step), and r
 wrote (with their mutation evidence) and any test it needs to make a design decision, and nothing
 else. The REVIEWER runs the tests it judges relevant to its range, naming what it ran and why that
 covers its findings. QA's rule is in its brief. Force only the tasks you name, and confirm the
-forcing reached each of them (Gradle's `--rerun` forces only the task written before it, not a
-lifecycle task's dependencies). A partial run is reported as partial, never as the suite passing.
+forcing reached each of them (for example, Gradle's `--rerun` applies only to the task written
+before it, not to a lifecycle task's dependencies, while `--rerun-tasks` re-executes the whole
+graph). A partial run is reported as partial, never as the suite passing.
 Report each gate's wall time. A result replayed from a build
 cache is reported as a replay, not a pass. Run every build or test command in the foreground with an
 explicit timeout; one that can exceed the shell's foreground limit runs in the background, and you
