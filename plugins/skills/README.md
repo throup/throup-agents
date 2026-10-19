@@ -21,10 +21,14 @@ blind reviewer, launched with no context from the audit, says what the cut is fo
 the confirmed purpose and the original, then judges the cut against them. Confirmed findings are
 applied, and a new blind reviewer checks every edit made after the review; its findings, conflicts
 with your guidelines and disputed findings come back to you. An untracked skill is backed up and
-edited in place; a tracked one goes through a ticket and a change request.
+edited in place; a tracked one goes through a ticket and a change request. For a change request you
+ask to have reviewed, or an open one the audit finds on the skill where you choose the review route,
+the results go on that change request as one review, with an audit's cut as suggested changes and
+the findings as comments, once you confirm the post; nothing is committed.
 
-**Use it** when a skill has grown, when it and your guidelines disagree, or when you want a skill
-trimmed. **Not for** writing a skill from nothing, or for a rule file or a prompt.
+**Use it** when a skill has grown, when it and your guidelines disagree, when you want a skill
+trimmed, or to review a change request to a skill. **Not for** writing a skill from nothing, or for
+a rule file or a prompt.
 
 ## Prerequisites
 
