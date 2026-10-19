@@ -30,7 +30,7 @@ directory of its own in scratch (`lead/`, `developer/`, `reviewer/`, `qa/`, `med
 replacement agent gets a new one, such as `qa-2/`), named in its brief, and writes in no other. The
 first re-review round on a change request takes `<number>/`, and each later round on it a new one
 (`<number>-r2/`, `<number>-r3/`). BLIND's inputs and its scratch never go in scratch, whose path
-names the ticket: see the lead's first point.
+names the ticket or change request: see the lead's first point.
 **The base** is the branch the change request targets: the default branch, or for a stacked
 branch its predecessor's branch. Every merge base and whole-change diff below is taken against it.
 For a stacked branch the lead records the predecessor's head it was cut from or last rebased onto
@@ -125,14 +125,15 @@ DEVELOPER's fifth deliverable becomes the replies and a summary comment.
 ## The lead acts at exactly four points
 
 Keep a run log in the lead's scratch directory from the start: one line per handoff, and each
-agent's wall time from its completion notice. A notice after a resume reports that stint's
-duration and tool uses alone; an interim notice sent while an agent waits on its own background work reports the time since it
-was spawned; the log says which kind each is. The notice's token figure is not spend: log it as
-given, marked as such, and take token cost from the transcripts' per-call usage afterwards. A stop
-for the usage limit and a wait on the user are logged with their start and end, and reported wall
-times leave them out. Every time in the log is read from a clock, never estimated, and is the time
-of the event the line records: `date` as the event happens, or the event's own timestamp (a
-notice's, the code host's), converted to one named zone. A line written after its event says so.
+agent's wall time from its completion notice. A notice after a resume reports that stint's duration
+and tool uses alone; an interim notice sent while an agent waits on its own background work reports
+the time since it was spawned; the log says which kind each is. The notice's token figure is not
+spend: log it as given, marked as such, and take token cost from the transcripts' per-call usage
+afterwards. A stop for the usage limit and a wait on the user are logged with their start and end,
+and reported wall times leave them out. Every time in the log is read from a clock, never estimated,
+and is the time of the event the line records: `date` as the event happens, or the event's own
+timestamp (a notice's, the code host's), converted to one named zone. A line written after its event
+says so.
 
 1. **On a chunk or READY**: `git -C <worktree> log --oneline <previous>..<commit>`, to confirm the
    report describes commits that exist. Write the range's diff to scratch once, read-only
@@ -253,10 +254,7 @@ REVIEWER, QA or MEDIATOR, and it logs which it named. BLIND is never named. Ever
 BLIND's allows messages to the lead only; BLIND's allows none, and forbids every route to another
 role's brief or the ticket. Where an agent type is defined for BLIND without messaging tools, the
 lead spawns BLIND from it, with its brief unchanged. Should a message from BLIND arrive anyway, the
-lead answers it with nothing BLIND's brief withholds. With the feature on, a named spawn's whole
-brief is stored in the team's files, which every agent in the session can read, and any agent can
-message a named one; on or off, every sub-agent can message the lead, which holds the ticket, and
-the machine's other sessions.
+lead answers it with nothing BLIND's brief withholds.
 
 ## Isolation
 
