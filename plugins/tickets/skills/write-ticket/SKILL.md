@@ -7,11 +7,11 @@ allowed-tools: Bash, Read, Write, Edit, Grep, Glob
 
 # Write a ticket
 
-Bring one ticket to a single standard, whether filing it new or editing, reshaping or merging
-one that exists. A product owner prioritises from the title, two paragraphs and the acceptance
-criteria alone; an implementer acts from one collapsed block without re-deriving what the
-session established. Prioritising and design stay with them. Each sentence goes to the reader
-who acts on it; a sentence neither acts on is cut.
+Bring one ticket to a single standard, whether filing it new or editing, reshaping, merging or
+folding an amendment into one that exists. A product owner prioritises from the title, two
+paragraphs and the acceptance criteria alone; an implementer acts from one collapsed block
+without re-deriving what the session established. Design stays with the implementer. Each
+sentence goes to the reader who acts on it; a sentence neither acts on is cut.
 
 The tracker is whichever the user's or the project's guidelines name; where they name none, ask
 before writing. Fields, link types and states below are named by role; read the tracker's own
@@ -32,11 +32,13 @@ names from its schema or documentation.
 - **In the collapsed block** when the implementer would otherwise re-derive it: mechanism,
   locators pinned as "line N on `<base>` at `<sha>`", evidence, options not chosen, related
   tickets with one clause each. Provenance names the mechanism and measurement, not a change
-  request, key, branch or person. Evidence that can be re-run, a review's finding included, is
-  re-run at that `<sha>` before it is written down, and its scope is what the re-run shows. A
-  locator that no longer resolves is named here as gone, not dropped. No paragraph is written for
-  completeness. The block ends by naming the repository the change lands in, as a link to it on
-  the code host and the files concerned, or in the form the guidelines name.
+  request, key, branch or person. Evidence that can be re-run, a finding from a review or another
+  session included, is re-run at that `<sha>` before it is written down, and its scope is what
+  the re-run shows. A locator that no longer resolves is named here as gone, not dropped. No
+  paragraph is written for completeness. The block ends by naming the repository the change
+  lands in, as a link to it on the code host and the files concerned, or in the form the
+  guidelines name, so tooling that starts from the ticket can find the code without reading the
+  prose.
 - **In the field, not the prose**: priority, and anything else the tracker holds as a field
   (assignee, component, labels). Where the tracker has no field for it, the guidelines say
   which label or line stands in.
@@ -51,7 +53,7 @@ names from its schema or documentation.
 3. **Second paragraph.** Current impact. Say "Nothing is broken today" when that is true, and
    say when the defect is not yet reproduced.
 4. **`## Acceptance criteria`.** Numbered. Outcome ACs first; any closing constraint AC last.
-   Dropping the heading is a convention change, said out loud.
+   Dropping the heading is a convention change to say out loud.
 5. **One collapsed block**, `<details><summary>Technical detail for the implementer</summary>`
    where the tracker renders HTML in Markdown, else the tracker's own collapsible construct;
    where it has none, a `## Technical detail for the implementer` heading last. One bold lead-in
