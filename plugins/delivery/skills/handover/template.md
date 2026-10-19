@@ -19,7 +19,8 @@
 ## Verify
 
 <Commands from the reader's location, with overrides; whether ordered; which are controls, and
-what constitutes evidence.>
+what constitutes evidence; any live request a check makes, how to block it, what must stay
+reachable.>
 
 ## Withheld
 
