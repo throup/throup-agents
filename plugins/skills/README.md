@@ -65,16 +65,20 @@ These are defaults; state your own rule and the skill follows it.
 
 - **The purpose is confirmed before anything is cut.** The confirmed text is the specification
   for the cut and for the review; without it, the auditor's reading of the skill becomes the
-  standard it is judged by.
+  standard it is judged by. Where your ruling on a finding changes what the skill is for, the
+  purpose and the skill's opening are rewritten to match and come back to you to confirm.
 - **A sentence an authority already states is cut.** A rule stated twice drifts, and the skill
   is loaded on every use. An authority is a text in context wherever the skill loads, so for a
   skill loaded on other machines your guidelines and memory are not authorities, and nor are the
   repo's files that do not load with it.
 - **The reviewer is blind.** It gets the purpose, the baseline, the skill's artefacts and the
   authorities, never the audit's reasoning, and states what the skill is for from the cut alone
-  before it is given the purpose, the baseline and the artefacts. Every fix after its review changes
-  only the sentence its finding cites, and a rewording that would change a rule's scope comes to you
-  first. Every edit after its review, fixes and applied suggestions alike, goes to a new blind
+  before it is given the purpose, the baseline and the artefacts. It still loads the session's
+  working directory, branch name and recent commit subjects; for a tracked skill the report names
+  any of them that carry the audit's branch, ticket or commits. Every fix after its review changes
+  only the sentence its finding cites; a rewording that would change a rule's scope, and a choice
+  between keeping a reason the cut removed and cutting the rule it supported, come to you first.
+  Every edit after its review, fixes and applied suggestions alike, goes to a new blind
   reviewer, whose findings come back to you.
 - **The audit changes no authority and adds no rule.** A conflict with your guidelines comes back
   to you, and a rule the skill never had is a suggestion, not part of the cut.

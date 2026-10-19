@@ -2,6 +2,18 @@
 
 All notable changes to the `skills` plugin. Versions follow [semver](https://semver.org/).
 
+## 0.4.0
+
+- `skill-audit`: a finding that offers keeping a reason being cut or cutting the rule it supported
+  goes to the operator as that choice.
+- `skill-audit`: where an operator's ruling changes or narrows what the skill is for, the confirmed
+  purpose and the skill's opening are rewritten in the same step, the operator confirms the new
+  purpose, and later reviewers judge against it.
+- `skill-audit`: for a tracked skill, the auditor checks its own primary working directory, branch
+  name and recent commit subjects for the audit branch, ticket key and audit commit subjects before
+  each blind reviewer launches. Each reviewer also records the working directory, branch name and
+  commit subjects its session loaded, and the report names each reviewer's exposure from both.
+
 ## 0.3.0
 
 - `skill-audit`: for a skill the operator confirms is loaded on other machines, the authorities are

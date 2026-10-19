@@ -37,7 +37,8 @@ remote, else no, from
 `git -C "<dir>" ls-files --error-unmatch . >/dev/null 2>&1 && git -C "<dir>" remote | grep -q . && echo yes || echo no`,
 where `<dir>` is the absolute path of the directory the skill loads from, or for a plugin cache the
 skill's directory in a checkout of its plugin's source repo. Put both to the operator and stop until
-both are confirmed; the confirmed purpose is the specification for every later step.
+both are confirmed; the confirmed purpose, as Apply rewrites it, is the specification for every
+later step.
 
 ## Cut
 
@@ -66,13 +67,15 @@ sentence. The cut adds nothing a recorded suggestion proposes.
 
 Write the brief in two stages. Stage one carries the cut, the authorities as a population, a command
 that checks each file the job names, and a place for the findings; it asks the reviewer only to
-write what the skill is for, from the cut alone, under `## Reading` in that place, and to return
-with no findings and the job not closed, its second stage following by message. Write stage two only
-once that statement is recorded, to a file in a new temporary directory: the confirmed purpose as
-the specification, the baseline, the skill's artefacts, each named with the version of the skill
-that produced it, and a request to give each finding a kind and a cited line. That version is the
-one the operator names as having run, where the operator has named one, else on the tracked route
-the skill's last commit before the artefact was made, from this command run in the skill's repo:
+write what the skill is for, from the cut alone, under `## Reading` in that place, and under
+`## Loaded context` the primary working directory, branch name and commit subjects its session
+loaded before its first tool call, and to return with no findings and the job not closed, its second
+stage following by message. Write stage two only once both are recorded, to a file in a new
+temporary directory: the confirmed purpose as the specification, the baseline, the skill's
+artefacts, each named with the version of the skill that produced it, and a request to give each
+finding a kind and a cited line. That version is the one the operator names as having run, where
+the operator has named one, else on the tracked route the skill's last commit before the artefact
+was made, from this command run in the skill's repo:
 `git log -1 --format=%h --before="<the artefact's creation time, with time of day and zone>" -- "<skill directory>"`;
 it is unknown where that fails or prints nothing, where the artefact is dated only to the day, and
 on the untracked route. The kinds:
@@ -83,29 +86,35 @@ on the untracked route. The kinds:
    right;
 4. a rule the skill's own artefacts do not follow, or a structure they have that no rule asks for.
 
-Withheld from the reviewer: editing anything but the reading, the findings and, on the handover
-route, the symlink the handover's close removes; backups other than the baseline; before stage two,
-the purpose as confirmed, the baseline and the artefacts, backups and git history included; the
-audit's reasoning, and on the tracked route the ticket, the change request and the commit messages
-that carry it; invoking the skill under review. Neither stage, nor any message to the reviewer,
-carries more than this section and the Apply section list. Launch with the Agent tool, subagent type
-`general-purpose`, never a fork of this session. Send stage two to that same agent with
-SendMessage, with this and nothing more:
+Withheld from the reviewer: editing anything but the reading, the loaded context, the findings and,
+on the handover route, the symlink the handover's close removes; backups other than the baseline;
+before stage two, the purpose as confirmed, the baseline and the artefacts, backups and git history
+included; the audit's reasoning, and on the tracked route the ticket, the change request and the
+commit messages that carry it; invoking the skill under review. Neither stage, nor any message to
+the reviewer, carries more than this section and the Apply section list. Launch with the Agent tool,
+subagent type `general-purpose`, never a fork of this session; the reviewer loads this session's
+primary working directory, its branch name and its recent commit subjects. On the tracked route,
+before each launch, run, with `<dir>` that primary working directory and `<worktree>` the audit's
+worktree,
+`{ echo "<dir>"; git -C "<dir>" branch --show-current; git -C "<dir>" log -5 --format=%s; } | grep -F -f <({ printf '%s\n' "<audit branch>" "<ticket key>"; git -C "<worktree>" log --format=%s "<baseline commit>..HEAD"; } | grep .)`;
+each line it prints is that reviewer's exposure. Send stage two to that same agent with SendMessage,
+with this and nothing more:
 
 ```
 Read <absolute path of stage two> and continue.
 ```
 
-Where the reviewer returns without a reading, closes the job before stage two or does not continue
-with it, launch a new reviewer from a newly written stage one, on the handover route a new handover;
-where that one fails the same way, or SendMessage is not available, stop and say so.
+Where the reviewer returns without a reading or a loaded context, closes the job before stage two or
+does not continue with it, launch a new reviewer from a newly written stage one, on the handover
+route a new handover; where that one fails the same way, or SendMessage is not available, stop and
+say so.
 
 Where the `handover` skill is installed (as `handover` or `delivery:handover`), is not the skill
 under audit, and the session is in a git checkout for the pointer, the brief is a handover written
-with it: stage one is the handover, with Verify lines for the checks, `## Reading` appended to the
-store file, findings returned as its `## Closed` note once stage two is done, and the store's other
-files withheld; stage two is outside the store. Place the symlink and launch with this and nothing
-more:
+with it: stage one is the handover, with Verify lines for the checks, `## Reading` and
+`## Loaded context` appended to the store file, findings returned as its `## Closed` note once
+stage two is done, and the store's other files withheld; stage two is outside the store. Place the
+symlink and launch with this and nothing more:
 
 ```
 You have been pointed at <absolute path of the symlink>. Invoke the handover skill and receive it.
@@ -127,10 +136,14 @@ Where `handover` is not installed, the report recommends the `delivery` plugin f
 ## Apply
 
 A confirmed finding is applied to the skill. A fix made after the blind review changes only the
-sentence its finding cites, or for a dropped rule restores only the baseline sentence it cites; a
-rewording that would change what a rule applies to goes to the operator as a choice, and is made
-only as the operator rules. Every later reviewer's stage two states each such ruling, without the
-audit's reasoning. A finding whose fix lands outside the skill's files, a conflict between the skill
+sentence its finding cites, or for a dropped rule restores only the baseline sentence it cites. A
+rewording that would change what a rule applies to goes to the operator as a choice, as does a
+finding that offers keeping a reason being cut or cutting the rule it supported; each is made only
+as the operator rules. A ruling that changes or narrows what the skill is for also rewrites the
+confirmed purpose and the skill's opening paragraph to state it, in the same step, and the rewritten
+purpose goes to the operator to confirm before the next reviewer is launched. Every later reviewer's
+stage two states each such ruling, without the audit's reasoning, and carries the purpose as last
+confirmed. A finding whose fix lands outside the skill's files, a conflict between the skill
 and an authority, and a finding the auditor disputes are reported to the operator with the line, and
 nothing else is edited. For a skill loaded on other machines, read the user's guidelines and memory
 against the skill, and report each conflict with them the same way, proposed as the guidelines
@@ -150,9 +163,10 @@ change request is ready for human review as the guidelines define it, else as `h
 where installed; otherwise when every relevant commit is pushed, a fresh review at the head found
 nothing blocking, and CI is green at the head.
 
-Report each reviewer's reading beside the confirmed purpose, as two columns of one table; word
-counts before and after; each finding's kind with applied or reported; and the conflicts awaiting
-the operator.
+Report each reviewer's reading beside the purpose it judged against, as two columns of one table;
+each reviewer's exposure: the check's lines, and each line of its `## Loaded context` that carries
+the audit branch, the ticket key or an audit commit subject; word counts before and after; each
+finding's kind with applied or reported; and the conflicts awaiting the operator.
 
 A revision to this skill that the run suggests goes through the channel the user's guidelines name
 for skill feedback, else to the user as one line in the report with the evidence from the run.
