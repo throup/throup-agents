@@ -2,6 +2,10 @@
 
 All notable changes to the `delivery` plugin. Versions follow [semver](https://semver.org/).
 
+## 0.4.2
+
+- `handover`: cut by an audit with `skill-audit`; its opening states the skill's purpose.
+
 ## 0.4.1
 
 - `ticket-team`: cut by an audit with `skill-audit`, its briefs included; its opening states the
