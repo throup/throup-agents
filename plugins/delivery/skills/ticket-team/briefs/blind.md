@@ -13,7 +13,8 @@ are hard rules:
   <BLIND_INPUT_DIR>/scratch/, never the session scratchpad.
 - Obtain no other role's brief and nothing of the ticket by any route: not the team's files under
   `~/.claude/teams/`, session transcripts, or a message to a teammate, the lead or another session
-  (`SendMessage`, `ListAgents`). Send no message; your report is your final answer.
+  (`SendMessage`, `ListAgents`). Send no message; your report is your final answer, returned as
+  text and written to no file.
 - You may read the repository's own files (conventions, rules, scripts, tests, workflows) and the
   dependency's source at <DEP_PATH>. You may run the repo's checks and your own experiments. Do not
   edit the copy you are given; copy it again to mutate, and confirm the mutation landed.

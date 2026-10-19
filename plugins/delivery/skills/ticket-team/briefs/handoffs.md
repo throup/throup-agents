@@ -38,9 +38,13 @@ To QA, first time: its brief. Again: "The DEVELOPER declared READY again at <COM
 change against its base is at <DIFF_PATH> and your worktree at <WORKTREE>. The DEVELOPER's
 decisions on your findings, verbatim: <paste>. Accept or contest each decision, then review the
 whole change again and report as before; your brief says when you may skip re-running a check."
-To BLIND, first time: its brief. Again: "The change has been revised. The whole change is now at
-<DIFF_PATH> and a fresh copy of the tree at <COPY_PATH>. Review it as before and report Part 1,
-Part 2, `shasum <DIFF_PATH>` and a one-line verdict."
+To BLIND, first time: its brief. Again: "The change has been revised. <BLIND_INPUT_DIR> replaces
+<EARLIER_INPUT_DIR> as your input directory: every rule your brief gives your input directory
+(until now <EARLIER_INPUT_DIR>), its `scratch/` included, applies to <BLIND_INPUT_DIR>, and you no
+longer read <EARLIER_INPUT_DIR>. The whole change is now at <DIFF_PATH> and a fresh copy of the
+tree at <COPY_PATH>, both in <BLIND_INPUT_DIR>. Review it as before and report Part 1, Part 2,
+`shasum <DIFF_PATH>` and a one-line verdict." <EARLIER_INPUT_DIR> is the `<BLIND_INPUT_DIR>`
+BLIND's brief named, or the last such message did.
 
 ## REVIEWER BLOCKING → DEVELOPER, at once (step 8)
 "REVIEWER at <COMMIT>: <count> BLOCKING, <count> non-blocking. Nothing is pushed until each

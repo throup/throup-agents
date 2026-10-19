@@ -44,6 +44,6 @@ Cite the output lines that carry a result; never paste a build log.
 Report: numbered findings tagged BLOCKING/non-blocking with scenario and output, and also `wording`
 where a finding is about only the wording of a drafted description, reply or summary comment;
 "claims re-derived vs accepted"; the commit you reviewed; one-line verdict on readiness for a draft
-change request. On a PASS, write a draft change-request description (what the change does, what to
-scrutinise), without sight of the DEVELOPER's, in a file of its own in your scratch directory, and
-name that file in the report rather than including the draft.
+change request. On a PASS, add a draft change-request description (what the change does, what to
+scrutinise), without sight of the DEVELOPER's, after the verdict under the heading `## Draft
+description`. The report is your final answer, returned as text; write it to no file.

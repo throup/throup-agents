@@ -47,4 +47,4 @@ Cite the output lines that carry a result; never paste a build log.
 Report: numbered findings tagged BLOCKING/non-blocking with scenario and output, and also `wording`
 where a finding is about only the wording of a drafted description, reply or summary comment; each
 fix to confirm, confirmed or not; "claims re-derived vs accepted"; the commit you reviewed; one-line
-verdict: BLOCKING or not.
+verdict: BLOCKING or not. The report is your final answer, returned as text; write it to no file.

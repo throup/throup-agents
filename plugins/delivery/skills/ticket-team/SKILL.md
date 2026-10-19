@@ -57,6 +57,16 @@ A full team runs every role. A light team runs without BLIND, for a change whose
 readable from its diff. A change that depends on how something else behaves (an engine, a
 provider, a tool's enforcement boundary) takes the full team, whatever the diff's size. The lead
 chooses the team size from the ticket before the run starts and tells the user which and why.
+Every sub-agent loads, at its launch, the path of the lead's working directory, the branch, status
+and recent commit subjects of the checkout there, the project memory index of the repository it
+belongs to (for a worktree, its main checkout's), and the user's and the project's guidelines. In a
+full team, the lead checks them for the ticket key and the change request's number before the run
+starts and again as it launches BLIND: in the guidelines, the memory and the commit subjects, in
+the form the tracker and code host write it (`#34`, `PROJ-12`); in the path, the branch and the
+status's file names, also as a bare component (`34` in `delivery-34-35`). Where either shows at the
+start, it tells the user, who chooses a restart where neither shows, an edit of the memory or
+guidelines file it shows in (theirs to make), or a run that goes on; where either shows at BLIND's
+launch, BLIND is launched. The run's report names each such exposure to BLIND.
 MEDIATOR is spawned only when step 5 fires. "All three" below means REVIEWER, QA and BLIND, or
 REVIEWER and QA in a light team.
 
@@ -133,7 +143,10 @@ afterwards. A stop for the usage limit and a wait on the user are logged with th
 and reported wall times leave them out. Every time in the log is read from a clock, never estimated,
 and is the time of the event the line records: `date` as the event happens, or the event's own
 timestamp (a notice's, the code host's), converted to one named zone. A line written after its event
-says so.
+says so. Each report REVIEWER, QA, BLIND or MEDIATOR returns is saved, as the text it returned, to a
+file of its own in the lead's scratch directory, named for the role, a number running across that
+role's reports, and the commit it covered where it covers one; no saved report is overwritten, and
+the log names its file.
 
 1. **On a chunk or READY**: `git -C <worktree> log --oneline <previous>..<commit>`, to confirm the
    report describes commits that exist. Write the range's diff to scratch once, read-only
@@ -155,7 +168,7 @@ says so.
    false positive (step 11), and for a fix its raiser verified, the tree it verified and whether the
    raiser re-verified. The lead records what the reports say. At READY it hands REVIEWER each
    finding to confirm as its raiser wrote it, never by id alone. For each READY the log names the
-   report that is REVIEWER's pass or fail at that commit.
+   saved report that is REVIEWER's pass or fail at that commit.
 3. **Repackaging and writes to a shared system**: the pushed commits, the push, the change request,
    the tracker, collecting the findings of the host's checks and bots on the pushed head and posting
    the false-positive answers (step 11); in re-review mode also the replies, the summary comment and
@@ -236,7 +249,8 @@ write.
 
 Every brief starts from the role's template in `briefs/` beside this file, and every between-round
 message from `briefs/handoffs.md`. The evidence rules, who runs which gate, BLIND's exclusions and
-the disposition of findings after a READY are stated there and nowhere else.
+the disposition of findings after a READY are stated there and nowhere else. A reviewer's or
+MEDIATOR's report is the text it returns: no brief or message asks either to write it to a file.
 
 A reviewer is replaced only once its report can no longer arrive: it ended without one, or the lead
 stopped it. A message to a finished reviewer that comes back queued resumes it, and its report is
@@ -303,7 +317,7 @@ Relay findings and decisions as their authors wrote them, saying which reviewer 
 report carries a per-change-request table naming the commit each review covered and each agent's
 wall time from the run log, and the finding ledger's final states. For each gate it names the
 commit QA's last run of it covered, that run's wall time, and any reason QA gave for not re-running
-it.
+it. It names any exposure to BLIND that the lead's working-directory check found (Roles).
 
 A revision to this skill that the run suggests goes through the channel the user's guidelines name
 for skill feedback, else to the user as one line in the report with the evidence from the run.
