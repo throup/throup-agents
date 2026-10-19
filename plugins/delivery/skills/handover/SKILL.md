@@ -7,33 +7,30 @@ allowed-tools: Bash, Read, Write, Edit, Grep, Glob
 
 # Handover
 
-One file carries one job to one fresh session. The receiving session is a fresh instrument by
-design; the file tells it what it cannot derive for itself and nothing else. Its judgements are
-the reader's to make: state the question and the evidence, never the writer's leaning.
+One file carries one job from this session to one fresh session that would judge it better, and
+is placed where only that reader finds it; the reader receives it, checks it against the live
+state, does the job and closes it with what the file got wrong or left out. The same format serves
+as the brief for an isolated reviewer. It holds what the reader cannot derive and nothing else: the
+question and the evidence, never the writer's leaning, so the judgements are the reader's. The user
+decides whether to hand over, rules on what the reader escalates, and owns the acts the file leaves
+to them.
 
 ## When to hand over
 
-An agent does not notice when accumulated context has become a liability. From the inside it reads
-as competence: it knows the repo, the tickets, the gotchas, so continuing feels efficient. The cost
-is knowing too much, and that produces no signal. So treat each of these as a trigger to say so and
-offer a fresh session, rather than waiting to feel the need:
+Treat each of these as a trigger to say so and offer a fresh session:
 
-- **About to evaluate work against a spec this session helped write.** Reviewing an agent's run
-  against tickets you authored, or judging output against requirements you shaped, means a vague
-  answer reads as correct because you know what it was meant to say. This is the strongest
-  trigger: the test measures the artefact, and you are no longer a clean instrument.
-- **The session deliberately left something untested.** If you and the user agreed not to
-  pre-empt a discovery, a continuing session cannot un-know it.
-- **Switching project or repo** after long work elsewhere, where the previous project's
-  conventions would bleed across.
+- **About to evaluate work against a spec or tickets this session wrote or shaped.** The strongest
+  trigger.
+- **The session deliberately left something untested**, having agreed with the user not to
+  pre-empt a discovery.
+- **Switching project or repo** after long work elsewhere.
 - **The task changes kind**, from authoring specs to executing them, or from building to
-  reviewing. Different jobs want different priors.
-- **Correcting yourself repeatedly on the same class of error.** Not a context problem in itself,
-  but a sign the working assumptions have drifted.
+  reviewing.
+- **Correcting yourself repeatedly on the same class of error.**
 
 Frame it as a recommendation with the reason, not a request for permission, and name what should
-carry over: memories, tickets, change-request state, open decisions. The user decides; continuing
-is often right when the work is genuinely continuous. When the user accepts, write the file.
+carry over: memories, tickets, change-request state, open decisions. When the user accepts,
+write the file.
 
 ## Where the file lives
 
@@ -42,11 +39,9 @@ project's guidelines name instead; outside every worktree, purged by hand and ne
 
 Pointer: `HANDOVER-<scope>.local.md` in the checkout the reader will open, a symlink to the store
 file. Where other sessions work in that checkout, the writer creates a worktree for the reader and
-the pointer goes there, so no session listing the shared checkout finds it. Exclude it through the
-repo's exclude file (`git rev-parse --git-path info/exclude`, which resolves from a worktree too)
-with the line `/*.local.md`, never through `.gitignore`; check the line is present before
-creating the link. The symlink is what makes a handover active: a store file with no symlink is
-history.
+the pointer goes there. Exclude it through the repo's exclude file
+(`git rev-parse --git-path info/exclude`) with the line `/*.local.md`, never through `.gitignore`;
+check the line is present before creating the link. A store file with no symlink is history.
 
 Before writing, search the store for earlier files on the same job, ticket or scope, closed or not:
 by name, and `grep -l` for the ticket key and the scope. Name each match in Withheld where the
@@ -55,12 +50,11 @@ carries something the reader needs, and say which and why. A match still active 
 `HANDOVER-*.local.md` resolving to it in any checkout or worktree of the projects the job spans,
 `git worktree list`) is resolved first: one with a `## Closed` section is debris, named to the user,
 and writing goes on. One without is the user's to judge. Where the user declares it superseded, the
-writer closes it once the new file has passed "Before the file is finished", the one case a session
-closes a handover it did not receive: `## Closed` with the date and "superseded, not received" in
-place of what it got wrong, its symlink removed, and its artefacts and any parked memory its
-Withheld names left in place and named to the user. Where not, no new handover is written for the
-job. Where a match holds the new file's store path or pointer name, the new one takes a scope of its
-own.
+writer closes it once the new file has passed "Before the file is finished": `## Closed` with the
+date and "superseded, not received" in place of what it got wrong, its symlink removed, and its
+artefacts and any parked memory its Withheld names left in place and named to the user. Where not,
+no new handover is written for the job. Where a match holds the new file's store path or pointer
+name, the new one takes a scope of its own.
 
 ## What goes in
 
@@ -71,8 +65,8 @@ present; delete any other section that does not apply, and leave no empty headin
    through review, the job ends when it is ready for human review (below). An act another party
    owns (a merge, a deploy, a tracker transition) names that party, and the session stops at the
    handoff.
-2. **Why a fresh session.** Dated. What the writer shaped, briefed or wrote, so the reader knows
-   which judgements are not fresh. Where the writer wrote the specification the job is measured
+2. **Why a fresh session.** Dated. What the writer shaped, briefed or wrote, and so which
+   judgements are not fresh. Where the writer wrote the specification the job is measured
    against, name the criterion that rests on the writer's single reading and say to re-derive it.
 3. **State.** Facts the reader will act on, each with a locator; a table where there are several.
    Each fact is as read from the live source at a stated time, not recalled. A count that decays
@@ -93,23 +87,23 @@ present; delete any other section that does not apply, and leave no empty headin
    user goes here with the check that replaces it.
 7. **Tools.** Which skills fit this job and which do not, with the distinguishing case. Where the
    reader runs a skill, name every input that skill would otherwise ask the user for, such as the
-   commands it checks the work with and those it may skip, so the reader runs without stopping to
-   ask. A value the user decides is asked of the user at writing, not chosen by the writer. A
-   confirmation of a write the reader will draft is not such an input: the reader still asks it,
-   and a run being measured stops its clock while it waits.
+   commands it checks the work with and those it may skip. A value the user decides is asked of
+   the user at writing, not chosen by the writer. A confirmation of a write the reader will draft
+   is not such an input: the reader still asks it, and a run being measured stops its clock while
+   it waits.
 
 Write only what the reader cannot derive from the repo, the tracker, the change requests, the
 project memory directory and the user's and the project's guidelines (`~/.claude/CLAUDE.md`, the
-repo's `CLAUDE.md` and `AGENTS.md`). A pointer beats a restatement. No
-narrative of how the work went.
+repo's `CLAUDE.md` and `AGENTS.md`). A pointer beats a restatement. No narrative of how the work
+went.
 
 ## Before the file is finished
 
 1. **Read every other section against Withheld.** No other section has the reader see, run or
    produce what Withheld bars at that point: not a Verify command's output, a State locator, an
    Open item's settling act or a Tools skill; `git rev-parse --short HEAD` confirms a head without
-   printing a withheld commit message. Where a later stage lifts a Withheld item, the item says
-   from when. Where two sections still treat one artefact differently, the file says which
+   printing a withheld commit message. Where a later stage lifts a Withheld item, the item
+   says from when. Where two sections still treat one artefact differently, the file says which
    governs. Repeat this step after steps 2 and 3, which add to Withheld.
 2. **For a reader who judges blind, read each file offered as an authority**, the memory directory
    included, and name in Withheld any that records the design history or review threads of the
@@ -121,16 +115,16 @@ narrative of how the work went.
    `<store file stem>.parked/` beside the store file, and its index line into `MEMORY.md` there. A
    match in a guidelines file is the user's to resolve. Withheld bars the reader from that folder
    and names the user as who restores it after closing, and the store's hand purge spares it until
-   then; restoring means reading it, so it is never the reader's. Where a match stays where the
-   reader loads it, the handover is not written; say so to the user.
+   then. Where a match stays where the reader loads it, the handover is not written; say so to the
+   user.
 4. **Give every artefact the reader creates, or the writer creates for it, a disposal**: removed
    at closing, or kept until a named event by a named party. That includes a worktree, branch,
    input directory or copy of a tree, wherever it lives.
 
 ## Ready for human review
 
-The user's or the project's guidelines may define this; where they do not, a change request is ready when all of
-these hold, each checked at its current head:
+The user's or the project's guidelines may define this; where they do not, a change request is
+ready when all of these hold, each checked at its current head:
 
 1. Every review comment is addressed, and the fix verified at the head, not assumed.
 2. Every relevant commit is pushed.
@@ -159,9 +153,8 @@ file for the others' identifiers and paths, expecting no hit outside its own.
 ## Receiving
 
 Read only the pointer you were given, and any earlier handover it points to outside Withheld.
-Before acting, check the file's claims against the live state; a handover is the previous
-session's report and a hypothesis like any other. Where it is wrong, correct the live record you
-act on, not the handover.
+Before acting, check the file's claims against the live state. Where it is wrong, correct the live
+record you act on, not the handover.
 
 ## Closing
 
