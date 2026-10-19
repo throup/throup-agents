@@ -10,10 +10,13 @@ allowed-tools: Agent, SendMessage, Bash, Read, Write, Edit, Grep, Glob
 An audit cuts one skill to the sentences its confirmed purpose needs and no authority already
 states, and has a reviewer with none of the audit's context judge the cut against that purpose and
 the baseline. It produces the shorter skill, edited in place or through a change request, and a
-report of what it did not apply: disputed findings, fixes outside the skill's files and conflicts
-with an authority. The operator confirms the purpose before anything is cut, decides the report,
-and merges the change request where there is one. The audit changes no authority and adds no rule
-the baseline did not state; a rule the skill has never had is a suggestion for the skill.
+report: each reviewer's reading against the purpose, each finding with what was done with it, and
+the conflicts, disputed findings and fixes outside the skill's files left to the operator. The
+operator confirms the purpose before anything is cut, rules on what the report escalates, and
+merges the change request where there is one. The audit changes no authority and adds no rule
+the baseline did not state, other than a suggestion already recorded for the skill that the
+guidelines have decided within the audit; a rule the skill has never had is a suggestion for the
+skill.
 
 ## Authorities
 
@@ -31,14 +34,14 @@ directory as the population, and say which files were read.
 Read the frontmatter description, the opening paragraph and the artefacts the skill has produced:
 any suggestions recorded for it in the channel the guidelines name for skill feedback, and the
 tickets, files or notes it wrote. Read no further into the body. Write the purpose in two or three
-sentences: what the skill is for, who acts on its output, what it must not become. Propose with it
-whether the skill is loaded on other machines: yes where the skill is tracked in a repo that has a
-remote, else no, from
-`git -C "<dir>" ls-files --error-unmatch . >/dev/null 2>&1 && git -C "<dir>" remote | grep -q . && echo yes || echo no`,
+sentences: what the skill produces, who acts on its output, what it must not become. Propose with it
+whether the skill is loaded on other machines, from
+`if [ -d "<dir>" ]; then git -C "<dir>" ls-files --error-unmatch . >/dev/null 2>&1 && git -C "<dir>" remote | grep -q . && echo yes || echo no; else echo "no such directory"; fi`,
 where `<dir>` is the absolute path of the directory the skill loads from, or for a plugin cache the
-skill's directory in a checkout of its plugin's source repo. Put both to the operator and stop until
-both are confirmed; the confirmed purpose, as Apply rewrites it, is the specification for every
-later step.
+skill's directory in a checkout of its plugin's source repo; where it prints `no such directory`,
+correct the path before proposing, and where it cannot be corrected, stop and say so. Put both to
+the operator and stop until both are confirmed; the confirmed purpose, as Apply rewrites it, is the
+specification for every later step.
 
 ## Cut
 
@@ -67,7 +70,8 @@ sentence. The cut adds nothing a recorded suggestion proposes.
 
 Write the brief in two stages. Stage one carries the cut, the authorities as a population, a command
 that checks each file the job names, and a place for the findings; it asks the reviewer only to
-write what the skill is for, from the cut alone, under `## Reading` in that place, and under
+write, from the cut alone, what the skill produces, who acts on its output and what it must not
+become, under `## Reading` in that place, and under
 `## Loaded context` the primary working directory, branch name and commit subjects its session
 loaded before its first tool call, and to return with no findings and the job not closed, its second
 stage following by message. Write stage two only once both are recorded, to a file in a new
@@ -92,9 +96,8 @@ before stage two, the purpose as confirmed, the baseline and the artefacts, back
 included; the audit's reasoning, and on the tracked route the ticket, the change request and the
 commit messages that carry it; invoking the skill under review. Neither stage, nor any message to
 the reviewer, carries more than this section and the Apply section list. Launch with the Agent tool,
-subagent type `general-purpose`, never a fork of this session; the reviewer loads this session's
-primary working directory, its branch name and its recent commit subjects. On the tracked route,
-before each launch, run, with `<dir>` that primary working directory and `<worktree>` the audit's
+subagent type `general-purpose`, never a fork of this session. On the tracked route, before each
+launch, run, with `<dir>` this session's primary working directory and `<worktree>` the audit's
 worktree,
 `{ echo "<dir>"; git -C "<dir>" branch --show-current; git -C "<dir>" log -5 --format=%s; } | grep -F -f <({ printf '%s\n' "<audit branch>" "<ticket key>"; git -C "<worktree>" log --format=%s "<baseline commit>..HEAD"; } | grep .)`;
 each line it prints is that reviewer's exposure. Send stage two to that same agent with SendMessage,
@@ -150,18 +153,19 @@ against the skill, and report each conflict with them the same way, proposed as 
 overriding the skill's default locally; where the operator rejects that framing, the operator
 chooses to keep the skill's sentence, reword it to match the guidelines, or cut it. Suggestions
 already recorded for the audited skill are decided against the new text by the process the
-guidelines name for skill feedback; where they name none, the report lists them. The reviewer's
+guidelines name for skill feedback, after the audit unless the guidelines have it run within the
+audit; where they name none, the report lists them. The reviewer's
 suggestion for `handover` goes through that channel, else into the report.
 
 Keep the text the reviewer judged: on the tracked route its commit, on the untracked route a copy in
-a new directory made as the backup's is. Every edit made after it, fixes and applied suggestions
-alike, goes to one new reviewer launched as in Blind review on the current text, whose stage two
-adds the diff from the judged text to the current text and asks only for findings the diff causes,
-on any line. Its findings are reported to the operator with the line, and nothing more is edited; an
-edit the operator then asks for is reviewed the same way. A tracked skill's audit then ends when its
-change request is ready for human review as the guidelines define it, else as `handover` defines it
-where installed; otherwise when every relevant commit is pushed, a fresh review at the head found
-nothing blocking, and CI is green at the head.
+a new directory made as the backup's is. Every edit made after it, fixes and suggestions applied
+within the audit alike, goes to one new reviewer launched as in Blind review on the current text,
+whose stage two adds the diff from the judged text to the current text and asks only for findings
+the diff causes, on any line. Its findings are reported to the operator with the line, and nothing
+more is edited; an edit the operator then asks for is reviewed the same way. A tracked skill's audit
+then ends when its change request is ready for human review as the guidelines define it, else as
+`handover` defines it where installed; otherwise when every relevant commit is pushed, a fresh
+review at the head found nothing blocking, and CI is green at the head.
 
 Report each reviewer's reading beside the purpose it judged against, as two columns of one table;
 each reviewer's exposure: the check's lines, and each line of its `## Loaded context` that carries
