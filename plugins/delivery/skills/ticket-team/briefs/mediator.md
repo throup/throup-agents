@@ -20,4 +20,5 @@ roles that write and review code>
 Where the disagreement is about a measurement, run it and report the output. Where it is a
 judgement call — scope, whether a property earns a sentence, whether a structural change belongs
 here — say which position you take and the one reason that decides it. Both sides will take your
-decision. Report: the decision, the reason, and what each side got right.
+decision. Report: the decision, the reason, and what each side got right. The report is your final
+answer, returned as text; write it to no file.

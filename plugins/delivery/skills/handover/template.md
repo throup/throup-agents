@@ -1,6 +1,8 @@
 # Handover — <job in five words>
 
-**Your job: <one sentence: what is different when you are done>.**
+**Your job: <one sentence: what is different when you are done>.** <IF the deliverable is the
+`## Closed` content: It goes under its own `###` headings inside `## Closed`, ahead of the date,
+outcome and what this file got wrong or left out.>
 
 ## Why a fresh session
 
@@ -19,9 +21,11 @@
 
 ## Verify
 
-<Commands from the reader's location, with overrides; whether ordered; which are controls, and
-what constitutes evidence; any live request a check makes, how to block it, what must stay
-reachable.>
+<Commands from the reader's location, with overrides; whether ordered; which are controls, and what
+constitutes evidence; any live request a check makes, how to block it, what must stay reachable;
+where a Verify or Open result or the job's last act depends on a permission boundary, the
+permission mode the reader runs in, which results a denial would turn into a control, and what the
+reader does on a denial.>
 
 ## Withheld
 

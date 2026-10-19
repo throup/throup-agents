@@ -2,6 +2,23 @@
 
 All notable changes to the `delivery` plugin. Versions follow [semver](https://semver.org/).
 
+## 0.5.0
+
+- `ticket-team`: BLIND's re-review message names the new input directory as the one it reads, in
+  place of the earlier one; the lead saves each report a reviewer or MEDIATOR returns, as the text
+  it returned, in the lead's scratch, and no brief asks a reviewer or MEDIATOR for a report file,
+  QA's draft description included; before the run and as BLIND launches, the lead checks what a
+  sub-agent loads from its working directory (path, branch, status, recent commit subjects, memory
+  index, guidelines) for the ticket key or change-request number, and the report names any
+  exposure to BLIND.
+- `handover`: Verify names the reader's permission mode, asked of the user, where a result or the
+  job's last act depends on a permission boundary, with what a denial makes a control and what the
+  reader does on one; the receiver reads the pointer whole before running any command where it was
+  pointed; the check of what loads unasked covers the git context, a reader barred from a change
+  request starts where it does not show, and a worktree for a reader launching blind reviewers
+  carries no ticket key in its path, branch or recent commit subjects; a deliverable that is the
+  `## Closed` content goes under its own `###` headings there, ahead of the fixed items.
+
 ## 0.4.2
 
 - `handover`: cut by an audit with `skill-audit`; its opening states the skill's purpose.
