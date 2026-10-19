@@ -2,6 +2,21 @@
 
 All notable changes to the `skills` plugin. Versions follow [semver](https://semver.org/).
 
+## 0.3.0
+
+- `skill-audit`: for a skill the operator confirms is loaded on other machines, the authorities are
+  the repo files that load wherever the skill loads and the skills it points to, so a rule stated
+  only in the user's guidelines or memory stays in the skill, and a conflict with those guidelines
+  goes to the operator as a possible local override, and otherwise to keep, reword or cut. The audit
+  proposes the answer from whether the skill is tracked in a repo with a remote.
+- `skill-audit`: an action whose only statement is a reason being cut stays in the skill.
+- `skill-audit`: a fix made after the blind review changes only the sentence its finding cites; a
+  rewording that changes a rule's scope goes to the operator first, and later reviewers are told the
+  ruling.
+- `skill-audit`: stage two of the brief names the version of the skill that produced each artefact.
+- `skill-audit`: an untracked skill's backup goes to a new directory each time, so a second audit
+  never overwrites the first's baseline.
+
 ## 0.2.2
 
 - `skill-audit`: cut by an audit of the skill with itself; its opening states the skill's purpose.
