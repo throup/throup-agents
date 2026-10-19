@@ -10,9 +10,10 @@ allowed-tools: Agent, SendMessage, Bash, Read, Write, Edit, Grep, Glob
 An audit cuts one skill to the sentences its confirmed purpose needs and no authority already
 states, and has a reviewer with none of the audit's context judge the cut against that purpose and
 the baseline. It produces the shorter skill, edited in place or through a change request, and a
-report of what it did not apply: disputed findings, fixes outside the skill's files and conflicts
-with an authority. The operator confirms the purpose before anything is cut, decides the report,
-and merges the change request where there is one. The audit changes no authority and adds no rule
+report: each reviewer's reading against the purpose, each finding with what was done with it, and
+the conflicts, disputed findings and fixes outside the skill's files left to the operator. The
+operator confirms the purpose before anything is cut, rules on what the report escalates, and
+merges the change request where there is one. The audit changes no authority and adds no rule
 the baseline did not state; a rule the skill has never had is a suggestion for the skill.
 
 ## Authorities
@@ -32,8 +33,7 @@ Read the frontmatter description, the opening paragraph and the artefacts the sk
 any suggestions recorded for it in the channel the guidelines name for skill feedback, and the
 tickets, files or notes it wrote. Read no further into the body. Write the purpose in two or three
 sentences: what the skill is for, who acts on its output, what it must not become. Propose with it
-whether the skill is loaded on other machines: yes where the skill is tracked in a repo that has a
-remote, else no, from
+whether the skill is loaded on other machines, from
 `git -C "<dir>" ls-files --error-unmatch . >/dev/null 2>&1 && git -C "<dir>" remote | grep -q . && echo yes || echo no`,
 where `<dir>` is the absolute path of the directory the skill loads from, or for a plugin cache the
 skill's directory in a checkout of its plugin's source repo. Put both to the operator and stop until
@@ -92,9 +92,8 @@ before stage two, the purpose as confirmed, the baseline and the artefacts, back
 included; the audit's reasoning, and on the tracked route the ticket, the change request and the
 commit messages that carry it; invoking the skill under review. Neither stage, nor any message to
 the reviewer, carries more than this section and the Apply section list. Launch with the Agent tool,
-subagent type `general-purpose`, never a fork of this session; the reviewer loads this session's
-primary working directory, its branch name and its recent commit subjects. On the tracked route,
-before each launch, run, with `<dir>` that primary working directory and `<worktree>` the audit's
+subagent type `general-purpose`, never a fork of this session. On the tracked route, before each
+launch, run, with `<dir>` this session's primary working directory and `<worktree>` the audit's
 worktree,
 `{ echo "<dir>"; git -C "<dir>" branch --show-current; git -C "<dir>" log -5 --format=%s; } | grep -F -f <({ printf '%s\n' "<audit branch>" "<ticket key>"; git -C "<worktree>" log --format=%s "<baseline commit>..HEAD"; } | grep .)`;
 each line it prints is that reviewer's exposure. Send stage two to that same agent with SendMessage,
