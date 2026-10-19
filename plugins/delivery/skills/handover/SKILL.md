@@ -53,12 +53,13 @@ not: by name, and `grep -l` for the ticket key and the scope. Name each match in
 the reader must not see it, by path and reason and never by what it says, or point to it where it
 carries something the reader needs, and say which and why. A match still active (a
 `HANDOVER-*.local.md` resolving to it in any checkout or worktree of the projects the job spans,
-`git worktree list`) is resolved first: one with a `## Closed` section is debris, named to the
-user, and the new pointer takes a scope of its own. One without is the user's to judge. Where the
-user declares it superseded, the writer closes it, the one case a session closes a handover it
-did not receive: `## Closed` with the date and "superseded, not received" in place of what it got
-wrong, its symlink removed, and its artefacts named to the user and left in place. Where not, no
-new handover is written for the job.
+`git worktree list`) is resolved: one with a `## Closed` section is debris, named to the user. One
+without is the user's to judge. Where the user declares it superseded, the writer closes it once
+the new file has passed "Before the file is finished", the one case a session closes a handover
+it did not receive: `## Closed` with the date and "superseded, not received" in place of what it
+got wrong, its symlink removed, and its artefacts left in place for the user. Where not, no new
+handover is written for the job. Where a match holds the new file's store path or pointer name,
+the new one takes a scope of its own.
 
 ## What goes in
 
@@ -90,8 +91,9 @@ present; delete any other section that does not apply, and leave no empty headin
 6. **Withheld.** What the reader must not read, be told, or do, and why. An action left to the
    user goes here with the check that replaces it.
 7. **Tools.** Which skills fit this job and which do not, with the distinguishing case. Where the
-   reader runs a skill, name every input that skill would otherwise ask the user for (a gate set
-   as well as a skip set), so no question to the user falls inside a window being measured.
+   reader runs a skill, name every input that skill would otherwise ask the user for, such as the
+   commands it checks the work with and those it may skip, so the reader runs without stopping to
+   ask. A value the user decides is asked of the user at writing, not chosen by the writer.
 
 Write only what the reader cannot derive from the repo, the tracker, the change requests, the
 project memory directory and the user's and the project's guidelines (`~/.claude/CLAUDE.md`, the
@@ -160,7 +162,8 @@ act on, not the handover.
 
 ## Closing
 
-The session that received the file closes it, when the job is done or superseded:
+The session that received the file closes it, when the job is done or superseded; a writer
+superseding it closes it as "Where the file lives" says:
 
 1. Append `## Closed` to the store file: date, outcome in one line, and what the handover got
    wrong or left out.
@@ -170,10 +173,11 @@ The session that received the file closes it, when the job is done or superseded
    restoring.
 
 A revision this skill's use suggests, at writing or at closing, goes through the channel the
-user's guidelines name for skill feedback, or into the `## Closed` note where the handover
-withholds that channel, and the outcome message says so. With no channel named, it goes to the
-user as one line in the outcome message, naming the store files whose `## Closed` notes show the
-shape. Where there is no revision, the message says so. Nothing is applied to this file at closing.
+user's guidelines name for skill feedback, or, at closing, into the `## Closed` note where the
+handover withholds that channel, and the outcome message says so. With no channel named, it goes
+to the user as one line in the outcome message, naming the store files whose `## Closed` notes
+show the shape. Where there is no revision, the message says so. Nothing is applied to this file
+at closing.
 
 A symlink whose store file has a `## Closed` section is debris; a session pointed at it names it
 as debris and stops.
