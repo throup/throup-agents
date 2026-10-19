@@ -15,6 +15,8 @@ the conflicts, disputed findings and fixes outside the skill's files left to the
 operator confirms the purpose before anything is cut, rules on what the report escalates, and
 merges the change request where there is one. The audit changes no authority and adds no rule
 the baseline did not state; a rule the skill has never had is a suggestion for the skill.
+Suggestions recorded for the skill are decided after the audit, unless the guidelines have them
+decided within it.
 
 ## Authorities
 
@@ -34,7 +36,7 @@ any suggestions recorded for it in the channel the guidelines name for skill fee
 tickets, files or notes it wrote. Read no further into the body. Write the purpose in two or three
 sentences: what the skill is for, who acts on its output, what it must not become. Propose with it
 whether the skill is loaded on other machines, from
-`git -C "<dir>" ls-files --error-unmatch . >/dev/null 2>&1 && git -C "<dir>" remote | grep -q . && echo yes || echo no`,
+`if [ -d "<dir>" ]; then git -C "<dir>" ls-files --error-unmatch . >/dev/null 2>&1 && git -C "<dir>" remote | grep -q . && echo yes || echo no; else echo "no such directory"; fi`,
 where `<dir>` is the absolute path of the directory the skill loads from, or for a plugin cache the
 skill's directory in a checkout of its plugin's source repo. Put both to the operator and stop until
 both are confirmed; the confirmed purpose, as Apply rewrites it, is the specification for every
@@ -67,7 +69,8 @@ sentence. The cut adds nothing a recorded suggestion proposes.
 
 Write the brief in two stages. Stage one carries the cut, the authorities as a population, a command
 that checks each file the job names, and a place for the findings; it asks the reviewer only to
-write what the skill is for, from the cut alone, under `## Reading` in that place, and under
+write, from the cut alone, what the skill produces, who acts on its output and what it must not
+become, under `## Reading` in that place, and under
 `## Loaded context` the primary working directory, branch name and commit subjects its session
 loaded before its first tool call, and to return with no findings and the job not closed, its second
 stage following by message. Write stage two only once both are recorded, to a file in a new
@@ -149,7 +152,8 @@ against the skill, and report each conflict with them the same way, proposed as 
 overriding the skill's default locally; where the operator rejects that framing, the operator
 chooses to keep the skill's sentence, reword it to match the guidelines, or cut it. Suggestions
 already recorded for the audited skill are decided against the new text by the process the
-guidelines name for skill feedback; where they name none, the report lists them. The reviewer's
+guidelines name for skill feedback, after the audit unless the guidelines have it run within the
+audit; where they name none, the report lists them. The reviewer's
 suggestion for `handover` goes through that channel, else into the report.
 
 Keep the text the reviewer judged: on the tracked route its commit, on the untracked route a copy in
