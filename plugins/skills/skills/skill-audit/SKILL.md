@@ -43,14 +43,13 @@ a ticket, a branch and a change request in the repo the command printed, using t
 host the guidelines name, and asking before writing where they name none; the edit is made in a
 worktree, not the checkout a live skill loads from, and the base commit is the baseline.
 
-Read the body against the purpose. For a tracked skill, an authority here is one every user of its
-repo or plugin loads, not the user's own guidelines or memory. Cut a sentence an authority states
-and a sentence the purpose does not need. Agent-loaded text is imperative and terse: current facts,
-no motivation, no worked examples, no history and no prediction, unless the authorities set another
-register. Write or rewrite the opening as one paragraph stating the confirmed purpose: what the
-skill produces, who acts on it, and what it leaves to them. The frontmatter is otherwise unchanged,
-except that a statement of when the skill is not invoked, cut from the body, lands in the
-description's "Not for" sentence. The cut adds nothing a recorded suggestion proposes.
+Read the body against the purpose. Cut a sentence an authority states and a sentence the purpose
+does not need. Agent-loaded text is imperative and terse: current facts, no motivation, no worked
+examples, no history and no prediction, unless the authorities set another register. Write or
+rewrite the opening as one paragraph stating the confirmed purpose: what the skill produces, who
+acts on it, and what it leaves to them. The frontmatter is otherwise unchanged, except that a
+statement of when the skill is not invoked, cut from the body, lands in the description's "Not for"
+sentence. The cut adds nothing a recorded suggestion proposes.
 
 ## Blind review
 

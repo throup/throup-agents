@@ -2,10 +2,7 @@
 
 All notable changes to the `skills` plugin. Versions follow [semver](https://semver.org/).
 
-## 0.3.0
-
-- `skill-audit`: for a tracked skill, the authorities the cut and its register answer to are the
-  ones every user of its repo or plugin loads, not the user's own guidelines or memory.
+## 0.2.2
 - `skill-audit`: cut by an audit of the skill with itself; its opening states the skill's purpose.
 
 ## 0.2.1
