@@ -30,4 +30,5 @@ where parked memory went, and that the user restores it.>
 
 ## Tools
 
-- <skill> fits when <case>; not when <case>. Inputs it would ask the user for: <values>.
+- <skill> fits when <case>; not when <case>. Where the reader runs it, the inputs it would ask the
+  user for: <values>.

@@ -41,8 +41,8 @@ Store: `~/.claude/handovers/<yyyy-mm-dd>-<project>-<scope>.md`, or the directory
 project's guidelines name instead; outside every worktree, purged by hand and never by a session.
 
 Pointer: `HANDOVER-<scope>.local.md` in the checkout the reader will open, a symlink to the store
-file. Where other sessions work in that checkout, the reader opens a worktree of its own and the
-pointer goes there, so no session listing the shared checkout finds it. Exclude it through the
+file. Where other sessions work in that checkout, the writer creates a worktree for the reader and
+the pointer goes there, so no session listing the shared checkout finds it. Exclude it through the
 repo's exclude file (`git rev-parse --git-path info/exclude`, which resolves from a worktree too)
 with the line `/*.local.md`, never through `.gitignore`; check the line is present before
 creating the link. The symlink is what makes a handover active: a store file with no symlink is
@@ -50,13 +50,15 @@ history.
 
 Before writing, search the store for earlier files on the same job, ticket or scope, closed or
 not: by name, and `grep -l` for the ticket key and the scope. Name each match in Withheld where
-the reader must not see it, or point to it where it carries something the reader needs, and say
-which and why. A match still active (a `HANDOVER-*.local.md` resolving to it in any checkout or
-worktree of the project, `git worktree list`) is resolved first: one with a `## Closed` section is
-debris, named to the user, and writing goes on. One without is the user's to judge. Where the user
-declares it superseded, the writer appends `## Closed` with the date and "superseded, not
-received", removes its symlink and names its artefacts to the user, leaving them in place; where
-not, no new handover is written for the job.
+the reader must not see it, by path and reason and never by what it says, or point to it where it
+carries something the reader needs, and say which and why. A match still active (a
+`HANDOVER-*.local.md` resolving to it in any checkout or worktree of the projects the job spans,
+`git worktree list`) is resolved first: one with a `## Closed` section is debris, named to the
+user, and the new pointer takes a scope of its own. One without is the user's to judge. Where the
+user declares it superseded, the writer closes it, the one case a session closes a handover it
+did not receive: `## Closed` with the date and "superseded, not received" in place of what it got
+wrong, its symlink removed, and its artefacts named to the user and left in place. Where not, no
+new handover is written for the job.
 
 ## What goes in
 
@@ -104,18 +106,18 @@ narrative of how the work went.
    printing a withheld commit message. Where a later stage lifts a Withheld item, the item says
    from when. Where two sections still treat one artefact differently, the file says which
    governs.
-2. **Check what loads into the reader's session unasked** (the project memory index and the files
+2. **For a reader who judges blind, read each file offered as an authority**, the memory directory
+   included, and name in Withheld any that records the design history or review threads of the
+   thing under review.
+3. **Check what loads into the reader's session unasked** (the project memory index and the files
    it points to, and the user's and the project's guidelines) for anything Withheld names: a change
    request, branch or file, or its content. Ask the user, saying that every session on the machine
    loses a parked file until it is restored. With agreement, move each matching memory file into
    `<store file stem>.parked/` beside the store file, and its index line into `MEMORY.md` there. A
    match in a guidelines file is the user's to resolve. Withheld bars the reader from that folder
-   and names the user as who restores it after closing; restoring means reading it, so it is never
-   the reader's. Where a match stays where the reader loads it, the handover is not written; say so
-   to the user.
-3. **For a reader who judges blind, read each file offered as an authority**, the memory directory
-   included, and name in Withheld any that records the design history or review threads of the
-   thing under review.
+   and names the user as who restores it after closing, and the store's hand purge spares it until
+   then; restoring means reading it, so it is never the reader's. Where a match stays where the
+   reader loads it, the handover is not written; say so to the user.
 4. **Give every artefact the reader creates, or the writer creates for it, a disposal**: removed
    at closing, or kept until a named event by a named party. That includes a worktree, branch,
    input directory or copy of a tree, wherever it lives.
@@ -151,10 +153,10 @@ file for the others' identifiers and paths, expecting no hit outside its own.
 
 ## Receiving
 
-Read only the pointer you were given, and any earlier handover it points to. Before acting, check
-the file's claims against the live state; a handover is the previous session's report and a
-hypothesis like any other. Where it is wrong, correct the live record you act on, not the
-handover.
+Read only the pointer you were given, and any earlier handover it points to outside Withheld.
+Before acting, check the file's claims against the live state; a handover is the previous
+session's report and a hypothesis like any other. Where it is wrong, correct the live record you
+act on, not the handover.
 
 ## Closing
 
