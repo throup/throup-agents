@@ -1,6 +1,6 @@
 ---
 name: skill-audit
-description: Cut one skill to the sentences its confirmed purpose needs and no authority already states, then have a fresh blind reviewer judge the cut against that purpose and a baseline. Use when a skill has grown, when its text and the user's or project's guidelines or memory disagree, or when asked to audit, trim or shorten a skill. Not for processing suggestions already recorded for a skill, unless the guidelines have them decided within the audit, not for writing a skill from nothing, and not for a rule file or a prompt.
+description: Cut one skill to the sentences its confirmed purpose needs and no authority already states, then have a fresh blind reviewer judge the cut against that purpose and a baseline. Use when a skill has grown, when its text and the user's or project's guidelines or memory disagree, or when asked to audit, trim or shorten a skill. Not for processing suggestions already recorded for a skill, not for writing a skill from nothing, and not for a rule file or a prompt.
 disable-model-invocation: false
 allowed-tools: Agent, SendMessage, Bash, Read, Write, Edit, Grep, Glob
 ---
@@ -14,7 +14,8 @@ report: each reviewer's reading against the purpose, each finding with what was 
 the conflicts, disputed findings and fixes outside the skill's files left to the operator. The
 operator confirms the purpose before anything is cut, rules on what the report escalates, and
 merges the change request where there is one. The audit changes no authority and adds no rule
-the baseline did not state; a rule the skill has never had is a suggestion for the skill.
+the baseline did not state, other than a recorded suggestion the guidelines have decided within the
+audit; a rule the skill has never had is a suggestion for the skill.
 
 ## Authorities
 
@@ -37,8 +38,9 @@ whether the skill is loaded on other machines, from
 `if [ -d "<dir>" ]; then git -C "<dir>" ls-files --error-unmatch . >/dev/null 2>&1 && git -C "<dir>" remote | grep -q . && echo yes || echo no; else echo "no such directory"; fi`,
 where `<dir>` is the absolute path of the directory the skill loads from, or for a plugin cache the
 skill's directory in a checkout of its plugin's source repo; where it prints `no such directory`,
-correct the path before proposing. Put both to the operator and stop until both are confirmed; the
-confirmed purpose, as Apply rewrites it, is the specification for every later step.
+correct the path before proposing, and where it cannot be corrected, stop and say so. Put both to
+the operator and stop until both are confirmed; the confirmed purpose, as Apply rewrites it, is the
+specification for every later step.
 
 ## Cut
 
