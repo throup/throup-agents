@@ -70,7 +70,9 @@ present; delete any other section that does not apply, and leave no empty headin
 5. **Verify.** Commands from where the reader will be, with every override a worktree needs,
    pasted from the commands that produced the stated result. Say whether the steps are
    ordered. Say of each check whether it reads the files the job changes; one that passes on the
-   untouched tree is a control, and Verify then opens with what constitutes evidence.
+   untouched tree is a control, and Verify then opens with what constitutes evidence. Name any
+   live request a check makes as a side effect, such as images, fonts or scripts a browser run
+   loads from production or a CDN, with how to block it and what must stay reachable.
 6. **Withheld.** What the reader must not read, be told, or do, and why. An action left to the
    user goes here with the check that replaces it.
 7. **Tools.** Which skills fit this job and which do not, with the distinguishing case.

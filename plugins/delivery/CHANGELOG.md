@@ -2,6 +2,11 @@
 
 All notable changes to the `delivery` plugin. Versions follow [semver](https://semver.org/).
 
+## 0.2.1
+
+- `handover`: Verify names any live request a check makes as a side effect, with how to block it
+  and what must stay reachable.
+
 ## 0.2.0
 
 - `ticket-team`: the DEVELOPER commits in chunks that the REVIEWER reviews while it carries on;
