@@ -41,10 +41,20 @@ Store: `~/.claude/handovers/<yyyy-mm-dd>-<project>-<scope>.md`, or the directory
 project's guidelines name instead; outside every worktree, purged by hand and never by a session.
 
 Pointer: `HANDOVER-<scope>.local.md` in the checkout the reader will open, a symlink to the store
-file. Exclude it through the repo's exclude file (`git rev-parse --git-path info/exclude`, which
-resolves from a worktree too) with the line `/*.local.md`, never through `.gitignore`; check the
-line is present before creating the link. The symlink is what makes a
-handover active: a store file with no symlink is history.
+file. Where other sessions work in that checkout, the reader opens a worktree of its own and the
+pointer goes there, so no session listing the shared checkout finds it. Exclude it through the
+repo's exclude file (`git rev-parse --git-path info/exclude`, which resolves from a worktree too)
+with the line `/*.local.md`, never through `.gitignore`; check the line is present before
+creating the link. The symlink is what makes a handover active: a store file with no symlink is
+history.
+
+Before writing, search the store for earlier files on the same job, ticket or scope, closed or
+not: by name, and `grep -l` for the ticket key and the scope. Name each match in Withheld where
+the reader must not see it, or point to it where it carries something the reader needs, and say
+which and why. A match still active (a `HANDOVER-*.local.md` resolving to it in any checkout or
+worktree of the project, `git worktree list`) is resolved first: one with a `## Closed` section is
+debris, named to the user; one without is the user's to declare superseded, and is closed as
+Closing describes before the new file is written.
 
 ## What goes in
 
@@ -75,12 +85,34 @@ present; delete any other section that does not apply, and leave no empty headin
    loads from production or a CDN, with how to block it and what must stay reachable.
 6. **Withheld.** What the reader must not read, be told, or do, and why. An action left to the
    user goes here with the check that replaces it.
-7. **Tools.** Which skills fit this job and which do not, with the distinguishing case.
+7. **Tools.** Which skills fit this job and which do not, with the distinguishing case. Where the
+   reader runs a skill, name every input that skill would otherwise ask the user for (a gate set
+   as well as a skip set), so no question to the user falls inside a window being measured.
 
 Write only what the reader cannot derive from the repo, the tracker, the change requests, the
 project memory directory and the user's and the project's guidelines (`~/.claude/CLAUDE.md`, the
 repo's `CLAUDE.md` and `AGENTS.md`). A pointer beats a restatement. No
 narrative of how the work went.
+
+## Before the file is finished
+
+1. **Read every other section against Withheld.** No Verify command, State locator, Open item's
+   settling act or Tools skill has the reader see, run or produce what Withheld bars at that point;
+   `git rev-parse --short HEAD` confirms a head without printing a withheld commit message. Where a
+   later stage lifts a Withheld item, the item says from when. Where two sections still treat one
+   artefact differently, the file says which governs.
+2. **Check what loads into the reader's session unasked** (the project memory index and the files
+   it points to, and the user's and the project's guidelines) for anything Withheld names: a change
+   request, branch or file, or its content. With the user's agreement, move each match into
+   `<store file stem>.parked/` beside the store file, removing its index line. Withheld bars the
+   reader from that folder and names the user as who restores it after closing; restoring means
+   reading it, so it is never the reader's.
+3. **For a reader who judges blind, read each file offered as an authority**, the memory directory
+   included, and name in Withheld any that records the design history or review threads of the
+   thing under review.
+4. **Give every artefact the handover has the reader create a disposal**: removed at closing, or
+   kept until a named event. That includes a worktree, branch, input directory or copy outside the
+   run directory, and any no other line names.
 
 ## Ready for human review
 
@@ -122,13 +154,15 @@ The session that received the file closes it, when the job is done or superseded
 
 1. Append `## Closed` to the store file: date, outcome in one line, and what the handover got
    wrong or left out.
-2. Remove the symlink. Do not delete the store file.
+2. Dispose of each artefact as the handover states; the note names any kept, and until when.
+   Where Withheld names parked memory, the outcome message tells the user it awaits restoring.
+3. Remove the symlink. Do not delete the store file.
 
 A revision this skill's use suggests, at writing or at closing, goes through the channel the
-user's guidelines name for skill feedback, else to the user as one line in the outcome message,
-naming the store files whose `## Closed` notes show the shape. Where there is none, the message
-says so. Nothing is applied to this file at
-closing.
+user's guidelines name for skill feedback, or into the `## Closed` note where the handover
+withholds that channel. With no channel named, it goes to the user as one line in the outcome
+message, naming the store files whose `## Closed` notes show the shape. Where there is no
+revision, the message says so. Nothing is applied to this file at closing.
 
 A symlink whose store file has a `## Closed` section is debris; another session names it as
 debris and stops.

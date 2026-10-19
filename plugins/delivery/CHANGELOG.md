@@ -2,6 +2,17 @@
 
 All notable changes to the `delivery` plugin. Versions follow [semver](https://semver.org/).
 
+## 0.2.2
+
+- `handover`: the writer searches the store for earlier handovers on the same job, withholds or
+  points to each, and resolves an active one first.
+- `handover`: before the file is finished, the writer checks every section against Withheld,
+  parks memory that loads unasked and names anything Withheld bars, withholds a blind reader's
+  design-history authorities, and gives every artefact the reader creates a disposal.
+- `handover`: the pointer goes in the reader's own worktree where other sessions share the
+  checkout; Tools names every input a skill would ask the user for; a withheld feedback channel
+  sends the suggestion to the `## Closed` note.
+
 ## 0.2.1
 
 - `handover`: Verify names any live request a check makes as a side effect, with how to block it

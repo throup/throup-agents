@@ -11,6 +11,7 @@
 | Item | Where | Note |
 |---|---|---|
 | <change request / branch / ticket / worktree> | <locator> | <as read from the live source, and when> |
+| <artefact the reader creates> | <locator> | <removed at closing, or kept until <event>> |
 
 ## Open
 
@@ -24,8 +25,9 @@ reachable.>
 
 ## Withheld
 
-<What the reader must not read, be told, or do, and why.>
+<What the reader must not read, be told, or do, and why; from when a later stage lifts an item;
+where parked memory went, and that the user restores it.>
 
 ## Tools
 
-- <skill> fits when <case>; not when <case>.
+- <skill> fits when <case>; not when <case>. Inputs it would ask the user for: <values>.
