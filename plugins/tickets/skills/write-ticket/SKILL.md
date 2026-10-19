@@ -69,8 +69,8 @@ they differ.
 
 - Whoever decides to merge takes the product owner's place, and the reviewer the implementer's.
 - The title follows the repository's convention for change-request titles.
-- The visible part may name files, commits and change requests, and ends with what to
-  scrutinise, ahead of the acceptance criteria.
+- The visible part may name files, commits, change requests and the ticket the change closes,
+  and ends with what to scrutinise, ahead of the acceptance criteria.
 - The acceptance criteria are what the change delivers.
 - The block's summary reads `Technical detail for the reviewer`. Its locators are pinned at the
   head, its verification is re-run there, and its provenance may name change requests.
